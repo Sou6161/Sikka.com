@@ -25,7 +25,7 @@ const Header = () => {
 
   return (
     <>
-      <nav class=" bg-white border-gray-200 dark:bg-gray-900 dark:border-gray-700">
+      <nav class=" relative z-10 bg-white border-gray-200 dark:bg-gray-900 dark:border-gray-700">
         <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-2  2xlarge:p-[1.7vh]">
           <a href="#" class="flex items-center space-x-3 rtl:space-x-reverse">
             <img
@@ -105,7 +105,7 @@ const Header = () => {
                   </svg>
                 </button>
                 {isOpen && (
-                  <div className="absolute right-0 mt-2 w-44 bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600">
+                  <div className="absolute z-999 right-0 mt-2 w-44 bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600">
                     <ul className="py-2 text-sm text-gray-700 dark:text-gray-400">
                       <li>
                         <a
@@ -171,9 +171,9 @@ const Header = () => {
           </div>
         </div>
       </nav>
-      <div className=" hidden 2xlarge:block w-full max-w-[100vw] 2xlarge:max-w-[100vw] mx-auto 2xlarge:w-full  relative overflow-hidden">
+      <div className="hidden 2xlarge:block w-full max-w-[100vw] 2xlarge:max-w-[100vw] mx-auto 2xlarge:w-full relative overflow-hidden z-0">
         <video
-          className="w-full h-auto 2xlarge:h-[60vh] mx-auto object-cover "
+          className="w-full h-auto 2xlarge:h-[60vh] mx-auto object-cover"
           autoPlay
           playsInline
           muted
@@ -183,8 +183,26 @@ const Header = () => {
           Your browser does not support the video tag.
         </video>
         <div className="absolute inset-0 bg-black bg-opacity-80"></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[50vw] h-[45vh] backdrop-filter backdrop-blur-lg bg-zinc-500 bg-opacity-15 rounded-lg"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[50vw] h-[45vh] backdrop-filter backdrop-blur-lg bg-zinc-500 bg-opacity-15 rounded-lg">
+          <div class="card">
+            <div class="content">
+              <p class="heading relative bottom-[10vh]">Your Crypto Checker</p>
+              <input
+                type="text"
+                placeholder="Write here..."
+                name="text"
+                class="input w-[20vw] text-red-500"
+              />
+            </div>
+          </div>
+        </div>
       </div>
+      <input
+        type="text"
+        placeholder="Search Here...."
+        name="text"
+        class="input relative top-5 left-2 w-[90vw]"
+      ></input>
     </>
   );
 };
