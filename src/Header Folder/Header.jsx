@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import AnimatedGridBackground from "../AllBackgrounds/AnimatedGridPatternBg";
 
 const Header = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -34,7 +35,7 @@ const Header = () => {
               alt="Flowbite Logo"
             />
             <span class="self-center text-[5vw] 2xlarge:text-xl 2xla font-semibold whitespace-nowrap dark:text-white">
-              SIKKA
+              CoinSpot
             </span>
           </a>
           <button
@@ -183,26 +184,113 @@ const Header = () => {
           Your browser does not support the video tag.
         </video>
         <div className="absolute inset-0 bg-black bg-opacity-80"></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[50vw] h-[45vh] backdrop-filter backdrop-blur-lg bg-zinc-500 bg-opacity-15 rounded-lg">
+        <div className=" hiiden 2xlarge:block absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[50vw] h-[45vh] backdrop-filter backdrop-blur-md bg-zinc-500 bg-opacity-15 rounded-lg">
           <div class="card">
             <div class="content">
               <p class="heading relative bottom-[10vh]">Your Crypto Checker</p>
-              <input
-                type="text"
-                placeholder="Write here..."
-                name="text"
-                class="input w-[20vw] text-red-500"
-              />
+              {/* <div class="galaxy"></div> */}
+              <div id="search-container" className=" relative top-10 right-5">
+                <div class="nebula"></div>
+                <div class="starfield"></div>
+                <div class="cosmic-dust"></div>
+                <div class="cosmic-dust"></div>
+                <div class="cosmic-dust"></div>
+
+                <div class="stardust"></div>
+
+                <div class="cosmic-ring"></div>
+
+                <div id="main">
+                  <input
+                    class="input"
+                    name="text"
+                    type="text"
+                    placeholder="Search Your Crypto Coin..."
+                  />
+                  <div id="input-mask"></div>
+                  <div id="cosmic-glow"></div>
+                  <div class="wormhole-border"></div>
+                  <div id="wormhole-icon">
+                    <svg
+                      stroke-linejoin="round"
+                      stroke-linecap="round"
+                      stroke-width="2"
+                      stroke="#a9c7ff"
+                      fill="none"
+                      height="24"
+                      width="24"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle r="10" cy="12" cx="12"></circle>
+                      <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                      <path d="M2 12h20"></path>
+                    </svg>
+                  </div>
+                  <div id="search-icon">
+                    <svg
+                      stroke-linejoin="round"
+                      stroke-linecap="round"
+                      stroke-width="2"
+                      stroke="url(#cosmic-search)"
+                      fill="none"
+                      height="24"
+                      width="24"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle r="8" cy="11" cx="11"></circle>
+                      <line y2="16.65" x2="16.65" y1="21" x1="21"></line>
+                      <defs>
+                        <linearGradient
+                          gradientTransform="rotate(45)"
+                          id="cosmic-search"
+                        >
+                          <stop stop-color="#a9c7ff" offset="0%"></stop>
+                          <stop stop-color="#6e8cff" offset="100%"></stop>
+                        </linearGradient>
+                      </defs>
+                    </svg>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
-      <input
-        type="text"
-        placeholder="Search Here...."
-        name="text"
-        class="input relative top-5 left-2 w-[90vw]"
-      ></input>
+
+      <div class="group mt-1  mx-auto w-[95vw] 2xlarge:hidden">
+        <svg viewBox="0 0 24 24" aria-hidden="true" class="icon">
+          <g>
+            <path d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z"></path>
+          </g>
+        </svg>
+        <input
+          class="inputbox"
+          type="search"
+          placeholder="Search Coins,NFTs and more..."
+        />
+      </div>
+      <div className=" 2xlarge:hidden  mt-2 w-[100vw] border-b-[1px] border-gray-300"></div>
+
+      <div className="  h-[200vh]">
+        <AnimatedGridBackground />
+        <div class="relative flex -mt-10 overflow-x-hidden">
+          <div class="py-12  animate-marquee whitespace-nowrap">
+            <span class="text-4xl mx-4">Marquee Item 1</span>
+            <span class="text-4xl mx-4">Marquee Item 2</span>
+            <span class="text-4xl mx-4">Marquee Item 3</span>
+            <span class="text-4xl mx-4">Marquee Item 4</span>
+            <span class="text-4xl mx-4">Marquee Item 5</span>
+          </div>
+
+          <div class="absolute top-0 py-12 animate-marquee2 whitespace-nowrap">
+            <span class="text-4xl mx-4">Marquee Item 1</span>
+            <span class="text-4xl mx-4">Marquee Item 2</span>
+            <span class="text-4xl mx-4">Marquee Item 3</span>
+            <span class="text-4xl mx-4">Marquee Item 4</span>
+            <span class="text-4xl mx-4">Marquee Item 5</span>
+          </div>
+        </div>
+      </div>
     </>
   );
 };
