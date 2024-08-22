@@ -52,12 +52,17 @@ const AnimatedGridBackground = () => {
           opacity = easeOutCubic(box.life); // Use easeOutCubic for fade-out
         }
         ctx.fillStyle = `rgba(243, 243, 243, ${opacity})`; // gray-600 with opacity
-        ctx.fillRect(
-          box.x * gridSize,
-          box.y * gridSize,
-          gridSize - 1,
-          gridSize - 1
+        ctx.filter = "blur(2px)"; // Add blur effect
+        ctx.beginPath();
+        ctx.arc(
+          box.x * gridSize + gridSize / 2,
+          box.y * gridSize + gridSize / 2,
+          gridSize / 2,
+          0,
+          2 * Math.PI
         );
+        ctx.fill();
+        ctx.filter = "none"; // Reset filter
 
         box.life -= 0.002; // Adjust for faster or slower transition
       });
@@ -83,7 +88,7 @@ const AnimatedGridBackground = () => {
   return (
     <canvas
       ref={canvasRef}
-      className=" relative inset-0 -z-10 "
+      className=" relative inset-0 -z-10  w-[100vw] 2xlarge:w-[99vw]"
       style={{
         background: "linear-gradient(#212121, #3B3F54)",
         backgroundSize: "100% 100vh",

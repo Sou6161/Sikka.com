@@ -461,5 +461,51 @@
 
 
 
+.dingdong {
+  position: absolute;
+  top: 20vh;
+  left: 5vw;
+  width: 90vw;
+  height: 15vh;
+  background-color: #e5e5e5; /* bg-zinc-100 */
+  border: 2px solid transparent; /* Make border transparent */
+  border-radius: 1rem; /* rounded-lg */
+  /* box-shadow: 0 0 10px #0097A7; shadow-teal-glow */
+}
 
+.dingdong:hover {
+  animation: animate-border 2s linear infinite;
+}
 
+@keyframes animate-border {
+  0% {
+    border-top: 4px solid #f10303; /* Start with top border */
+    border-right: 4px solid transparent;
+    border-bottom: 4px solid transparent;
+    border-left: 4px solid transparent;
+  }
+  25% {
+    border-top: 4px solid transparent;
+    border-right: 4px solid #d1f406; /* Move to right border */
+    border-bottom: 4px solid transparent;
+    border-left: 4px solid transparent;
+  }
+  50% {
+    border-top: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-bottom: 4px solid #5306f8; /* Move to bottom border */
+    border-left: 4px solid transparent;
+  }
+  75% {
+    border-top: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-bottom: 4px solid transparent;
+    border-left: 4px solid #f208ee; /* Move to left border */
+  }
+  100% {
+    border-top: 4px solid #f10303; /* Back to top border */
+    border-right: 4px solid transparent;
+    border-bottom: 4px solid transparent;
+    border-left: 4px solid transparent;
+  }
+}

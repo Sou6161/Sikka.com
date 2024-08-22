@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import AnimatedGridBackground from "../AllBackgrounds/AnimatedGridPatternBg";
 import MainPageMarquee from "../MarqueeComponent/MainPageMarquee";
+import HomePageData from "/Sourabh Web dev Projects/Sikka.com/src/HomePage/HomePageData"
+
 
 const Header = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -100,9 +101,9 @@ const Header = () => {
                     >
                       <path
                         stroke="currentColor"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
                         d="m1 1 4 4 4-4"
                       />
                     </svg>
@@ -278,12 +279,8 @@ const Header = () => {
         <div className=" 2xlarge:hidden  mt- w-[100vw] border-b-[1px] border-gray-300"></div>
       </>
       <div className="  h-screen">
-        <div>
-          <MainPageMarquee />
-        </div>
-        <div className=" ">
-          <AnimatedGridBackground />
-        </div>
+        <MainPageMarquee />
+        <HomePageData/>
       </div>
     </>
   );

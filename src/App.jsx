@@ -1,5 +1,6 @@
 import React from 'react'
-import Header from './Header Folder/Header'
+import Header from './components/Header Folder/Header'
+import HomePagedata from './HomePage/HomePageData'
 
 const App = () => {
   return (
