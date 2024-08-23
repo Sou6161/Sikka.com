@@ -53,7 +53,7 @@ const MainPageMarquee = () => {
   }, [MarqueeData2]);
 
   return (
-    <div class="relative flex overflow-x-hidden">
+    <div class="relative flex overflow-x-hidden bg-white">
       <div class="animate-marquee whitespace-nowrap">
         <span class="text-xl mx-10">
           Coins: {MarqueeData?.data?.active_cryptocurrencies}

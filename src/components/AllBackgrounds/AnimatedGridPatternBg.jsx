@@ -1,20 +1,24 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 const AnimatedGridBackground = () => {
   const canvasRef = useRef(null);
+  const [contentHeight, setContentHeight] = useState(0);
 
   useEffect(() => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
     const gridSize = 20;
-    const cols = Math.ceil(window.innerWidth / gridSize);
-    const rows = Math.ceil(window.innerHeight / gridSize);
+    let cols, rows;
 
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-
-    const maxActiveBoxes = 12;
+    const maxActiveBoxes = 10;
     let activeBoxes = [];
+
+    function updateCanvasSize() {
+      canvas.width = window.innerWidth;
+      canvas.height = Math.max(window.innerHeight, contentHeight);
+      cols = Math.ceil(canvas.width / gridSize);
+      rows = Math.ceil(canvas.height / gridSize);
+    }
 
     function easeInOutCubic(t) {
       return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
@@ -49,10 +53,10 @@ const AnimatedGridBackground = () => {
             box.fadingIn = false;
           }
         } else {
-          opacity = easeOutCubic(box.life); // Use easeOutCubic for fade-out
+          opacity = easeOutCubic(box.life);
         }
-        ctx.fillStyle = `rgba(243, 243, 243, ${opacity})`; // gray-600 with opacity
-        ctx.filter = "blur(2px)"; // Add blur effect
+        ctx.fillStyle = `rgba(243, 243, 243, ${opacity})`;
+        ctx.filter = "blur(2px)";
         ctx.beginPath();
         ctx.arc(
           box.x * gridSize + gridSize / 2,
@@ -62,37 +66,48 @@ const AnimatedGridBackground = () => {
           2 * Math.PI
         );
         ctx.fill();
-        ctx.filter = "none"; // Reset filter
+        ctx.filter = "none";
 
-        box.life -= 0.002; // Adjust for faster or slower transition
+        box.life -= 0.002;
       });
 
       requestAnimationFrame(animate);
     }
 
+    updateCanvasSize();
     animate();
 
-    // Resize handler
     const handleResize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+      updateCanvasSize();
     };
 
     window.addEventListener("resize", handleResize);
 
+    // Observer to track content height changes
+    const resizeObserver = new ResizeObserver(entries => {
+      for (let entry of entries) {
+        if (entry.target === document.body) {
+          setContentHeight(entry.target.scrollHeight);
+        }
+      }
+    });
+
+    resizeObserver.observe(document.body);
+
     return () => {
       window.removeEventListener("resize", handleResize);
+      resizeObserver.disconnect();
     };
-  }, []);
+  }, [contentHeight]);
 
   return (
     <canvas
       ref={canvasRef}
-      className=" relative inset-0 -z-10  w-[100vw] 2xlarge:w-[99vw]"
+      className="fixed inset-0 -z-10 w-full"
       style={{
         background: "linear-gradient(#212121, #3B3F54)",
-        backgroundSize: "100% 100vh",
-        backgroundRepeat: "no-repeat",
+        backgroundSize: "100% 100%",
+        backgroundRepeat: "repeat-y",
       }}
     />
   );

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import MainPageMarquee from "../MarqueeComponent/MainPageMarquee";
-import HomePageData from "/Sourabh Web dev Projects/Sikka.com/src/HomePage/HomePageData"
-
+import HomePageData from "/Sourabh Web dev Projects/Sikka.com/src/HomePage/HomePageData";
 
 const Header = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -278,9 +277,9 @@ const Header = () => {
         </div>
         <div className=" 2xlarge:hidden  mt- w-[100vw] border-b-[1px] border-gray-300"></div>
       </>
-      <div className="  h-screen">
-        <MainPageMarquee />
-        <HomePageData/>
+      <MainPageMarquee />
+      <div className=" ">
+        <HomePageData />
       </div>
     </>
   );

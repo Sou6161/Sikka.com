@@ -1,78 +1,75 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-  
-
 
 /* Hero section Blur box */
 .card {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 50vw;
-    height: 45vh;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-    padding: 32px;
-    overflow: hidden;
-    border-radius: 10px;
-    /* background: #212121; */
-    border: 2px solid #313131;
-    transition: all 0.5s cubic-bezier(0.23, 1, 0.320, 1);
-    border-left: 2px solid #f81a06;
-    border-right: 2px solid #06f806;
-    transition: border-color 0.3s ease;
-  }
-  
-  .content {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 20px;
-    color: #e8e8e8;
-    transition: all 0.5s cubic-bezier(0.23, 1, 0.320, 1);
-  }
-  
-  .content .heading {
-    font-weight: 700;
-    font-size: 30px;
-  }
-  
-  .content .para {
-    line-height: 1.5;
-  }
-  
-  .content .btn {
-    color: #e8e8e8;
-    text-decoration: none;
-    padding: 10px;
-    font-weight: 600;
-    border: none;
-    cursor: pointer;
-    background: #0974f1;
-    border-radius: 5px;
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-  }
-  
-  .card:hover {
-    border-left-color: #06f806;
-    border-right-color: #f81a06;
-  }
-  
-  .content .btn:hover {
-    outline: 2px solid #e8e8e8;
-    background: transparent;
-    color: #e8e8e8;
-  }
-  
-  .content .btn:active {
-    box-shadow: none;
-  }
-  
-  
-  /* Hero Section Blur BOx Search box */
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50vw;
+  height: 45vh;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  padding: 32px;
+  overflow: hidden;
+  border-radius: 10px;
+  /* background: #212121; */
+  border: 2px solid #313131;
+  transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+  border-left: 2px solid #f81a06;
+  border-right: 2px solid #06f806;
+  transition: border-color 0.3s ease;
+}
 
-/* From Uiverse.io by cohencoo */ 
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+  color: #e8e8e8;
+  transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.content .heading {
+  font-weight: 700;
+  font-size: 30px;
+}
+
+.content .para {
+  line-height: 1.5;
+}
+
+.content .btn {
+  color: #e8e8e8;
+  text-decoration: none;
+  padding: 10px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  background: #0974f1;
+  border-radius: 5px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+.card:hover {
+  border-left-color: #06f806;
+  border-right-color: #f81a06;
+}
+
+.content .btn:hover {
+  outline: 2px solid #e8e8e8;
+  background: transparent;
+  color: #e8e8e8;
+}
+
+.content .btn:active {
+  box-shadow: none;
+}
+
+/* Hero Section Blur BOx Search box */
+
+/* From Uiverse.io by cohencoo */
 /* .inputs {
     border-radius: 10px;
     outline: 2px solid #FEBF00;
@@ -106,7 +103,7 @@
   border: 2px solid transparent;
   border-radius: 8px;
   outline: none;
-  background-color: #EFF2F5;
+  background-color: #eff2f5;
   color: #0e97e7;
   transition: 0.3s ease;
   box-shadow: 0 0 0 2px rgba(245, 11, 3, 0.6); /* glow border */
@@ -132,20 +129,15 @@
   height: 1rem;
 }
 
+/* Second chamkila Search box */
 
-
-
-  /* Second chamkila Search box */
- 
 .galaxy {
   height: 800px;
   width: 800px;
   background-image: radial-gradient(#ffffff 1px, transparent 1px),
     radial-gradient(#ffffff 1px, transparent 1px);
   background-size: 45px 50px;
-  background-position:
-    0 0,
-    25px 25px;
+  background-position: 0 0, 25px 25px;
   position: absolute;
   z-index: -1;
   animation: twinkle 5s infinite;
@@ -359,7 +351,6 @@
 }
 
 .nebula {
-  
   overflow: hidden;
   filter: blur(30px);
   opacity: 0.4;
@@ -459,7 +450,7 @@
   }
 }
 
-
+/* MarketCap Small  Graph box  */
 
 .dingdong {
   position: absolute;
@@ -509,3 +500,56 @@
     border-left: 4px solid transparent;
   }
 }
+
+/* 24hr Trading volume small graph box */
+
+.dingdongtrading {
+  position: absolute;
+  top: 40vh;
+  left: 5vw;
+  width: 90vw;
+  height: 15vh;
+  background-color: #e5e5e5; /* bg-zinc-100 */
+  border: 2px solid transparent; /* Make border transparent */
+  border-radius: 1rem; /* rounded-lg */
+  /* box-shadow: 0 0 10px #0097A7; shadow-teal-glow */
+}
+
+.dingdongtrading:hover {
+  animation: animate-border-trading 2s linear infinite;
+}
+
+@keyframes animate-border-trading {
+  0% {
+    border-top: 4px solid #f10303; /* Start with top border */
+    border-right: 4px solid transparent;
+    border-bottom: 4px solid transparent;
+    border-left: 4px solid transparent;
+  }
+  25% {
+    border-top: 4px solid transparent;
+    border-right: 4px solid #d1f406; /* Move to right border */
+    border-bottom: 4px solid transparent;
+    border-left: 4px solid transparent;
+  }
+  50% {
+    border-top: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-bottom: 4px solid #5306f8; /* Move to bottom border */
+    border-left: 4px solid transparent;
+  }
+  75% {
+    border-top: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-bottom: 4px solid transparent;
+    border-left: 4px solid #f208ee; /* Move to left border */
+  }
+  100% {
+    border-top: 4px solid #f10303; /* Back to top border */
+    border-right: 4px solid transparent;
+    border-bottom: 4px solid transparent;
+    border-left: 4px solid transparent;
+  }
+}
+
+
