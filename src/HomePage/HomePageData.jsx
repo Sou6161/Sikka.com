@@ -186,7 +186,7 @@ const MainContainer = () => {
           </ul>{" "}
         </h1>
       </div>
-      <div className="  absolute top-[124vh] left-5 2xlarge:left-[5vw] w-[90vw] h-[30vh] 2xlarge:w-[30vw] bg-zinc-100 border-[2px]  border-teal-600 shadow-teal-glow rounded-lg">
+      <div className="  absolute top-[124vh] left-5 2xlarge:left-[5vw] max-w-[90vw] h-[625vh 2xlarge:w-[30vw] bg-gray-200 border-[2px]  border-teal-600 shadow-teal-glow rounded-lg">
         <CryptoPricesTable />
       </div>
       <div className=" ">
