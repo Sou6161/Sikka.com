@@ -6,14 +6,16 @@ import CryptoChart from "../Charts/MarketCap/MarketCapChart";
 import { FaAngleRight } from "react-icons/fa6";
 import { CoinGeckoApi } from "../api/CoinGeckoApi/CoinGeckoApi";
 import { TokenInsightApi } from "../api/CoinGeckoApi/TokenInsightApi";
+import { VscTriangleUp } from "react-icons/vsc";
+import CryptoPricesTable from "../CryptoMarketTable.jsx/CryptoPricesTable";
 
 const MainContainer = () => {
   const MarqueeData = useSelector((state) => state.Marquee.MarqueeData);
   const MarqueeData2 = useSelector((state) => state.Marquee2.MarqueeData2);
   const [GetTrendingCoins, setGetTrendingCoins] = useState(null);
-  const [AllGainersLosers, setAllGainersLosers] = useState(null)
-  const [TopGainers, setTopGainers] = useState(null)
-  const [TopLosers, setTopLosers] = useState(null)
+  const [AllGainers, setAllGainers] = useState(null);
+  const [TopGainers, setTopGainers] = useState(null);
+  const [TopLosers, setTopLosers] = useState(null);
 
   useEffect(() => {
     const GetTrendingCoins = async () => {
@@ -39,10 +41,14 @@ const MainContainer = () => {
         TokenInsightApi
       );
       const data = await response.json();
-      console.log(data?.data,"Get Gainers and Losers");
+      setAllGainers(data?.data);
     };
     GetGainersLosers();
   }, []);
+
+  useEffect(() => {
+    AllGainers && console.log(AllGainers, "Get All Gainers");
+  }, [AllGainers]);
 
   {
     MarqueeData2 && console.log(MarqueeData2);
@@ -110,7 +116,7 @@ const MainContainer = () => {
         </div>
       </div>
 
-      <div className="  absolute top-[60vh] left-5 2xlarge:left-[5vw] w-[90vw] h-[30vh] 2xlarge:w-[30vw] bg-zinc-100 border-[2px]  border-teal-600 shadow-teal-glow rounded-lg">
+      <div className="   absolute top-[60vh] left-5 2xlarge:left-[5vw] w-[90vw] h-[30vh] 2xlarge:w-[30vw] bg-zinc-100 border-[2px]  border-teal-600 shadow-teal-glow rounded-lg">
         <h1 className="relative top-4 left-2  text-[5vw] font-semibold text-blue-600 ">
           🔥 Trending{" "}
           <span className=" ml-[30vw] text-[4vw] text-red-600 font-semibold hover:text-green-400 ">
@@ -126,13 +132,13 @@ const MainContainer = () => {
               return (
                 <>
                   <img
-                    className=" border-[1px] border-gray-600 rounded-full w-[6vw] relative top-5 "
+                    className=" border-[1px] border-gray-600 rounded-full w-[6vw] h-[3vh] object-fill relative top-5 "
                     src={coin?.item?.small}
                     alt=""
                   />
                   <li className=" relative -top-1  ml-8 flex justify-between">
                     {coin?.item?.name}
-                    <h1 className="absolute  left-[45vw] ">
+                    <h1 className="absolute  left-[40vw] ">
                       ${coin?.item?.data?.price?.toFixed(3)}
                     </h1>
                   </li>
@@ -145,8 +151,8 @@ const MainContainer = () => {
 
       <div className="  absolute top-[92vh] left-5 2xlarge:left-[5vw] w-[90vw] h-[30vh] 2xlarge:w-[30vw] bg-zinc-100 border-[2px]  border-teal-600 shadow-teal-glow rounded-lg">
         <h1 className="relative top-4 left-2  text-[5vw] font-semibold text-blue-600 ">
-          🚀 Largest Gainers{" "}
-          <span className=" ml-[15vw] text-[4vw] text-red-600 font-semibold hover:text-green-400 ">
+          🚀 Top Gainers{" "}
+          <span className=" ml-[23vw] text-[4vw] text-red-600 font-semibold hover:text-green-400 ">
             View more{" "}
             <span className=" inline-flex relative top-1 text-[4vw]">
               <FaAngleRight />
@@ -155,18 +161,23 @@ const MainContainer = () => {
         </h1>
         <h1 className=" relative top-5 left-2 flex font-semibold  ">
           <ul>
-            {GetTrendingCoins?.coins.slice(0, 3).map((coin) => {
+            {AllGainers?.slice(0, 3).map((coin) => {
               return (
                 <>
                   <img
-                    className=" border-[1px] border-gray-600 rounded-full w-[6vw] relative top-5 "
-                    src={coin?.item?.small}
+                    className=" border-[1px]  border-gray-600 rounded-full  w-[6vw] h-[3vh] object-fill relative top-5 "
+                    src={coin?.logo}
+                    m
                     alt=""
                   />
                   <li className=" relative -top-1  ml-8 flex justify-between">
-                    {coin?.item?.name}
-                    <h1 className="absolute  left-[45vw] ">
-                      ${coin?.item?.data?.price?.toFixed(3)}
+                    {coin?.name}
+                    <h1 className="absolute  left-[40vw] flex ">
+                      ${coin?.price?.toFixed(3)}
+                      <VscTriangleUp className=" blink text-[#20AC62] relative left-1   text-[4vw] top-[.7vh]" />
+                      <span className="ml-1 text-[#20AC62] blink">
+                        {(coin?.price_change_24h * 100).toFixed(1)}%
+                      </span>
                     </h1>
                   </li>
                 </>
@@ -175,8 +186,10 @@ const MainContainer = () => {
           </ul>{" "}
         </h1>
       </div>
-
-      <div className="  relative max-h-[100vh]">
+      <div className="  absolute top-[124vh] left-5 2xlarge:left-[5vw] w-[90vw] h-[30vh] 2xlarge:w-[30vw] bg-zinc-100 border-[2px]  border-teal-600 shadow-teal-glow rounded-lg">
+        <CryptoPricesTable />
+      </div>
+      <div className=" ">
         <AnimatedGridBackground />
       </div>
     </div>

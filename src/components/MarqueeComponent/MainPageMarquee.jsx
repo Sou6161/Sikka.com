@@ -63,7 +63,7 @@ const MainPageMarquee = () => {
           {MarqueeData2?.cap ? (
             <span>
               {(MarqueeData2.cap / 1e12).toFixed(3)}T
-              <span className="text-green-400 text-[5vw] 2xlarge:text-[1vw] inline-flex items-center">
+              <span className=" blink text-green-400 text-[5vw] 2xlarge:text-[1vw] inline-flex items-center">
                 <FaCaretUp className="text-[4vw] 2xlarge:text-[1vw]" />{" "}
                 {MarqueeData?.data?.market_cap_change_percentage_24h_usd?.toFixed(
                   1

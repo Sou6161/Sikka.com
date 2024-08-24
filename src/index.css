@@ -461,7 +461,8 @@
   background-color: #e5e5e5; /* bg-zinc-100 */
   border: 2px solid transparent; /* Make border transparent */
   border-radius: 1rem; /* rounded-lg */
-  /* box-shadow: 0 0 10px #0097A7; shadow-teal-glow */
+  box-shadow: 0 0 10px #fcfcfc;
+  
 }
 
 .dingdong:hover {
@@ -512,7 +513,7 @@
   background-color: #e5e5e5; /* bg-zinc-100 */
   border: 2px solid transparent; /* Make border transparent */
   border-radius: 1rem; /* rounded-lg */
-  /* box-shadow: 0 0 10px #0097A7; shadow-teal-glow */
+  box-shadow: 0 0 10px #f7f9f9;
 }
 
 .dingdongtrading:hover {
@@ -553,3 +554,18 @@
 }
 
 
+.blink {
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0% {
+    color: #64f89a; /* light green */
+  }
+  50% {
+    color: #2E865F; /* dark green */
+  }
+  100% {
+    color: #13fb68; /* light green */
+  }
+}
