@@ -24,7 +24,7 @@ const MainContainer = () => {
         CoinGeckoApi
       );
       const data = await response.json();
-      console.log(data, "Get trending coins");
+      // console.log(data, "Get trending coins");
       setGetTrendingCoins(data);
     };
     GetTrendingCoins();
@@ -38,20 +38,22 @@ const MainContainer = () => {
     const GetGainersLosers = async () => {
       const response = await fetch(
         "https://api.tokeninsight.com/api/v1/coins/top-gainers?range=-1",
-        TokenInsightApi
+        {
+          ...TokenInsightApi,
+          credentials: "same-origin"
+        }
       );
       const data = await response.json();
       setAllGainers(data?.data);
     };
     GetGainersLosers();
   }, []);
-
   useEffect(() => {
-    AllGainers && console.log(AllGainers, "Get All Gainers");
+    // AllGainers && console.log(AllGainers, "Get All Gainers");
   }, [AllGainers]);
 
   {
-    MarqueeData2 && console.log(MarqueeData2);
+    // MarqueeData2 && console.log(MarqueeData2);
   }
   return (
     <div className=" relative ">
@@ -186,7 +188,7 @@ const MainContainer = () => {
           </ul>{" "}
         </h1>
       </div>
-      <div className="  absolute top-[124vh] left-5 2xlarge:left-[5vw] max-w-[90vw] h-[625vh 2xlarge:w-[30vw] bg-gray-200 border-[2px]  border-teal-600 shadow-teal-glow rounded-lg">
+      <div className="  absolute top-[124vh] left-5 2xlarge:left-[5vw] max-w-[90vw]    2xlarge:w-[30vw] bg-gray-20  ">
         <CryptoPricesTable />
       </div>
       <div className=" ">

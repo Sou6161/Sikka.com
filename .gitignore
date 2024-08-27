@@ -22,3 +22,43 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+
+
+
+
+
+f2de4393b48944e191737fd39b27a42b------->yaxodah741@ndiety.com
+
+
+
+
+
+
+
+
+
+const data = [
+  [1724155200000, 60982, 61005, 60495, 60562],
+  [1724169600000, 60543, 60904, 58710, 58901],
+  [1724184000000, 58784, 59562, 58713, 59556],
+  [1724198400000, 59487, 59629, 59060, 59060],
+  [1724212800000, 59029, 59479, 58905, 59255],
+  [1724227200000, 59330, 59751, 59218, 59716],
+  [1724241600000, 59908, 59908, 59121, 59398],
+];
+
+
+
+useEffect(() => {
+    const FetchTableCoinGraph = async () => {
+      const response = await fetch(
+        "https://api.coingecko.com/api/v3/coins/bitcoin/ohlc?vs_currency=usd&days=365",
+        CoinGeckoApi
+      );
+      const data = await response.json();
+      console.log(data," Graph Details Of table homepage coins list ");
+    };
+
+    FetchTableCoinGraph();
+  }, []);

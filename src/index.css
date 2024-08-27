@@ -569,3 +569,83 @@
     color: #13fb68; /* light green */
   }
 }
+
+/* Main Page Coins list Loading icon  */
+
+.loading-wave {
+  width: 300px;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.loading-bar {
+  width: 20px;
+  height: 10px;
+  margin: 0 5px;
+  background-color: #3498db;
+  border-radius: 5px;
+  animation: loading-wave-animation 1s ease-in-out infinite;
+}
+
+.loading-bar:nth-child(2) {
+  animation-delay: 0.1s;
+}
+
+.loading-bar:nth-child(3) {
+  animation-delay: 0.2s;
+}
+
+.loading-bar:nth-child(4) {
+  animation-delay: 0.3s;
+}
+
+@keyframes loading-wave-animation {
+  0% {
+    height: 10px;
+  }
+
+  50% {
+    height: 50px;
+  }
+
+  100% {
+    height: 10px;
+  }
+}
+
+
+
+
+.blink-green {
+  animation: blink-green 2s infinite;
+}
+
+.blink-red {
+  animation: blink-red 2s infinite;
+}
+
+@keyframes blink-green {
+  0% {
+    color: #64f89a; /* green-600 */
+  }
+  50% {
+    color: #2E865F; /* green-400 */
+  }
+  100% {
+    color: #13fb68; /* green-600 */
+  }
+}
+
+@keyframes blink-red {
+  0% {
+    color: #fb6a6a; /* light red */
+  }
+  50% {
+    color: #fc0421; /* dark red */
+  }
+  100% {
+    color: #fb6a6a; /* light red */
+  }
+}
