@@ -1,177 +1,119 @@
 import React, { useEffect, useState } from "react";
-import {
-  TokenInsightApi,
-  TokenInsightApiCoinData,
-} from "../api/CoinGeckoApi/TokenInsightApi";
 import CryptoAreaChartForTable from "../Charts/MarketCap/MarketCapChartForTable";
-import { CoinGeckoApi } from "../api/CoinGeckoApi/CoinGeckoApi";
+import { useDispatch } from "react-redux";
+import {
+  addCGCoinGraphData,
+  addCGCoinId,
+  addCGCoinSymbol,
+} from "../ReduxSlice/CGCoinTableGraphSlice";
+import { Sparklines, SparklinesLine } from "react-sparklines";
 
-const CryptoPricesTable = () => {
-  const [AllCoinsList, setAllCoinsList] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [CoinGeckoCoinID, setCoinGeckoCoinID] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [CoinData, setCoinData] = useState({});
-  const [coinIds, setCoinIds] = useState([]);
+const CoinSparkline = ({ coinData }) => {
+  const trend =
+    coinData[coinData.length - 1] > coinData[0] ? "#00FF00" : "#FF0000";
+  const [blink, setBlink] = useState(false);
 
-  const coinsPerPage = 100;
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setBlink((prevBlink) => !prevBlink);
+    }, 1000); // blink every 500ms
+    return () => clearInterval(intervalId);
+  }, []);
 
-  const getAllCoins = async (currentPage, coinsPerPage) => {
-    setIsLoading(true);
-    const baseUrl = "https://api.tokeninsight.com/api/v1/coins/list";
-    const limit = coinsPerPage;
-    const offset = (currentPage - 1) * coinsPerPage;
-    let allCoins = [];
-    let ids = [];
-
-    try {
-      const url = `${baseUrl}?limit=${limit}&offset=${offset}`;
-      const response = await fetch(url, {
-        ...TokenInsightApi,
-        credentials: "same-origin",
-      });
-      const data = await response.json();
-      allCoins = data?.data?.items || [];
-      ids = allCoins.map((coin) => coin.id) || [];
-      // Sort the coin IDs in the desired order
-      ids = ids.sort((a, b) => {
-        const order = {
-          bitcoin: 1,
-          ethereum: 2,
-          tether: 3,
-          // Add the rest of the IDs in the desired order
-        };
-        return (order[a] || Infinity) - (order[b] || Infinity);
-      });
-      console.log("Sorted coin IDs:", ids);
-      setAllCoinsList(allCoins);
-      setCoinIds(ids);
-    } catch (error) {
-      console.error("Error fetching coin data:", error);
-    } finally {
-      setIsLoading(false);
+  const getBlinkColor = () => {
+    if (trend === "#00FF00") {
+      return blink ? "#2E865F" : "#64f86e"; // blink between dark green and light green
+    } else {
+      return blink ? "#fc6060" : "#ff001e"; // blink between light red and dark red
     }
   };
 
-  useEffect(() => {
-    getAllCoins(1, coinsPerPage);
-  }, []);
+  return (
+    <Sparklines data={coinData} width={300} height={70}>
+      <SparklinesLine
+        color={getBlinkColor()} // blink between different shades
+        style={{ strokeWidth: 2 }}
+      />
+    </Sparklines>
+  );
+};
 
-  useEffect(() => {
-    const fetchCoinData = async () => {
-      if (coinIds.length === 0) return;
+const CryptoPricesTable = () => {
+  const [allCoinsList, setAllCoinsList] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [isLoading, setIsLoading] = useState(true);
+  const [hasNextPage, setHasNextPage] = useState(true);
+  const [CGCoinId, setCGCoinId] = useState([]);
+  const [CGcoinSymbol, setCGcoinSymbol] = useState([]);
+  const dispatch = useDispatch();
 
-      const coinData = {};
-      const queue = [...coinIds];
-      const concurrency = 5;
-      const delay = 2000;
+  const coinsPerPage = 100;
 
-      try {
-        while (queue.length > 0) {
-          const nextIds = queue.slice(0, concurrency);
-          queue.splice(0, concurrency);
-          await Promise.all(
-            nextIds.map((id) => fetchCoinDataById(id, coinData, delay))
-          );
-          await new Promise((resolve) => setTimeout(resolve, delay));
-        }
-      } catch (error) {
-        console.error("Fetch error:", error);
-      }
-    };
+  const renderPercentageChange = (value) => {
+    if (value === null || value === undefined) {
+      return <span className="text-gray-500">N/A</span>;
+    }
+    const formattedValue = value.toFixed(2);
+    const colorClass =
+      value >= 0 ? "text-green-600 blink-green" : "text-red-600 blink-red ";
+    return (
+      <span className={`font-semibold ${colorClass}`}>{formattedValue}%</span>
+    );
+  };
 
-    const fetchCoinDataById = async (id, coinData, delay) => {
-      await new Promise((resolve) => setTimeout(resolve, delay));
+  const fetchCoins = async (page) => {
+    setIsLoading(true);
+    try {
       const response = await fetch(
-        // `https://api.tokeninsight.com/api/v1/coins/${id}`,
-        TokenInsightApiCoinData
+        `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&page=${page}&sparkline=true&price_change_percentage=1h%2C24h%2C7d%2C14d%2C30d%2C200d%2C1y`
       );
-      if (!response.ok) {
-        if (response.status === 429) {
-          console.log("Rate limit exceeded. Waiting for 1 minute...");
-          await new Promise((resolve) => setTimeout(resolve, 60000));
-          return fetchCoinDataById(id, coinData, delay);
+      if (response.ok) {
+        const coins = await response.json();
+        if (Array.isArray(coins) && coins.length > 0) {
+          // console.log(coins, "All CG Coins List per page 100");
+          setAllCoinsList(coins);
+          setHasNextPage(coins.length === coinsPerPage);
+
+          // Map over coins and store IDs and symbols in state
+          const coinIds = coins.map((coin) => coin.id);
+          const coinSymbols = coins.map((coin) => coin.symbol);
+          setCGCoinId(coinIds);
+          setCGcoinSymbol(coinSymbols);
+
+          // Dispatch to Redux store
+          dispatch(addCGCoinId(coinIds));
+          dispatch(addCGCoinSymbol(coinSymbols));
+        } else {
+          setHasNextPage(false);
         }
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      const data = await response.json();
-      coinData[id] = data;
-      console.log(`Fetched coin data for ${id}:`, data);
-      setCoinData((prevCoinData) => ({ ...prevCoinData, [id]: data }));
-    };
-
-    fetchCoinData();
-  }, [coinIds]);
-
-  useEffect(() => {
-    console.log("CoinData:", CoinData);
-  }, [CoinData]);
-
-  
-
-  useEffect(() => {
-    const CoinGeckoCoinsList = async () => {
-      const response = await fetch(
-        "https://api.coingecko.com/api/v3/coins/list",
-        CoinGeckoApi
-      );
-      const data = await response.json();
-      console.log(data, "CoinGecko All Coins List Table section");
-  
-      // Calculate currentCoins inside the useEffect hook
-      const lastCoinIndex = currentPage * coinsPerPage;
-      const firstCoinIndex = lastCoinIndex - coinsPerPage;
-      const currentCoins = AllCoinsList.slice(firstCoinIndex, lastCoinIndex);
-      console.log(currentCoins, "Current Coins"); // Log currentCoins
-  
-      // Map through the data and match the symbol with currentCoins
-      const matchedCoins = data.map((coin) => {
-        const matchedCoin = currentCoins.find((currentCoin) =>
-          currentCoin.symbol.toLowerCase() === coin.symbol.toLowerCase()
+      } else if (response.status === 429) {
+        console.error(
+          "Rate limit exceeded. Waiting for 1 minute before retrying."
         );
-        if (matchedCoin) {
-          return { id: coin.id, index: currentCoins.indexOf(matchedCoin) };
-        }
-        return null;
-      })
-        .filter((coin) => coin !== null)
-        .sort((a, b) => a.index - b.index); // Sort by index
-      console.log(matchedCoins, "Matched Coins"); // Log matchedCoins
-  
-      // Filter out null values and store the first matched ID in state
-      const firstMatchedID = matchedCoins[0].id;
-      console.log(firstMatchedID, "First Matched ID"); // Log firstMatchedID
-      setCoinGeckoCoinID(firstMatchedID);
-    };
-  
-    CoinGeckoCoinsList();
-  }, [AllCoinsList, currentPage, coinsPerPage]);
-
-  
-  // useEffect(() => {
-  //   if (CoinGeckoCoinID > 0) {
-  //     console.log(CoinGeckoCoinID);
-  //   }
-  // }, [CoinGeckoCoinID]);
-
-  const lastCoinIndex = currentPage * coinsPerPage;
-  const firstCoinIndex = lastCoinIndex - coinsPerPage;
-  const currentCoins = AllCoinsList.slice(firstCoinIndex, lastCoinIndex);
-  console.log(currentCoins, "Current coins");
-
-  const totalPages = Math.ceil(AllCoinsList.length / coinsPerPage);
+        setTimeout(() => fetchCoins(page), 60000); // retry after 1 minute
+      } else {
+        console.error("Error fetching coin data:", response.status);
+        setHasNextPage(false);
+      }
+    } catch (error) {
+      console.error("Error fetching coin data:", error);
+      setHasNextPage(false);
+    }
+    setIsLoading(false);
+  };
+  useEffect(() => {
+    fetchCoins(currentPage);
+  }, [currentPage]);
 
   const handleNextPage = () => {
-    if (currentPage < totalPages) {
-      getAllCoins(currentPage + 1, coinsPerPage);
-      setCurrentPage(currentPage + 1);
+    if (hasNextPage) {
+      setCurrentPage((prevPage) => prevPage + 1);
     }
   };
 
   const handlePrevPage = () => {
     if (currentPage > 1) {
-      getAllCoins(currentPage - 1, coinsPerPage);
-      setCurrentPage(currentPage - 1);
+      setCurrentPage((prevPage) => prevPage - 1);
     }
   };
 
@@ -202,16 +144,19 @@ const CryptoPricesTable = () => {
                 Price
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                1h
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 24h
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 7d
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                24h Volume
+                Total Volume
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Ratings
+              <th className="px-6 py-3 max-w-[30vw] bg-purple-300 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Market Cap
               </th>
               <th className="px-6 py-3 max-w-[30vw] bg-purple-300 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Last 7 Days
@@ -219,52 +164,59 @@ const CryptoPricesTable = () => {
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
-            {currentCoins.map((coin, index) => (
+            {allCoinsList.map((coin, index) => (
               <tr key={coin.id} className="hover:bg-gray-50">
                 <td className="sticky left-0 z-10 bg-zinc-300/50 backdrop-blur-sm px-2 py-4 whitespace-nowrap text-sm text-gray-500">
-                  {firstCoinIndex + index + 1}
+                  {(currentPage - 1) * coinsPerPage + index + 1}
                 </td>
                 <td className="sticky left-9 z-10 bg-zinc-300/50 backdrop-blur-sm px-3 py-4 max-w-[200px]">
                   <div className="flex items-center">
                     <img
-                      src={coin.logo}
+                      src={coin.image}
                       alt={coin.name}
-                      className="w-6 h-6 mr-2 flex-shrink-0"
+                      className="w-6 h-6 mr-2"
                     />
-                    <span className="text-sm font-medium w-[33vw] text-gray-900">
+                    <span className="text-sm font-medium w-[33vw]  text-gray-900">
                       {coin.name}
                     </span>
                   </div>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  ${coin.price.toFixed(2)}
+                  ${coin.current_price ? coin.current_price.toFixed(2) : "N/A"}
                 </td>
-                <td
-                  className={`px-4 py-4 whitespace-nowrap font-semibold text-sm ${
-                    coin.price_change_percentage_24h >= 0
-                      ? "text-green-500 blink-green"
-                      : "text-red-500 blink-red"
-                  }`}
-                >
-                  {(coin.price_change_percentage_24h * 100).toFixed(2)}%
+                <td className="px-4 py-4 whitespace-nowrap font-semibold text-sm">
+                  {renderPercentageChange(
+                    coin.price_change_percentage_1h_in_currency
+                  )}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  {/* {(coin.price_change_percentage_24h * 100).toFixed(2)}% */}
+                <td className="px-6 py-4 whitespace-nowrap text-sm ">
+                  {renderPercentageChange(coin.price_change_percentage_24h)}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  ${coin.spot_volume_24h.toLocaleString()}
+                <td className="px-6 py-4 whitespace-nowrap text-sm ">
+                  {renderPercentageChange(
+                    coin.price_change_percentage_7d_in_currency
+                  )}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm  text-white">
-                  <h1 className=" bg-black inline-block px-2 rounded-xl">
-                    {" "}
-                    {CoinData[coin.id]?.data?.rating?.rating || "N/A"}
+                <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-500">
+                  <h1 className=" inline-block px-2 rounded-xl">
+                    $
+                    {coin.total_volume
+                      ? coin.total_volume.toLocaleString()
+                      : "N/A"}
                   </h1>
                 </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold   text-gray-500">
+                  ${coin.market_cap ? coin.market_cap.toLocaleString() : "N/A"}
+                </td>
                 <td
-                  className="px-6 py-4  whitespace-nowrap text-sm text-gray-500"
+                  className="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
                   style={{ minWidth: "200px" }}
                 >
-                  <CryptoAreaChartForTable />
+                  {coin.sparkline_in_7d && coin.sparkline_in_7d.price ? (
+                    <CoinSparkline coinData={coin.sparkline_in_7d.price} />
+                  ) : (
+                    "N/A"
+                  )}
                 </td>
               </tr>
             ))}
@@ -280,11 +232,11 @@ const CryptoPricesTable = () => {
           Previous
         </button>
         <span className="text-cyan-600 ml-3 font-semibold">
-          Page {currentPage} of {totalPages}
+          Page {currentPage}
         </span>
         <button
           onClick={handleNextPage}
-          disabled={currentPage === totalPages}
+          disabled={!hasNextPage}
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:bg-gray-300 disabled:cursor-not-allowed"
         >
           Next

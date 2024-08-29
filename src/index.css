@@ -628,24 +628,24 @@
 
 @keyframes blink-green {
   0% {
-    color: #64f89a; /* green-600 */
+    color: #64f86e; /* green-600 */
   }
   50% {
     color: #2E865F; /* green-400 */
   }
   100% {
-    color: #13fb68; /* green-600 */
+    color: #64f86e; /* green-600 */
   }
 }
 
 @keyframes blink-red {
   0% {
-    color: #fb6a6a; /* light red */
+    color: #fc6060; /* light red */
   }
   50% {
-    color: #fc0421; /* dark red */
+    color: #ff001e; /* dark red */
   }
   100% {
-    color: #fb6a6a; /* light red */
+    color: #fa5d5d; /* light red */
   }
 }

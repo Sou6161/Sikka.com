@@ -8,6 +8,7 @@ import { CoinGeckoApi } from "../api/CoinGeckoApi/CoinGeckoApi";
 import { TokenInsightApi } from "../api/CoinGeckoApi/TokenInsightApi";
 import { VscTriangleUp } from "react-icons/vsc";
 import CryptoPricesTable from "../CryptoMarketTable.jsx/CryptoPricesTable";
+import CryptoNews from "../CoinGeckoCryptoNews/CryptoNews";
 
 const MainContainer = () => {
   const MarqueeData = useSelector((state) => state.Marquee.MarqueeData);
@@ -40,7 +41,7 @@ const MainContainer = () => {
         "https://api.tokeninsight.com/api/v1/coins/top-gainers?range=-1",
         {
           ...TokenInsightApi,
-          credentials: "same-origin"
+          credentials: "same-origin",
         }
       );
       const data = await response.json();
@@ -51,6 +52,21 @@ const MainContainer = () => {
   useEffect(() => {
     // AllGainers && console.log(AllGainers, "Get All Gainers");
   }, [AllGainers]);
+
+  function formatPrice(num) {
+    return num?.toFixed(3);
+  }
+
+  function formatPercentage(num) {
+    const formatted = num / 100;
+    if (Math.abs(formatted) >= 10000) {
+      return `${(formatted / 100000).toFixed(2)}%`;
+    } else if (Math.abs(formatted) >= 1000) {
+      return `${(formatted / 1000).toFixed(2)}%`;
+    } else {
+      return `${formatted.toFixed(2)}%`;
+    }
+  }
 
   {
     // MarqueeData2 && console.log(MarqueeData2);
@@ -161,35 +177,35 @@ const MainContainer = () => {
             </span>
           </span>
         </h1>
-        <h1 className=" relative top-5 left-2 flex font-semibold  ">
+        <h1 className="relative top-5 left-2 flex font-semibold">
           <ul>
             {AllGainers?.slice(0, 3).map((coin) => {
               return (
                 <>
                   <img
-                    className=" border-[1px]  border-gray-600 rounded-full  w-[6vw] h-[3vh] object-fill relative top-5 "
+                    className="border-[1px] border-gray-600 rounded-full w-[6vw] h-[3vh] object-fill relative top-5"
                     src={coin?.logo}
-                    m
                     alt=""
                   />
-                  <li className=" relative -top-1  ml-8 flex justify-between">
+                  <li className="relative -top-1 ml-8 flex justify-between">
                     {coin?.name}
-                    <h1 className="absolute  left-[40vw] flex ">
-                      ${coin?.price?.toFixed(3)}
-                      <VscTriangleUp className=" blink text-[#20AC62] relative left-1   text-[4vw] top-[.7vh]" />
+                    <h1 className="absolute left-[40vw] flex">
+                      ${formatPrice(coin?.price)}
+                      <VscTriangleUp className="blink text-[#20AC62] relative left-1 text-[4vw] top-[.7vh]" />
                       <span className="ml-1 text-[#20AC62] blink">
-                        {(coin?.price_change_24h * 100).toFixed(1)}%
+                        {formatPercentage(coin?.price_change_24h * 100)}
                       </span>
                     </h1>
                   </li>
                 </>
               );
             })}
-          </ul>{" "}
+          </ul>
         </h1>
       </div>
       <div className="  absolute top-[124vh] left-5 2xlarge:left-[5vw] max-w-[90vw]    2xlarge:w-[30vw] bg-gray-20  ">
         <CryptoPricesTable />
+        <CryptoNews/>
       </div>
       <div className=" ">
         <AnimatedGridBackground />
