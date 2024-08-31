@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import MainPageMarquee from "../MarqueeComponent/MainPageMarquee";
 import HomePageData from "/Sourabh Web dev Projects/Sikka.com/src/HomePage/HomePageData";
+import logo from "/Sourabh Web dev Projects/Sikka.com/src/Images Folder/HeaderLogo.png"
 
 const Header = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -32,12 +33,12 @@ const Header = () => {
           <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-2  2xlarge:p-[1.7vh]">
             <a href="#" class="flex items-center space-x-3 rtl:space-x-reverse">
               <img
-                src="src\Images Folder\images-removebg-preview.png"
-                class="h-6 2xlarge:h-7"
+                src={logo}
+                class="h-8 relative top-1 2xlarge:h-10"
                 alt="Flowbite Logo"
               />
               <span class="self-center text-[5vw] 2xlarge:text-xl 2xla font-semibold whitespace-nowrap dark:text-white">
-                CoinSpot
+              
               </span>
             </a>
             <button

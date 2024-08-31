@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import AnimatedGridBackground from "../components/AllBackgrounds/AnimatedGridPatternBg";
 import { useSelector } from "react-redux";
-import { FaCaretUp } from "react-icons/fa";
+import { FaCaretDown, FaCaretUp } from "react-icons/fa";
 import CryptoChart from "../Charts/MarketCap/MarketCapChart";
 import { FaAngleRight } from "react-icons/fa6";
 import { CoinGeckoApi } from "../api/CoinGeckoApi/CoinGeckoApi";
@@ -11,6 +11,7 @@ import CryptoPricesTable from "../CryptoMarketTable.jsx/CryptoPricesTable";
 import CryptoNews from "../CoinGeckoCryptoNews/CryptoNews";
 import LatestArticlesData from "../LatestArticles/LatestArticlesData";
 import Footer from "../Footer/Footer";
+
 
 const MainContainer = () => {
   const MarqueeData = useSelector((state) => state.Marquee.MarqueeData);
@@ -105,13 +106,23 @@ const MainContainer = () => {
         <h1 className="relative top-4 left-2  text-[5vw]  font-semibold text-black ">
           ${MarqueeData2?.cap?.toLocaleString("en-US")}
         </h1>
-        <h1 className=" relative top-5 text-purple-600 left-2 flex font-semibold  ">
+        <h1 className="relative top-5 text-purple-600 left-2 flex font-semibold">
           Market Cap{" "}
-          <FaCaretUp className=" text-[4.5vw] text-[#4BCC00]  relative top-1  2xlarge:text-[1vw]" />{" "}
-          <span className=" text-[#4BCC00] font-semibold">
+          {MarqueeData?.data?.market_cap_change_percentage_24h_usd >= 0 ? (
+            <FaCaretUp className="text-[4.5vw] blink-green relative top-1 2xlarge:text-[1vw]" />
+          ) : (
+            <FaCaretDown className="text-[4.5vw] blink-red relative top-1 2xlarge:text-[1vw]" />
+          )}
+          <span
+            className={`blink-${
+              MarqueeData?.data?.market_cap_change_percentage_24h_usd >= 0
+                ? "green"
+                : "red"
+            } font-semibold`}
+          >
             {MarqueeData?.data?.market_cap_change_percentage_24h_usd?.toFixed(
               1
-            )}{" "}
+            )}
             %
           </span>
         </h1>
@@ -207,9 +218,9 @@ const MainContainer = () => {
       </div>
       <div className="  absolute top-[124vh] left-5 2xlarge:left-[5vw] max-w-[90vw]    2xlarge:w-[30vw] bg-gray-20  ">
         <CryptoPricesTable />
-        <CryptoNews/>
-        <LatestArticlesData/>
-        <Footer/>
+        <CryptoNews />
+        <LatestArticlesData />
+        <Footer />
       </div>
       <div className=" ">
         <AnimatedGridBackground />
