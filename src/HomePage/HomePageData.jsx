@@ -9,6 +9,8 @@ import { TokenInsightApi } from "../api/CoinGeckoApi/TokenInsightApi";
 import { VscTriangleUp } from "react-icons/vsc";
 import CryptoPricesTable from "../CryptoMarketTable.jsx/CryptoPricesTable";
 import CryptoNews from "../CoinGeckoCryptoNews/CryptoNews";
+import LatestArticlesData from "../LatestArticles/LatestArticlesData";
+import Footer from "../Footer/Footer";
 
 const MainContainer = () => {
   const MarqueeData = useSelector((state) => state.Marquee.MarqueeData);
@@ -206,6 +208,8 @@ const MainContainer = () => {
       <div className="  absolute top-[124vh] left-5 2xlarge:left-[5vw] max-w-[90vw]    2xlarge:w-[30vw] bg-gray-20  ">
         <CryptoPricesTable />
         <CryptoNews/>
+        <LatestArticlesData/>
+        <Footer/>
       </div>
       <div className=" ">
         <AnimatedGridBackground />

@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { CoinGeckoApi } from "../../api/CoinGeckoApi/CoinGeckoApi";
 import { LiveCoinWatchApi } from "../../api/CoinGeckoApi/LiveCoinWatchApi";
-import { FaCaretUp } from "react-icons/fa";
+import { FaCaretDown, FaCaretUp } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { addMarqueeData, addMarqueeData2 } from "../../ReduxSlice/Marqueeslice";
 
@@ -26,7 +26,7 @@ const MainPageMarquee = () => {
     };
     GetMarketData();
   }, []);
-  
+
   useEffect(() => {
     // MarqueeData && console.log(MarqueeData);
   }, [MarqueeData]);
@@ -40,7 +40,7 @@ const MainPageMarquee = () => {
         );
         const data2 = await response.json();
         setMarqueeData2(data2);
-        dispatch(addMarqueeData2(data2))
+        dispatch(addMarqueeData2(data2));
       } catch (error) {
         console.error("Failed to fetch LiveCoinWatch data:", error);
       }
@@ -63,12 +63,31 @@ const MainPageMarquee = () => {
           {MarqueeData2?.cap ? (
             <span>
               {(MarqueeData2.cap / 1e12).toFixed(3)}T
-              <span className=" blink text-green-400 text-[5vw] 2xlarge:text-[1vw] inline-flex items-center">
-                <FaCaretUp className="text-[4vw] 2xlarge:text-[1vw]" />{" "}
-                {MarqueeData?.data?.market_cap_change_percentage_24h_usd?.toFixed(
-                  1
+              <span
+                className={`blink text-${
+                  MarqueeData?.data?.market_cap_change_percentage_24h_usd >= 0
+                    ? "blink-green"
+                    : "blink-red"
+                } text-[5vw] 2xlarge:text-[1vw] inline-flex items-center`}
+              >
+                {MarqueeData?.data?.market_cap_change_percentage_24h_usd >=
+                0 ? (
+                  <FaCaretUp className="blink-green text-[4vw] 2xlarge:text-[1vw]" />
+                ) : (
+                  <FaCaretDown className="text-[4.5vw] 2xlarge:text-[1vw] blink-red" />
                 )}
-                %
+                <span
+                  className={`blink-${
+                    MarqueeData?.data?.market_cap_change_percentage_24h_usd >= 0
+                      ? "green"
+                      : "red"
+                  }`}
+                >
+                  {MarqueeData?.data?.market_cap_change_percentage_24h_usd?.toFixed(
+                    1
+                  )}
+                  %
+                </span>
               </span>
             </span>
           ) : (
