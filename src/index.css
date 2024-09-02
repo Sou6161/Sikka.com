@@ -465,42 +465,42 @@
   
 }
 
-.dingdong:hover {
+/* .dingdong:hover {
   animation: animate-border 2s linear infinite;
 }
 
 @keyframes animate-border {
   0% {
-    border-top: 4px solid #f10303; /* Start with top border */
+    border-top: 4px solid #f10303; 
     border-right: 4px solid transparent;
     border-bottom: 4px solid transparent;
     border-left: 4px solid transparent;
   }
   25% {
     border-top: 4px solid transparent;
-    border-right: 4px solid #d1f406; /* Move to right border */
+    border-right: 4px solid #d1f406; 
     border-bottom: 4px solid transparent;
     border-left: 4px solid transparent;
   }
   50% {
     border-top: 4px solid transparent;
     border-right: 4px solid transparent;
-    border-bottom: 4px solid #5306f8; /* Move to bottom border */
+    border-bottom: 4px solid #5306f8; 
     border-left: 4px solid transparent;
   }
   75% {
     border-top: 4px solid transparent;
     border-right: 4px solid transparent;
     border-bottom: 4px solid transparent;
-    border-left: 4px solid #f208ee; /* Move to left border */
+    border-left: 4px solid #f208ee; 
   }
   100% {
-    border-top: 4px solid #f10303; /* Back to top border */
+    border-top: 4px solid #f10303; 
     border-right: 4px solid transparent;
     border-bottom: 4px solid transparent;
     border-left: 4px solid transparent;
   }
-}
+} */
 
 /* 24hr Trading volume small graph box */
 
@@ -516,42 +516,42 @@
   box-shadow: 0 0 10px #f7f9f9;
 }
 
-.dingdongtrading:hover {
+/* .dingdongtrading:hover {
   animation: animate-border-trading 2s linear infinite;
 }
 
 @keyframes animate-border-trading {
   0% {
-    border-top: 4px solid #f10303; /* Start with top border */
+    border-top: 4px solid #f10303; 
     border-right: 4px solid transparent;
     border-bottom: 4px solid transparent;
     border-left: 4px solid transparent;
   }
   25% {
     border-top: 4px solid transparent;
-    border-right: 4px solid #d1f406; /* Move to right border */
+    border-right: 4px solid #d1f406; 
     border-bottom: 4px solid transparent;
     border-left: 4px solid transparent;
   }
   50% {
     border-top: 4px solid transparent;
     border-right: 4px solid transparent;
-    border-bottom: 4px solid #5306f8; /* Move to bottom border */
+    border-bottom: 4px solid #5306f8; 
     border-left: 4px solid transparent;
   }
   75% {
     border-top: 4px solid transparent;
     border-right: 4px solid transparent;
     border-bottom: 4px solid transparent;
-    border-left: 4px solid #f208ee; /* Move to left border */
+    border-left: 4px solid #f208ee; 
   }
   100% {
-    border-top: 4px solid #f10303; /* Back to top border */
+    border-top: 4px solid #f10303; 
     border-right: 4px solid transparent;
     border-bottom: 4px solid transparent;
     border-left: 4px solid transparent;
   }
-}
+} */
 
 
 .blink {
@@ -856,4 +856,55 @@
     transform: scale(0.75);
     box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
   }
+}
+
+
+
+
+/* From Uiverse.io by prakashdc */ 
+.hamburger {
+  cursor: pointer;
+}
+
+.hamburger input {
+  display: none;
+}
+
+.hamburger svg {
+  height: 3em;
+  transition: transform 600ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.line {
+  fill: none;
+  stroke: red;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 3;
+  transition: stroke-dasharray 600ms cubic-bezier(0.4, 0, 0.2, 1),
+    stroke-dashoffset 600ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.line-top-bottom {
+  stroke-dasharray: 12 63;
+}
+
+.hamburger input:checked + svg {
+  transform: rotate(-45deg);
+}
+
+.hamburger input:checked + svg .line-top-bottom {
+  stroke-dasharray: 20 300;
+  stroke-dashoffset: -32.42;
+  transition-duration: 600ms;
+}
+
+/* Additional styles for smoother animation */
+.hamburger svg,
+.hamburger .line {
+  will-change: transform, stroke-dasharray, stroke-dashoffset;
+}
+
+.hamburger input:checked + svg {
+  transform-origin: center;
 }

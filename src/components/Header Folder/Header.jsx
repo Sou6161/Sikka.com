@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import MainPageMarquee from "../MarqueeComponent/MainPageMarquee";
 import HomePageData from "/Sourabh Web dev Projects/Sikka.com/src/HomePage/HomePageData";
-import logo from "/Sourabh Web dev Projects/Sikka.com/src/Images Folder/HeaderLogo.png"
+import logo from "/Sourabh Web dev Projects/Sikka.com/src/Images Folder/HeaderLogo.png";
 
 const Header = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -29,50 +29,33 @@ const Header = () => {
   return (
     <>
       <>
-        <nav class=" relative z-10 bg-white border-gray-200 dark:bg-gray-900 dark:border-gray-700">
-          <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-2  2xlarge:p-[1.7vh]">
+        <nav class="relative z-10 bg-white border-gray-200 dark:bg-gray-900 dark:border-gray-700">
+          <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-2 2xlarge:p-[1.7vh]">
             <a href="#" class="flex items-center space-x-3 rtl:space-x-reverse">
               <img
                 src={logo}
                 class="h-8 relative top-1 2xlarge:h-10"
                 alt="Flowbite Logo"
               />
-              <span class="self-center text-[5vw] 2xlarge:text-xl 2xla font-semibold whitespace-nowrap dark:text-white">
-              
-              </span>
+              <span class="self-center text-[5vw] 2xlarge:text-xl 2xla font-semibold whitespace-nowrap dark:text-white"></span>
             </a>
-            <button
-              onClick={toggleDropdownmenu}
-              data-collapse-toggle="navbar-dropdown"
-              type="button"
-              class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg medium:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-              aria-controls="navbar-dropdown"
-              aria-expanded={isDropdownOpen}
-            >
-              <span class="sr-only">Open main menu</span>
-              <svg
-                class="w-5 h-5"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 17 14"
-              >
+            <label class="hamburger 2xlarge:hidden">
+              <input type="checkbox" onClick={toggleDropdownmenu} />
+              <svg viewBox="0 0 32 32">
                 <path
-                  stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M1 1h15M1 7h15M1 13h15"
-                />
+                  d="M27 10 13 10C10.8 10 9 8.2 9 6 9 3.5 10.8 2 13 2 15.2 2 17 3.8 17 6L17 26C17 28.2 18.8 30 21 30 23.2 30 25 28.2 25 26 25 23.8 23.2 22 21 22L7 22"
+                  class="line line-top-bottom"
+                ></path>
+                <path d="M7 16 27 16" class="line"></path>
               </svg>
-            </button>
+            </label>
             <div
               className={`${
                 isDropdownOpen ? "block" : "hidden"
               } w-full medium:block medium:w-auto`}
               id="navbar-dropdown"
             >
-              <ul class=" 2xlarge:ml-[0vw] flex flex-col font-medium p-4 medium:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 medium:space-x-8 rtl:space-x-reverse medium:flex-row medium:mt-0 medium:border-0 medium:bg-white dark:bg-gray-800 medium:dark:bg-gray-900 dark:border-gray-700">
+              <ul class="2xlarge:ml-[0vw] flex flex-col font-medium p-4 medium:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 medium:space-x-8 rtl:space-x-reverse medium:flex-row medium:mt-0 medium:border-0 medium:bg-white dark:bg-gray-800 medium:dark:bg-gray-900 dark:border-gray-700">
                 <li>
                   <a
                     href="#"
@@ -105,7 +88,7 @@ const Header = () => {
                         stroke-linejoin="round"
                         stroke-width="2"
                         d="m1 1 4 4 4-4"
-                      />
+                      ></path>
                     </svg>
                   </button>
                   {isOpen && (
@@ -150,7 +133,7 @@ const Header = () => {
                 <li>
                   <a
                     href="#"
-                    class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 medium:hover:bg-transparent medium:border-0 medium:hover:text-blue-700 medium:p-2 dark:text-white medium:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white medium:dark:hover:bg-transparent"
+                    className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 medium:hover:bg-transparent medium:border-0 medium:hover:text-blue-700 medium:p-2 dark:text-white medium:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white medium:dark:hover:bg-transparent"
                   >
                     NFT
                   </a>
@@ -158,7 +141,7 @@ const Header = () => {
                 <li>
                   <a
                     href="#"
-                    class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 medium:hover:bg-transparent medium:border-0 medium:hover:text-blue-700 medium:p-2 dark:text-white medium:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white medium:dark:hover:bg-transparent"
+                    className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 medium:hover:bg-transparent medium:border-0 medium:hover:text-blue-700 medium:p-2 dark:text-white medium:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white medium:dark:hover:bg-transparent"
                   >
                     Learn
                   </a>
@@ -166,7 +149,7 @@ const Header = () => {
                 <li>
                   <a
                     href="#"
-                    class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 medium:hover:bg-transparent medium:border-0 medium:hover:text-blue-700 medium:p- dark:text-white medium:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white medium:dark:hover:bg-transparent"
+                    className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 medium:hover:bg-transparent medium:border-0 medium:hover:text-blue-700 medium:p-2 dark:text-white medium:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white medium:dark:hover:bg-transparent"
                   >
                     Products
                   </a>

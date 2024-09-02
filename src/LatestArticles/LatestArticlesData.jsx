@@ -33,7 +33,7 @@ const LatestArticlesData = () => {
   }, []);
 
   useEffect(() => {
-    articles && console.log("Articles state updated:", articles);
+    // articles && console.log("Articles state updated:", articles);
   }, [articles]);
 
   return (
