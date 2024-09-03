@@ -39,23 +39,28 @@ const Header = () => {
               />
               <span class="self-center text-[5vw] 2xlarge:text-xl 2xla font-semibold whitespace-nowrap dark:text-white"></span>
             </a>
-            <label class="hamburger 2xlarge:hidden">
-              <input type="checkbox" onClick={toggleDropdownmenu} />
-              <svg viewBox="0 0 32 32">
-                <path
-                  d="M27 10 13 10C10.8 10 9 8.2 9 6 9 3.5 10.8 2 13 2 15.2 2 17 3.8 17 6L17 26C17 28.2 18.8 30 21 30 23.2 30 25 28.2 25 26 25 23.8 23.2 22 21 22L7 22"
-                  class="line line-top-bottom"
-                ></path>
-                <path d="M7 16 27 16" class="line"></path>
-              </svg>
+            <input
+              className=""
+              id="burger-checkbox"
+              type="checkbox"
+              onChange={toggleDropdownmenu}
+            />
+            <label
+              className="burger medium:hidden  large:hidden xlarge:hidden  2xlarge:hidden"
+              for="burger-checkbox"
+            >
+              <span></span>
+              <span></span>
+              <span></span>
             </label>
+
             <div
               className={`${
                 isDropdownOpen ? "block" : "hidden"
-              } w-full medium:block medium:w-auto`}
+              } w-full medium:block large:block  medium:w-auto `}
               id="navbar-dropdown"
             >
-              <ul class="2xlarge:ml-[0vw] flex flex-col font-medium p-4 medium:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 medium:space-x-8 rtl:space-x-reverse medium:flex-row medium:mt-0 medium:border-0 medium:bg-white dark:bg-gray-800 medium:dark:bg-gray-900 dark:border-gray-700">
+              <ul class=" 2xlarge:ml-[0vw] relative right-[30vw] flex flex-col font-medium p-4 medium:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 medium:space-x-8 rtl:space-x-reverse medium:flex-row medium:mt-0 medium:border-0 medium:bg-white dark:bg-gray-800 medium:dark:bg-gray-900 dark:border-gray-700">
                 <li>
                   <a
                     href="#"
@@ -154,6 +159,28 @@ const Header = () => {
                     Products
                   </a>
                 </li>
+                <li class="ml-4 medium:ml-0">
+                  <div class="container">
+                    <input class="checkbox" type="checkbox" />
+                    <div class="mainbox">
+                      <div class="iconContainer">
+                        <svg
+                          viewBox="0 0 512 512"
+                          height="1em"
+                          xmlns="http://www.w3.org/2000/svg"
+                          class="search_icon"
+                        >
+                          <path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"></path>
+                        </svg>
+                      </div>
+                      <input
+                        class="search_input"
+                        placeholder="search"
+                        type="text"
+                      />
+                    </div>
+                  </div>
+                </li>
               </ul>
             </div>
           </div>
@@ -245,7 +272,7 @@ const Header = () => {
           </div>
         </div>
 
-        <div class="bg-black py-1">
+        <div class="bg-black py-1 large:hidden">
           <div class="group mt-1 mx-auto w-[95vw] 2xlarge:hidden">
             <svg viewBox="0 0 24 24" aria-hidden="true" class="icon">
               <g>
@@ -259,7 +286,8 @@ const Header = () => {
             />
           </div>
         </div>
-        <div className=" 2xlarge:hidden  mt- w-[100vw] border-b-[1px] border-gray-300"></div>
+
+        <div className=" 2xlarge:hidden  mt- w-[100vw] border-b-[3px] border-red-600"></div>
       </>
       <MainPageMarquee />
       <div className=" ">

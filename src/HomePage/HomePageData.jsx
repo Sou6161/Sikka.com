@@ -116,16 +116,16 @@ const MainContainer = () => {
   }
   return (
     <div className=" relative ">
-      <h1 className="absolute top-10 left-5 z-10 text-[#fbbf24] text-[5vw] 2xlarge:text-[2vw] 2xlarge:left-[5vw] font-semibold  ">
+      <h1 className="absolute top-10 left-5 z-10 text-[#fbbf24] text-[5vw] xsmall:text-[3.5vw] small:text-[3vw] medium:text-[2.5vw] large:text-[2vw] xlarge:text-[2vw] 2xlarge:text-[1.5vw] 2xlarge:left-[5vw] font-semibold">
         Cryptocurrency Prices by Market Cap
-        <p className=" text-sky-400 text-[3.5vw] 2xlarge:text-[1vw] mt-2">
+        <p className="text-sky-400 text-[3.5vw] xsmall:text-[2.5vw] small:text-[2.2vw] medium:text-[2vw] 2xlarge:text-[1vw] mt-2">
           The global cryptocurrency market cap today is{" "}
           <span>
             {MarqueeData2?.cap ? (
-              <span className=" text-white">
+              <span className="text-[#c2410c]">
                 {(MarqueeData2.cap / 1e12).toFixed(3)} Trillions, a{" "}
-                <span className="text-[#4BCC00] text-[3.5vw] relative top-1 2xlarge:text-[1vw] inline-flex items-center">
-                  <FaCaretUp className="text-[4vw] 2xlarge:text-[1vw]" />{" "}
+                <span className="text-[#4BCC00] text-[3.5vw] xsmall:text-[2.5vw] small:text-[2.2vw] medium:text-[2vw] relative top-1 small:top-1 xsmall:top-2 2xlarge:text-[1vw] inline-flex items-center">
+                  <FaCaretUp className="text-[4vw] small:text-[3vw] medium:text-[2.5vw] 2xlarge:text-[1vw]" />{" "}
                   {MarqueeData?.data?.market_cap_change_percentage_24h_usd?.toFixed(
                     1
                   )}
@@ -137,278 +137,311 @@ const MainContainer = () => {
             )}
           </span>{" "}
           change in the last 24 hours.{" "}
-          <span className="text-purple-500 hover:text-orange-400 text-[3.5vw] 2xlarge:text-[1vw] hover:cursor-pointer hover:underline">
+          <span className="text-purple-500 hover:text-orange-400 text-[3.5vw] xsmall:text-[2.5vw] medium:text-[2vw] 2xlarge:text-[1vw] hover:cursor-pointer hover:underline">
             Read more
           </span>
         </p>
       </h1>
-      <div className="dingdong absolute top-[20vh] left-5 2xlarge:left-[5vw] w-[90vw] h-[15vh] 2xlarge:w-[30vw] bg-zinc-100 border-[2px]  border-teal-600 shadow-teal-glow rounded-lg">
-        <h1 className="relative top-4 left-2  text-[4.2vw]  font-semibold text-black flex justify-between">
-          <span>
-            <span className=" text-yellow-500">
-              {" "}
+      <div
+        className="absolute top-[20vh] left-5 w-[90vw] h-auto bg-zinc-100 border-[2px] border-teal-600 shadow-teal-glow rounded-lg p-4
+                    xsmall:w-[80vw] xsmall:left-[10vw]
+                    small:w-[70vw] small:left-[15vw]
+                    medium:w-[60vw] medium:left-[20vw]
+                    large:w-[50vw] large:left-[25vw]
+                    xlarge:w-[40vw] xlarge:left-[30vw]
+                    2xlarge:w-[30vw] 2xlarge:left-[35vw]"
+      >
+        <div className="mb-4">
+          <div className="flex justify-between items-center">
+            <div className="flex items-center">
               <img
-                className=" w-[7vw] h-[4vh] inline-flex -ml-2 "
+                className="w-6 h-6 mr-2"
                 src="https://pngfre.com/wp-content/uploads/Bitcoin-20.png"
-                alt=""
-              />{" "}
-            </span>
-            Market Cap{" "}
-            <span className=" ml-2">
+                alt="Bitcoin"
+              />
+              <span className="text-lg font-semibold text-black">
+                Market Cap
+              </span>
+            </div>
+            <span className="text-lg font-bold text-black">
               ${MarqueeData2?.cap?.toLocaleString("en-US")}
             </span>
-          </span>
-          <span className="text-purple-600 ">
-            {/* {MarqueeData?.data?.market_cap_change_percentage_24h_usd >= 0 ? (
-              <FaCaretUp className="text-[4.5vw] blink-green relative top-1 2xlarge:text-[1vw]" />
-            ) : (
-              <FaCaretDown className="text-[4.5vw] blink-red relative top-1 2xlarge:text-[1vw]" />
-            )} */}
+          </div>
+          <div className="flex justify-end mt-1">
             <span
-              className={` relative right-3 blink-${
+              className={`flex items-center font-semibold ${
                 MarqueeData?.data?.market_cap_change_percentage_24h_usd >= 0
-                  ? "green"
-                  : "red"
-              } font-semibold flex`}
+                  ? "text-green-500"
+                  : "text-red-500"
+              }`}
             >
               {MarqueeData?.data?.market_cap_change_percentage_24h_usd >= 0 ? (
-                <FaCaretUp className="ml-2 relative top-2" />
+                <FaCaretUp className="mr-1" />
               ) : (
-                <FaCaretDown className="left- relative top-1" />
+                <FaCaretDown className="mr-1" />
               )}
               {MarqueeData?.data?.market_cap_change_percentage_24h_usd?.toFixed(
                 1
               )}
               %
             </span>
-          </span>
-        </h1>
-        <h1 className="relative top-9  left-2  text-[4.2vw]  font-semibold text-black flex justify-between">
-          <span>
-            <span className=" text-blue-900 font-semibold">
-              {" "}
+          </div>
+        </div>
+
+        <div>
+          <div className="flex justify-between items-center">
+            <div className="flex items-center">
               <img
-                className=" w-[6vw] h-[3.5vh] inline-flex rounded-lg -ml-1"
+                className="w-6 h-6 mr-2 rounded-lg"
                 src="https://w7.pngwing.com/pngs/268/1013/png-transparent-ethereum-eth-hd-logo-thumbnail.png"
-                alt=""
-              />{" "}
-            </span>
-            Market Cap{" "}
-            <span className=" ml-2">
+                alt="Ethereum"
+              />
+              <span className="text-lg font-semibold text-black">
+                Market Cap
+              </span>
+            </div>
+            <span className="text-lg font-bold text-black">
               $
               {MarketCapChart &&
                 MarketCapChart[0]?.market_cap?.toLocaleString("en-US")}
             </span>
-          </span>
-          <span
-            className={` relative right-5 blink-${
-              MarketCapChart &&
-              MarketCapChart[0]?.market_cap_change_percentage_24h >= 0
-                ? "green"
-                : "red"
-            } font-semibold flex`}
-          >
-            {MarketCapChart &&
-            MarketCapChart[0]?.market_cap_change_percentage_24h >= 0 ? (
-              <FaCaretUp className="ml-2 relative top-1" />
-            ) : (
-              <FaCaretDown className="ml-4 relative top-1" />
-            )}
-            {MarketCapChart &&
-              MarketCapChart[0]?.market_cap_change_percentage_24h?.toFixed(1)}
-            %
-          </span>
-        </h1>
-        <div className="">
-          <div className=" ml-[50vw] -mt-10 px-2"></div>
+          </div>
+          <div className="flex justify-end mt-1">
+            <span
+              className={`flex items-center font-semibold ${
+                MarketCapChart &&
+                MarketCapChart[0]?.market_cap_change_percentage_24h >= 0
+                  ? "text-green-500"
+                  : "text-red-500"
+              }`}
+            >
+              {MarketCapChart &&
+              MarketCapChart[0]?.market_cap_change_percentage_24h >= 0 ? (
+                <FaCaretUp className="mr-1" />
+              ) : (
+                <FaCaretDown className="mr-1" />
+              )}
+              {MarketCapChart &&
+                MarketCapChart[0]?.market_cap_change_percentage_24h?.toFixed(1)}
+              %
+            </span>
+          </div>
         </div>
       </div>
 
-      <div className="dingdongtrading p-2 absolute top-[40vh] left-5 2xlarge:left-[5vw] w-[90vw] h-[30vh] 2xlarge:w-[30vw] bg-zinc-100 border-[2px] border-teal-600 shadow-teal-glow rounded-lg flex flex-col justify-between">
-        <div className="flex justify-between">
-          <h1 className=" text-[#111827] font-semibold mt-2 text-[4.2vw]">
-            <img
-              className="w-[7vw] h-[4vh] inline-flex -ml-2"
-              src="https://pngfre.com/wp-content/uploads/Bitcoin-20.png"
-              alt=""
-            />{" "}
-            24h Trading Volume
-          </h1>
-          <h1 className="text-[4.5vw] font-semibold text-black mt-2">
-            ${MarqueeData2?.volume.toLocaleString("en-US")}
-          </h1>
+      <div
+        className="absolute top-[45vh] left-5 w-[90vw] h-auto bg-zinc-100 border-[2px] border-teal-600 shadow-teal-glow rounded-lg p-4
+                    xsmall:w-[80vw] xsmall:left-[10vw]
+                    small:w-[70vw] small:left-[15vw]
+                    medium:w-[60vw] medium:left-[20vw] medium:top-[45vh]
+                    large:w-[50vw] large:left-[25vw]
+                    xlarge:w-[40vw] xlarge:left-[30vw]
+                    2xlarge:w-[30vw] 2xlarge:left-[35vw]"
+      >
+        <div className="mb-4">
+          <div className="flex justify-between items-center">
+            <div className="flex items-center">
+              <img
+                className="w-6 h-6 mr-2"
+                src="https://pngfre.com/wp-content/uploads/Bitcoin-20.png"
+                alt="Bitcoin"
+              />
+              <span className="text-sm xsmall:text-base small:text-lg font-semibold text-[#111827]">
+                24h Trading Volume
+              </span>
+            </div>
+            <span className="text-sm xsmall:text-base small:text-lg font-bold text-black">
+              ${MarqueeData2?.volume?.toLocaleString("en-US")}
+            </span>
+          </div>
         </div>
-        <div className="flex justify-between relative -top-2">
-          <h1 className=" font-semibold ">
-            <img
-              className=" w-[6vw] h-[3.5vh] inline-flex rounded-lg -ml-1"
-              src="https://w7.pngwing.com/pngs/268/1013/png-transparent-ethereum-eth-hd-logo-thumbnail.png"
-              alt=""
-            />{" "}
-            24h Trading Volume
-          </h1>
-          <h1 className="text-[4.5vw] font-semibold text-black">
-            $
-            {MarketCapChart &&
-              MarketCapChart[0]?.total_volume.toLocaleString("en-US")}
-          </h1>
+
+        <div>
+          <div className="flex justify-between items-center">
+            <div className="flex items-center">
+              <img
+                className="w-6 h-6 mr-2 rounded-lg"
+                src="https://w7.pngwing.com/pngs/268/1013/png-transparent-ethereum-eth-hd-logo-thumbnail.png"
+                alt="Ethereum"
+              />
+              <span className="text-sm xsmall:text-base small:text-lg font-semibold text-[#111827]">
+                24h Trading Volume
+              </span>
+            </div>
+            <span className="text-sm xsmall:text-base small:text-lg font-bold text-black">
+              $
+              {MarketCapChart &&
+                MarketCapChart[0]?.total_volume?.toLocaleString("en-US")}
+            </span>
+          </div>
         </div>
+      </div>
+      <div
+        className="absolute top-[60vh] left-5 w-[90vw] h-auto bg-zinc-100 border-[2px] border-teal-600 shadow-teal-glow rounded-lg p-4
+                    xsmall:w-[80vw] xsmall:left-[10vw]
+                    small:w-[70vw] small:left-[15vw]
+                    medium:w-[60vw] medium:left-[20vw] medium:top-[65vh]
+                    large:w-[50vw] large:left-[25vw]
+                    xlarge:w-[40vw] xlarge:left-[30vw]
+                    2xlarge:w-[30vw] 2xlarge:left-[35vw]"
+      >
+        <div className="flex justify-between items-center mb-4">
+          <h1 className="text-2xl xsmall:text-3xl small:text-4xl font-semibold text-blue-600">
+            🔥 Trending
+          </h1>
+          <span className="text-lg xsmall:text-xl small:text-2xl text-red-600 font-semibold hover:text-green-400 flex items-center cursor-pointer">
+            View more <FaAngleRight className="ml-1" />
+          </span>
+        </div>
+
+        <ul className="space-y-4">
+          {GetTrendingCoins?.coins.slice(0, 3).map((coin, index) => (
+            <li key={index} className="flex items-center">
+              <img
+                className="border border-gray-600 rounded-full w-8 h-8 xsmall:w-10 xsmall:h-10 object-cover mr-3"
+                src={coin?.item?.small}
+                alt={coin?.item?.name}
+              />
+              <div className="flex-grow">
+                <div className="font-semibold">{coin?.item?.name}</div>
+                <div className="flex items-center justify-between mt-1">
+                  <span>${coin?.item?.data?.price?.toFixed(5)}</span>
+                  <div className="flex items-center">
+                    {coin?.item?.data?.price_change_percentage_24h?.usd >= 0 ? (
+                      <VscTriangleUp className="text-[#20AC62] mr-1" />
+                    ) : (
+                      <VscTriangleDown className="text-[#EF4565] mr-1" />
+                    )}
+                    <span
+                      className={`${
+                        coin?.item?.data?.price_change_percentage_24h?.usd >= 0
+                          ? "text-[#20AC62]"
+                          : "text-[#EF4565]"
+                      }`}
+                    >
+                      {formatPercentage(
+                        coin?.item?.data?.price_change_percentage_24h?.usd * 100
+                      )}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </li>
+          ))}
+        </ul>
       </div>
 
-      <div className="   absolute top-[60vh] left-5 2xlarge:left-[5vw] w-[90vw] h-[30vh] 2xlarge:w-[30vw] bg-zinc-100 border-[2px]  border-teal-600 shadow-teal-glow rounded-lg">
-        <h1 className="relative top-4 left-2  text-[5vw] font-semibold text-blue-600 ">
-          🔥 Trending{" "}
-          <span className=" ml-[30vw] text-[4vw] text-red-600 font-semibold hover:text-green-400 ">
-            View more{" "}
-            <span className=" inline-flex relative top-1 text-[4vw]">
-              <FaAngleRight />
-            </span>
+      <div
+        className="absolute top-[100vh] left-5 w-[90vw] h-auto bg-zinc-100 border-[2px] border-teal-600 shadow-teal-glow rounded-lg p-4
+                    xsmall:w-[80vw] xsmall:left-[10vw]
+                    small:w-[70vw] small:left-[15vw]
+                    medium:w-[60vw] medium:left-[20vw] medium:top-[108vh]
+                    large:w-[50vw] large:left-[25vw]
+                    xlarge:w-[40vw] xlarge:left-[30vw]
+                    2xlarge:w-[30vw] 2xlarge:left-[35vw]"
+      >
+        <div className="flex justify-between items-center mb-4">
+          <h1 className="text-2xl xsmall:text-3xl small:text-4xl font-semibold text-blue-600">
+            🚀 Top Gainers
+          </h1>
+          <span className="text-lg xsmall:text-xl small:text-2xl text-red-600 font-semibold hover:text-green-400 flex items-center cursor-pointer">
+            View more <FaAngleRight className="ml-1" />
           </span>
-        </h1>
-        <h1 className=" relative top-5 left-2 flex font-semibold  ">
-          <ul>
-            {GetTrendingCoins?.coins.slice(0, 3).map((coin) => {
-              return (
-                <>
-                  <img
-                    className=" border-[1px] border-gray-600 rounded-full w-[6vw] h-[3vh] object-fill relative top-5 "
-                    src={coin?.item?.small}
-                    alt=""
-                  />
-                  <li className=" relative -top-1  ml-6 flex justify-between">
-                    {coin?.item?.name}
-                    <h1 className="absolute left-[40vw] flex ">
-                      ${coin?.item?.data?.price?.toFixed(5)}$
-                      {formatPrice(coin?.price)}
-                      {coin?.item?.data?.price_change_percentage_24h?.usd >=
-                      0 ? (
-                        <VscTriangleUp className="blink blink-green text-[#20AC62] relative left-1 text-[4vw] top-[.7vh]" />
-                      ) : (
-                        <VscTriangleDown className="blink blink-red text-[#EF4565] relative left-1 text-[4vw] top-[.7vh]" />
-                      )}
-                      <span
-                        className={`ml-1 ${
-                          coin?.item?.data?.price_change_percentage_24h?.usd >=
-                          0
-                            ? "blink-green text-[#20AC62]"
-                            : "blink-red text-[#EF4565]"
-                        } blink`}
-                      >
-                        {formatPercentage(
-                          coin?.item?.data?.price_change_percentage_24h?.usd *
-                            100
-                        )}
-                      </span>
-                    </h1>
-                  </li>
-                </>
-              );
-            })}
-          </ul>
-        </h1>
-      </div>
+        </div>
 
-      <div className="  absolute top-[92vh] left-5 2xlarge:left-[5vw] w-[90vw] h-[30vh] 2xlarge:w-[30vw] bg-zinc-100 border-[2px]  border-teal-600 shadow-teal-glow rounded-lg">
-        <h1 className="relative top-4 left-2  text-[5vw] font-semibold text-blue-600 ">
-          🚀 Top Gainers{" "}
-          <span className=" ml-[23vw] text-[4vw] text-red-600 font-semibold hover:text-green-400 ">
-            View more{" "}
-            <span className=" inline-flex relative top-1 text-[4vw]">
-              <FaAngleRight />
-            </span>
-          </span>
-        </h1>
-        <h1 className="relative top-5 left-2 flex font-semibold">
-          <ul>
-            {AllGainers?.slice(0, 3).map((coin) => {
-              return (
-                <>
-                  <img
-                    className="border-[1px] border-gray-600 rounded-full w-[6vw] h-[3vh] object-fill relative top-5"
-                    src={coin?.logo}
-                    alt=""
-                  />
-                  <li className="relative -top-1 ml-8 flex justify-between">
-                    {coin?.name}
-                    <h1 className="absolute left-[40vw] flex">
-                      ${formatPrice(coin?.price)}
-                      {coin?.price_change_24h >= 0 ? (
-                        <VscTriangleUp className="blink text-[#20AC62] relative left-1 text-[4vw] top-[.7vh]" />
-                      ) : (
-                        <VscTriangleDown className="blink-red relative left-1 text-[4vw] top-[.7vh]" />
-                      )}
-                      <span
-                        className={`ml-1 ${
-                          coin?.price_change_24h >= 0
-                            ? "text-[#20AC62] blink-green"
-                            : "text-red-600 blink-red"
-                        }`}
-                      >
-                        {formatPercentage(coin?.price_change_24h * 100)}
-                      </span>
-                    </h1>
-                  </li>
-                </>
-              );
-            })}
-          </ul>
-        </h1>
+        <ul className="space-y-4">
+          {AllGainers?.slice(0, 3).map((coin, index) => (
+            <li key={index} className="flex items-center">
+              <img
+                className="border border-gray-600 rounded-full w-8 h-8 xsmall:w-10 xsmall:h-10 object-cover mr-3"
+                src={coin?.logo}
+                alt={coin?.name}
+              />
+              <div className="flex-grow">
+                <div className="font-semibold">{coin?.name}</div>
+                <div className="flex items-center justify-between mt-1">
+                  <span>${formatPrice(coin?.price)}</span>
+                  <div className="flex items-center">
+                    {coin?.price_change_24h >= 0 ? (
+                      <VscTriangleUp className="text-[#20AC62] mr-1" />
+                    ) : (
+                      <VscTriangleDown className="text-[#EF4565] mr-1" />
+                    )}
+                    <span
+                      className={`${
+                        coin?.price_change_24h >= 0
+                          ? "text-[#20AC62]"
+                          : "text-[#EF4565]"
+                      }`}
+                    >
+                      {formatPercentage(coin?.price_change_24h * 100)}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </li>
+          ))}
+        </ul>
       </div>
-      <div className="  absolute top-[125vh] left-5 2xlarge:left-[5vw] w-[90vw] h-[30vh] 2xlarge:w-[30vw] bg-zinc-100 border-[2px]  border-teal-600 shadow-teal-glow rounded-lg">
-        <h1 className="relative top-4 left-2  text-[5vw] font-semibold text-blue-600 ">
-          🚀 Top Losers{" "}
-          <span className=" ml-[23vw] text-[4vw] text-red-600 font-semibold hover:text-green-400 ">
-            View more{" "}
-            <span className=" inline-flex relative top-1 text-[4vw]">
-              <FaAngleRight />
-            </span>
+      <div
+        className="absolute top-[140vh] left-5 w-[90vw] h-auto bg-zinc-100 border-[2px] border-teal-600 shadow-teal-glow rounded-lg p-4
+                    xsmall:w-[80vw] xsmall:left-[10vw]
+                    small:w-[70vw] small:left-[15vw]
+                    medium:w-[60vw] medium:left-[20vw] medium:top-[150vh]
+                    large:w-[50vw] large:left-[25vw]
+                    xlarge:w-[40vw] xlarge:left-[30vw]
+                    2xlarge:w-[30vw] 2xlarge:left-[35vw]"
+      >
+        <div className="flex justify-between items-center mb-4">
+          <h1 className="text-2xl xsmall:text-3xl small:text-4xl font-semibold text-blue-600">
+            📉 Top Losers
+          </h1>
+          <span className="text-lg xsmall:text-xl small:text-2xl text-red-600 font-semibold hover:text-green-400 flex items-center cursor-pointer">
+            View more <FaAngleRight className="ml-1" />
           </span>
-        </h1>
-        <h1 className="relative top-5 left-2 flex font-semibold">
-          <ul>
-            {AllLosers?.slice(0, 3).map((coin) => {
-              return (
-                <>
-                  <img
-                    className="border-[1px] border-gray-600 rounded-full w-[6vw] h-[3vh] object-fill relative top-5"
-                    src={coin?.logo}
-                    alt=""
-                  />
-                  <li className="relative -top-1 ml-8 flex justify-between">
-                    {coin?.name}
-                    <h1 className="absolute left-[40vw] flex">
-                      ${formatPrice(coin?.price)}
-                      {coin?.price_change_24h >= 0 ? (
-                        <VscTriangleUp className="blink text-[#20AC62] relative left-1 text-[4vw] top-[.7vh]" />
-                      ) : (
-                        <VscTriangleDown className="blink-red relative left-1 text-[4vw] top-[.7vh]" />
-                      )}
-                      <span
-                        className={`ml-1 ${
-                          coin?.price_change_24h >= 0
-                            ? "text-[#20AC62] blink-green"
-                            : "text-red-600 blink-red"
-                        }`}
-                      >
-                        {formatPercentage(coin?.price_change_24h * 100)}
-                      </span>
-                    </h1>
-                  </li>
-                </>
-              );
-            })}
-          </ul>
-        </h1>
+        </div>
+
+        <ul className="space-y-4">
+          {AllLosers?.slice(0, 3).map((coin, index) => (
+            <li key={index} className="flex items-center">
+              <img
+                className="border border-gray-600 rounded-full w-8 h-8 xsmall:w-10 xsmall:h-10 object-cover mr-3"
+                src={coin?.logo}
+                alt={coin?.name}
+              />
+              <div className="flex-grow">
+                <div className="font-semibold">{coin?.name}</div>
+                <div className="flex items-center justify-between mt-1">
+                  <span>${formatPrice(coin?.price)}</span>
+                  <div className="flex items-center">
+                    {coin?.price_change_24h >= 0 ? (
+                      <VscTriangleUp className="text-[#20AC62] mr-1" />
+                    ) : (
+                      <VscTriangleDown className="text-[#EF4565] mr-1" />
+                    )}
+                    <span
+                      className={`${
+                        coin?.price_change_24h >= 0
+                          ? "text-[#20AC62]"
+                          : "text-[#EF4565]"
+                      }`}
+                    >
+                      {formatPercentage(coin?.price_change_24h * 100)}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </li>
+          ))}
+        </ul>
       </div>
-      <div className="  absolute top-[160vh] left-5 2xlarge:left-[5vw] max-w-[90vw]    2xlarge:w-[30vw] bg-gray-20  ">
+      <div className="  absolute top-[190vh] left-[5vw] 2xlarge:left-[5vw] max-w-[90vw]    2xlarge:max-w-[90vw]   ">
         <CryptoPricesTable />
         <CryptoNews />
         <LatestArticlesData />
         <Footer />
       </div>
-      <div className=" ">
-        <AnimatedGridBackground />
-      </div>
+      <div className=" "><AnimatedGridBackground /></div>
     </div>
   );
 };

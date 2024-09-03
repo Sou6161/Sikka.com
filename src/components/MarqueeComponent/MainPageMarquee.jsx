@@ -68,11 +68,11 @@ const MainPageMarquee = () => {
                   MarqueeData?.data?.market_cap_change_percentage_24h_usd >= 0
                     ? "blink-green"
                     : "blink-red"
-                } text-[5vw] 2xlarge:text-[1vw] inline-flex items-center`}
+                } text-[5vw]  medium:text-[2vw] 2xlarge:text-[1vw] inline-flex items-center`}
               >
                 {MarqueeData?.data?.market_cap_change_percentage_24h_usd >=
                 0 ? (
-                  <FaCaretUp className="blink-green text-[4vw] 2xlarge:text-[1vw]" />
+                  <FaCaretUp className="blink-green text-[4vw]  2xlarge:text-[1vw]" />
                 ) : (
                   <FaCaretDown className="text-[4.5vw] 2xlarge:text-[1vw] blink-red" />
                 )}

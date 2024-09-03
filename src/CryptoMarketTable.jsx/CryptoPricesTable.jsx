@@ -129,36 +129,36 @@ const CryptoPricesTable = () => {
   }
 
   return (
-    <div>
+    <div className="w-full">
       <div className="overflow-x-auto w-full border-2 border-purple-500 rounded-lg">
         <table className="min-w-full bg-white rounded-lg">
           <thead className="bg-gray-100">
             <tr>
-              <th className="sticky left-0 z-10 bg-gray-100 px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="sticky left-0 z-10 bg-gray-400 px-2 py-2 xsmall:px-3 xsmall:py-3 text-left text-xs font-medium text-black uppercase tracking-wider">
                 #
               </th>
-              <th className="sticky left-10 z-10 bg-gray-100 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider max-w-[200px]">
+              <th className="sticky left-8 xsmall:left-10 z-10 bg-gray-400 px-3 py-2 xsmall:px-6 xsmall:py-3 text-left text-xs font-medium text-black  uppercase tracking-wider max-w-[120px] xsmall:max-w-[200px]">
                 Coin
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-3 py-2 xsmall:px-6 xsmall:py-3 max-w-[20vw] xsmall:max-w-[30vw] bg-purple-400/50 backdrop-blur-md text-left text-xs font-semibold text-black uppercase tracking-wider">
                 Price
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-3 py-2 xsmall:px-6 xsmall:py-3 max-w-[20vw] xsmall:max-w-[30vw] bg-purple-400/50 backdrop-blur-md text-left text-xs font-semibold text-black uppercase tracking-wider">
                 1h
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-3 py-2 xsmall:px-6 xsmall:py-3 max-w-[20vw] xsmall:max-w-[30vw] bg-purple-400/50 backdrop-blur-md text-left text-xs font-semibold text-black uppercase tracking-wider">
                 24h
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-3 py-2 xsmall:px-6 xsmall:py-3 max-w-[20vw] xsmall:max-w-[30vw] bg-purple-400/50 backdrop-blur-md text-left text-xs font-semibold text-black uppercase tracking-wider">
                 7d
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-3 py-2 xsmall:px-6 xsmall:py-3 max-w-[20vw] xsmall:max-w-[30vw] bg-purple-400/50 backdrop-blur-md text-left text-xs font-semibold text-black uppercase tracking-wider">
                 Total Volume
               </th>
-              <th className="px-6 py-3 max-w-[30vw] bg-purple-300 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-3 py-2 xsmall:px-6 xsmall:py-3 max-w-[20vw] xsmall:max-w-[30vw] bg-purple-400/50 backdrop-blur-md text-left text-xs font-semibold text-black uppercase tracking-wider">
                 Market Cap
               </th>
-              <th className="px-6 py-3 max-w-[30vw] bg-purple-300 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-3 py-2 xsmall:px-6 xsmall:py-3 max-w-[20vw] xsmall:max-w-[30vw] bg-purple-400/50 backdrop-blur-md text-left text-xs font-semibold text-black uppercase tracking-wider">
                 Last 7 Days
               </th>
             </tr>
@@ -166,51 +166,51 @@ const CryptoPricesTable = () => {
           <tbody className="bg-white divide-y divide-gray-200">
             {allCoinsList.map((coin, index) => (
               <tr key={coin.id} className="hover:bg-gray-50">
-                <td className="sticky left-0 z-10 bg-zinc-300/50 backdrop-blur-sm px-2 py-4 whitespace-nowrap text-sm text-gray-500">
+                <td className="sticky left-0 z-10 bg-zinc-300/50 backdrop-blur-sm px-2 py-2 xsmall:py-4 whitespace-nowrap text-xs xsmall:text-sm text-gray-500">
                   {(currentPage - 1) * coinsPerPage + index + 1}
                 </td>
-                <td className="sticky left-9 z-10 bg-zinc-300/50 backdrop-blur-sm px-3 py-4 max-w-[200px]">
+                <td className="sticky left-8 xsmall:left-9 z-10 bg-zinc-300/50 backdrop-blur-sm px-2 py-2 xsmall:px-3 xsmall:py-4 max-w-[120px] xsmall:max-w-[200px]">
                   <div className="flex items-center">
                     <img
                       src={coin.image}
                       alt={coin.name}
-                      className="w-6 h-6 mr-2"
+                      className="w-4 h-4 xsmall:w-6 xsmall:h-6 mr-1 xsmall:mr-2"
                     />
-                    <span className="text-sm font-medium w-[33vw]  text-gray-900">
+                    <span className="text-xs xsmall:text-sm font-medium w-[20vw] xsmall:w-[33vw] text-gray-900 truncate">
                       {coin.name}
                     </span>
                   </div>
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                <td className="px-3 py-2 xsmall:px-6 xsmall:py-4 whitespace-nowrap text-xs xsmall:text-sm text-gray-500">
                   ${coin.current_price ? coin.current_price.toFixed(2) : "N/A"}
                 </td>
-                <td className="px-4 py-4 whitespace-nowrap font-semibold text-sm">
+                <td className="px-2 py-2 xsmall:px-4 xsmall:py-4 whitespace-nowrap font-semibold text-xs xsmall:text-sm">
                   {renderPercentageChange(
                     coin.price_change_percentage_1h_in_currency
                   )}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm ">
+                <td className="px-3 py-2 xsmall:px-6 xsmall:py-4 whitespace-nowrap text-xs xsmall:text-sm">
                   {renderPercentageChange(coin.price_change_percentage_24h)}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm ">
+                <td className="px-3 py-2 xsmall:px-6 xsmall:py-4 whitespace-nowrap text-xs xsmall:text-sm">
                   {renderPercentageChange(
                     coin.price_change_percentage_7d_in_currency
                   )}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-500">
-                  <h1 className=" inline-block px-2 rounded-xl">
+                <td className="px-3 py-2 xsmall:px-6 xsmall:py-4 whitespace-nowrap text-xs xsmall:text-sm font-semibold text-gray-500">
+                  <h1 className="inline-block px-1 xsmall:px-2 rounded-xl font-bold">
                     $
                     {coin.total_volume
                       ? coin.total_volume.toLocaleString()
                       : "N/A"}
                   </h1>
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold   text-gray-500">
+                <td className="px-3 py-2 xsmall:px-6 xsmall:py-4 whitespace-nowrap text-xs xsmall:text-sm font-bold text-gray-500">
                   ${coin.market_cap ? coin.market_cap.toLocaleString() : "N/A"}
                 </td>
                 <td
-                  className="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
-                  style={{ minWidth: "200px" }}
+                  className="px-3 py-2 xsmall:px-6 xsmall:py-4 whitespace-nowrap text-xs xsmall:text-sm text-gray-500"
+                  style={{ minWidth: "150px" }}
                 >
                   {coin.sparkline_in_7d && coin.sparkline_in_7d.price ? (
                     <CoinSparkline coinData={coin.sparkline_in_7d.price} />
@@ -223,21 +223,21 @@ const CryptoPricesTable = () => {
           </tbody>
         </table>
       </div>
-      <div className="flex justify-between items-center mt-4 px-6">
+      <div className="flex justify-between items-center mt-4 px-3 xsmall:px-6">
         <button
           onClick={handlePrevPage}
           disabled={currentPage === 1}
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:bg-gray-300 disabled:cursor-not-allowed"
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 xsmall:py-2 xsmall:px-4 rounded text-xs xsmall:text-sm disabled:bg-gray-300 disabled:cursor-not-allowed"
         >
           Previous
         </button>
-        <span className="text-cyan-600 ml-3 font-semibold">
+        <span className="text-cyan-600 ml-2 xsmall:ml-3 font-semibold text-xs xsmall:text-sm">
           Page {currentPage}
         </span>
         <button
           onClick={handleNextPage}
           disabled={!hasNextPage}
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:bg-gray-300 disabled:cursor-not-allowed"
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 xsmall:py-2 xsmall:px-4 rounded text-xs xsmall:text-sm disabled:bg-gray-300 disabled:cursor-not-allowed"
         >
           Next
         </button>

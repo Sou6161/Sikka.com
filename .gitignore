@@ -550,9 +550,10 @@ export default Example;
 
 
 
-
-className={`px-4 py-4 whitespace-nowrap font-semibold text-sm ${
-                      coin.price_change_percentage_24h >= 0
-                        ? "text-green-500 blink-green"
-                        : "text-red-500 blink-red"
-                    }`}
+/* From Uiverse.io by ahmedyasserdev */ 
+<input id="burger-checkbox" type="checkbox" />
+<label class="burger" for="burger-checkbox">
+  <span></span>
+  <span></span>
+  <span></span>
+</label>
