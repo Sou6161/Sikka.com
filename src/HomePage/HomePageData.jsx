@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import AnimatedGridBackground from "../components/AllBackgrounds/AnimatedGridPatternBg";
+import AnimatedGridBackground from "../components/AllBackgrounds/AnimatedGridPatternTestBg";
 import { useDispatch, useSelector } from "react-redux";
 import { FaCaretDown, FaCaretUp } from "react-icons/fa";
 import { FaAngleRight } from "react-icons/fa6";
@@ -116,9 +116,9 @@ const MainContainer = () => {
   }
   return (
     <div className=" relative ">
-      <h1 className="absolute top-10 left-5 z-10 text-[#fbbf24] text-[5vw] xsmall:text-[3.5vw] small:text-[3vw] medium:text-[2.5vw] large:text-[2vw] xlarge:text-[2vw] 2xlarge:text-[1.5vw] 2xlarge:left-[5vw] font-semibold">
+      <h1 className="absolute top-10 left-5 z-5  text-[#fbbf24] text-[5vw] xsmall:text-[3.5vw] small:text-[3vw] medium:text-[2.5vw] large:text-[2vw] xlarge:text-[2vw] 2xlarge:text-[1.5vw] 2xlarge:left-[5vw] font-semibold">
         Cryptocurrency Prices by Market Cap
-        <p className="text-sky-400 text-[3.5vw] xsmall:text-[2.5vw] small:text-[2.2vw] medium:text-[2vw] 2xlarge:text-[1vw] mt-2">
+        <p className=" large:relative large:z-99  text-sky-400 text-[3.5vw] xsmall:text-[2.5vw] small:text-[2.2vw] medium:text-[2vw] 2xlarge:text-[1vw] mt-2">
           The global cryptocurrency market cap today is{" "}
           <span>
             {MarqueeData2?.cap ? (
@@ -439,6 +439,7 @@ const MainContainer = () => {
         <CryptoPricesTable />
         <CryptoNews />
         <LatestArticlesData />
+
         <Footer />
       </div>
       <div className=" "><AnimatedGridBackground /></div>

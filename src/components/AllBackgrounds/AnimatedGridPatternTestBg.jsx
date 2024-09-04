@@ -120,7 +120,7 @@ import React from 'react'
 
 const AnimatedGridPatternBg = () => {
   return (
-    <div className=' w-[100vw] h-[1680vh] bg-black'>AnimatedGridPatternBg</div>
+    <div className=' w-[100vw] h-[1245vh]  large:h-[1441vh] bg-black'>AnimatedGridPatternBg</div>
   )
 }
 

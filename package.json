@@ -16,7 +16,7 @@
     "clsx": "^2.1.1",
     "flowbite": "^2.5.1",
     "flowbite-react": "^0.10.1",
-    "framer-motion": "^11.3.28",
+    "framer-motion": "^11.4.0",
     "gsap": "^3.12.5",
     "lucide-react": "^0.428.0",
     "react": "^18.3.1",
@@ -26,6 +26,7 @@
     "react-router-dom": "^6.26.1",
     "react-sparklines": "^1.7.0",
     "recharts": "^2.12.7",
+    "simplex-noise": "^4.0.3",
     "sparkline-svg": "^1.0.4",
     "tailwind-merge": "^2.5.2",
     "tailwindcss-animate": "^1.0.7"

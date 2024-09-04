@@ -1,13 +1,37 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import MainPageMarquee from "../MarqueeComponent/MainPageMarquee";
 import HomePageData from "/Sourabh Web dev Projects/Sikka.com/src/HomePage/HomePageData";
 import logo from "/Sourabh Web dev Projects/Sikka.com/src/Images Folder/HeaderLogo.png";
+import { Search } from "lucide-react";
 
 const Header = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const [activeItem, setActiveItem] = useState("Cryptocurrencies");
   const [isOpen, setIsOpen] = useState(false);
+  const [isSearchExpanded, setIsSearchExpanded] = useState(false);
+  const [isExchangesOpen, setIsExchangesOpen] = useState(false);
+  const toggleSearch = () => setIsSearchExpanded(!isSearchExpanded);
+  const toggleExchangesDropdown = () => setIsExchangesOpen(!isExchangesOpen);
+  const searchRef = useRef(null);
+  const [isSignedUp, setIsSignedUp] = useState(false);
+
+  const toggleSignUp = () => {
+    setIsSignedUp(!isSignedUp);
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (searchRef.current && !searchRef.current.contains(event.target)) {
+        setIsSearchExpanded(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
@@ -29,25 +53,29 @@ const Header = () => {
   return (
     <>
       <>
-        <nav class="relative z-10 bg-white border-gray-200 dark:bg-gray-900 dark:border-gray-700">
-          <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-2 2xlarge:p-[1.7vh]">
-            <a href="#" class="flex items-center space-x-3 rtl:space-x-reverse">
+        <nav className="relative z-10 bg-white border-gray-200 dark:bg-gray-900 dark:border-gray-700">
+          <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-2 2xlarge:p-[1.7vh]">
+            <a
+              href="#"
+              className="flex items-center space-x-3 rtl:space-x-reverse"
+            >
               <img
                 src={logo}
-                class="h-8 relative top-1 2xlarge:h-10"
-                alt="Flowbite Logo"
+                className="h-8 relative top-1 2xlarge:h-10"
+                alt="Logo"
               />
-              <span class="self-center text-[5vw] 2xlarge:text-xl 2xla font-semibold whitespace-nowrap dark:text-white"></span>
+              <span className="self-center text-[5vw] 2xlarge:text-xl font-semibold whitespace-nowrap dark:text-white"></span>
             </a>
+
             <input
-              className=""
+              className="hidden"
               id="burger-checkbox"
               type="checkbox"
               onChange={toggleDropdownmenu}
             />
             <label
-              className="burger medium:hidden  large:hidden xlarge:hidden  2xlarge:hidden"
-              for="burger-checkbox"
+              className="burger medium:hidden large:hidden xlarge:hidden 2xlarge:hidden"
+              htmlFor="burger-checkbox"
             >
               <span></span>
               <span></span>
@@ -57,29 +85,29 @@ const Header = () => {
             <div
               className={`${
                 isDropdownOpen ? "block" : "hidden"
-              } w-full medium:block large:block  medium:w-auto `}
+              } w-full medium:block large:block medium:max-w-[62vw] medium:relative medium:mr-[19vw]`}
               id="navbar-dropdown"
             >
-              <ul class=" 2xlarge:ml-[0vw] relative right-[30vw] flex flex-col font-medium p-4 medium:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 medium:space-x-8 rtl:space-x-reverse medium:flex-row medium:mt-0 medium:border-0 medium:bg-white dark:bg-gray-800 medium:dark:bg-gray-900 dark:border-gray-700">
+              <ul className="2xlarge:ml-[0vw] relative flex flex-col font-medium p-4 medium:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 medium:space-x-2 rtl:space-x-reverse medium:flex-row medium:mt-0 medium:border-0 medium:bg-white dark:bg-gray-800 medium:dark:bg-gray-900 dark:border-gray-700">
                 <li>
                   <a
                     href="#"
                     onClick={() => handleItemClick("Cryptocurrencies")}
                     className={`block py-2 px-3 rounded medium:p-2 ${
                       activeItem === "Cryptocurrencies"
-                        ? "text-white hover:bg-gray-100 medium:hover:bg-transparent medium:border-0 medium:hover:text-blue-700 dark:text-white medium:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white medium:dark:hover:bg-transparent"
+                        ? "text-white bg-blue-700 medium:bg-transparent medium:text-blue-700 dark:text-white"
                         : "text-gray-900 hover:bg-gray-100 medium:hover:bg-transparent medium:border-0 medium:hover:text-blue-700 dark:text-white medium:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white medium:dark:hover:bg-transparent"
                     }`}
                   >
                     Cryptocurrencies
                   </a>
                 </li>
-                <div className="relative inline-block text-left">
+                <div className="relative z-99999 inline-block text-left">
                   <button
-                    onClick={toggleDropdown}
-                    className="flex items-center justify-between w-full py-2 px-3 rounded medium:w-auto text-gray-900 hover:bg-gray-100 medium:hover:bg-transparent medium:border-0 medium:hover:text-blue-700 dark:text-white medium:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white medium:dark:hover:bg-transparent"
+                    onClick={toggleExchangesDropdown}
+                    className=" NavLinkBUtton flex items-center justify-between w-full py-2 px-3 rounded medium:w-auto text-gray-900 hover:bg-gray-100 medium:hover:bg-transparent medium:border-0 medium:hover:text-blue-700 dark:text-white medium:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white medium:dark:hover:bg-transparent"
                   >
-                    Exchanges{" "}
+                    Exchanges
                     <svg
                       className="w-2.5 h-2.5 ms-2.5"
                       aria-hidden="true"
@@ -89,15 +117,15 @@ const Header = () => {
                     >
                       <path
                         stroke="currentColor"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
                         d="m1 1 4 4 4-4"
-                      ></path>
+                      />
                     </svg>
                   </button>
-                  {isOpen && (
-                    <div className="absolute z-999 right-0 mt-2 w-44 bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600">
+                  {isExchangesOpen && (
+                    <div className="absolute z-9999 right-0 mt-2 w-44 bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600">
                       <ul className="py-2 text-sm text-gray-700 dark:text-gray-400">
                         <li>
                           <a
@@ -135,56 +163,138 @@ const Header = () => {
                     </div>
                   )}
                 </div>
-                <li>
-                  <a
-                    href="#"
+                {["NFT", "Learn", "Products"].map((item) => (
+                  <li key={item}>
+                    <a
+                      href="#"
+                      className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 medium:hover:bg-transparent medium:border-0 medium:hover:text-blue-700 medium:p-2 dark:text-white medium:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white medium:dark:hover:bg-transparent"
+                    >
+                      {item}
+                    </a>
+                  </li>
+                ))}
+                <li className="relative left-[16vw]" ref={searchRef}>
+                  <button
+                    onClick={toggleSearch}
                     className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 medium:hover:bg-transparent medium:border-0 medium:hover:text-blue-700 medium:p-2 dark:text-white medium:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white medium:dark:hover:bg-transparent"
                   >
-                    NFT
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#"
-                    className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 medium:hover:bg-transparent medium:border-0 medium:hover:text-blue-700 medium:p-2 dark:text-white medium:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white medium:dark:hover:bg-transparent"
-                  >
-                    Learn
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#"
-                    className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 medium:hover:bg-transparent medium:border-0 medium:hover:text-blue-700 medium:p-2 dark:text-white medium:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white medium:dark:hover:bg-transparent"
-                  >
-                    Products
-                  </a>
-                </li>
-                <li class="ml-4 medium:ml-0">
-                  <div class="container">
-                    <input class="checkbox" type="checkbox" />
-                    <div class="mainbox">
-                      <div class="iconContainer">
-                        <svg
-                          viewBox="0 0 512 512"
-                          height="1em"
-                          xmlns="http://www.w3.org/2000/svg"
-                          class="search_icon"
-                        >
-                          <path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"></path>
-                        </svg>
-                      </div>
+                    <Search size={24} className=" text-red-600" />
+                  </button>
+                  {isSearchExpanded && (
+                    <div className="absolute right-0 -mt-[5vh] w-[20vw] bg-white border border-gray-200 rounded-lg shadow-lg dark:bg-gray-800 dark:border-gray-700">
                       <input
-                        class="search_input"
-                        placeholder="search"
                         type="text"
+                        placeholder=" Search Coins,Nfts ..."
+                        className="w-[20vw] p-2 pl-10 text-sm text-gray-900 border-none rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white dark:focus:ring-blue-500"
                       />
+                      <span className="absolute left-0 top-2 text-gray-600 dark:text-white">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                          className="w-[4vw] h-[3vh]"
+                        >
+                          <path fill="none" d="M0 0h24v24H0z" />
+                          <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
+                        </svg>
+                      </span>
                     </div>
-                  </div>
+                  )}
                 </li>
+                <button
+                  className="SignButton medium:relative medium:left-[15vw]"
+                  onClick={toggleSignUp}
+                >
+                  {isSignedUp ? (
+                    <div className="flex items-center">
+                      <img
+                        src="https://t3.ftcdn.net/jpg/04/65/28/08/360_F_465280897_8nL6xlvBwUcLYIQBmyX0GO9fQjDwNYtV.jpg"
+                        alt="Profile"
+                        className="w-8 h-8 rounded-full"
+                      />
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        className="w-5 h-5 ms-2"
+                      >
+                        <path
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          d="M15 13l-3-3-3 3"
+                        />
+                      </svg>
+                    </div>
+                  ) : (
+                    "Sign Up"
+                  )}
+                </button>
+                {isSignedUp && (
+                  <div className=" z-99999  absolute left-[50vw] top-12 w-[20vw] bg-white border border-gray-200 rounded-lg shadow-lg dark:bg-gray-800 dark:border-gray-700">
+                    <div className="flex items-center p-4">
+                      <img
+                        src="https://t3.ftcdn.net/jpg/04/65/28/08/360_F_465280897_8nL6xlvBwUcLYIQBmyX0GO9fQjDwNYtV.jpg"
+                        alt="Profile"
+                        className="w-6 h-6 rounded-full"
+                      />
+                      <span className="text-lg ml-2 text-gray-900 dark:text-white">
+                        Username
+                      </span>
+                    </div>
+                    <div className=" border-b border-gray-200 dark:border-gray-700"></div>
+                    <ul>
+                      <li className="border-b border-gray-200 dark:border-gray-700">
+                        <a
+                          href="#"
+                          className="flex items-center p-4 hover:bg-gray-100 dark:hover:bg-gray-700"
+                        >
+                          <img
+                            src="https://img.freepik.com/premium-vector/crypto-portfolio-icon-icon_1076610-1132.jpg"
+                            alt="Portfolio"
+                            className="w-6 h-6 rounded-lg"
+                          />
+                          <span className="text-lg ml-2 text-gray-900 dark:text-white">
+                            Portfolio
+                          </span>
+                        </a>
+                      </li>
+                      <li className="border-b border-gray-200 dark:border-gray-700">
+                        <a
+                          href="#"
+                          className="flex items-center p-4 hover:bg-gray-100 dark:hover:bg-gray-700"
+                        >
+                          <img
+                            src="https://w7.pngwing.com/pngs/637/32/png-transparent-nft-nft-coin-nft-sign-non-fungible-token-nonfungible-token-crypto-token-3d-icon-thumbnail.png"
+                            alt="NFTs"
+                            className="w-6 h-6 rounded-full"
+                          />
+                          <span className="text-lg ml-2 text-gray-900 dark:text-white">
+                            My NFTs
+                          </span>
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="#"
+                          className="flex items-center p-4 hover:bg-gray-100 dark:hover:bg-gray-700"
+                        >
+                          <img
+                            src="https://w7.pngwing.com/pngs/669/141/png-transparent-white-and-green-signage-grass-brand-sign-apps-dialog-logout-logo-grass-sign-thumbnail.png"
+                            alt="Logout"
+                            className="w-6 h-6 rounded-full"
+                          />
+                          <span className="text-lg ml-2 text-gray-900 dark:text-white">
+                            Logout
+                          </span>
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                )}
               </ul>
             </div>
           </div>
         </nav>
+
         <div className="hidden 2xlarge:block w-full max-w-[100vw] 2xlarge:max-w-[100vw] mx-auto 2xlarge:w-full relative overflow-hidden z-0">
           <video
             className="w-full h-auto 2xlarge:h-[60vh] mx-auto object-cover"
@@ -192,44 +302,40 @@ const Header = () => {
             playsInline
             muted
             loop
-            src="src\Videos\221356_large.mp4"
+            src="src/Videos/221356_large.mp4"
           >
             Your browser does not support the video tag.
           </video>
           <div className="absolute inset-0 bg-black bg-opacity-80"></div>
-          <div className=" hiiden 2xlarge:block absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[50vw] h-[45vh] backdrop-filter backdrop-blur-md bg-zinc-500 bg-opacity-15 rounded-lg">
-            <div class="card">
-              <div class="content">
-                <p class="heading relative bottom-[10vh]">
+          <div className="hidden 2xlarge:block absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[50vw] h-[45vh] backdrop-filter backdrop-blur-md bg-zinc-500 bg-opacity-15 rounded-lg">
+            <div className="card">
+              <div className="content">
+                <p className="heading relative bottom-[10vh]">
                   Your Crypto Checker
                 </p>
-                {/* <div class="galaxy"></div> */}
-                <div id="search-container" className=" relative top-10 right-5">
-                  <div class="nebula"></div>
-                  <div class="starfield"></div>
-                  <div class="cosmic-dust"></div>
-                  <div class="cosmic-dust"></div>
-                  <div class="cosmic-dust"></div>
-
-                  <div class="stardust"></div>
-
-                  <div class="cosmic-ring"></div>
-
+                <div id="search-container" className="relative top-10 right-5">
+                  <div className="nebula"></div>
+                  <div className="starfield"></div>
+                  <div className="cosmic-dust"></div>
+                  <div className="cosmic-dust"></div>
+                  <div className="cosmic-dust"></div>
+                  <div className="stardust"></div>
+                  <div className="cosmic-ring"></div>
                   <div id="main">
                     <input
-                      class="input"
+                      className="input"
                       name="text"
                       type="text"
                       placeholder="Search Your Crypto Coin..."
                     />
                     <div id="input-mask"></div>
                     <div id="cosmic-glow"></div>
-                    <div class="wormhole-border"></div>
+                    <div className="wormhole-border"></div>
                     <div id="wormhole-icon">
                       <svg
-                        stroke-linejoin="round"
-                        stroke-linecap="round"
-                        stroke-width="2"
+                        strokeLinejoin="round"
+                        strokeLinecap="round"
+                        strokeWidth="2"
                         stroke="#a9c7ff"
                         fill="none"
                         height="24"
@@ -243,9 +349,9 @@ const Header = () => {
                     </div>
                     <div id="search-icon">
                       <svg
-                        stroke-linejoin="round"
-                        stroke-linecap="round"
-                        stroke-width="2"
+                        strokeLinejoin="round"
+                        strokeLinecap="round"
+                        strokeWidth="2"
                         stroke="url(#cosmic-search)"
                         fill="none"
                         height="24"
@@ -259,8 +365,8 @@ const Header = () => {
                             gradientTransform="rotate(45)"
                             id="cosmic-search"
                           >
-                            <stop stop-color="#a9c7ff" offset="0%"></stop>
-                            <stop stop-color="#6e8cff" offset="100%"></stop>
+                            <stop stopColor="#a9c7ff" offset="0%"></stop>
+                            <stop stopColor="#6e8cff" offset="100%"></stop>
                           </linearGradient>
                         </defs>
                       </svg>
@@ -272,22 +378,22 @@ const Header = () => {
           </div>
         </div>
 
-        <div class="bg-black py-1 large:hidden">
-          <div class="group mt-1 mx-auto w-[95vw] 2xlarge:hidden">
-            <svg viewBox="0 0 24 24" aria-hidden="true" class="icon">
+        <div className="bg-black py-1 large:hidden">
+          <div className="group mt-1 mx-auto w-[95vw] 2xlarge:hidden">
+            <svg viewBox="0 0 24 24" aria-hidden="true" className="icon">
               <g>
                 <path d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z"></path>
               </g>
             </svg>
             <input
-              class="inputbox"
+              className="inputbox"
               type="search"
               placeholder="Search Coins,NFTs and more..."
             />
           </div>
         </div>
 
-        <div className=" 2xlarge:hidden  mt- w-[100vw] border-b-[3px] border-red-600"></div>
+        <div className="2xlarge:hidden mt-0 w-[100vw] border-b-[3px] border-red-600"></div>
       </>
       <MainPageMarquee />
       <div className=" ">
