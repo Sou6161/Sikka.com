@@ -85,7 +85,7 @@ const Header = () => {
             <div
               className={`${
                 isDropdownOpen ? "block" : "hidden"
-              } w-full medium:block large:block medium:max-w-[62vw] medium:relative medium:mr-[19vw]`}
+              } w-full medium:block large:block medium:max-w-[62vw] medium:relative medium:mr-[19vw] large:mr-[22vw] `}
               id="navbar-dropdown"
             >
               <ul className="2xlarge:ml-[0vw] relative flex flex-col font-medium p-4 medium:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 medium:space-x-2 rtl:space-x-reverse medium:flex-row medium:mt-0 medium:border-0 medium:bg-white dark:bg-gray-800 medium:dark:bg-gray-900 dark:border-gray-700">
@@ -93,9 +93,9 @@ const Header = () => {
                   <a
                     href="#"
                     onClick={() => handleItemClick("Cryptocurrencies")}
-                    className={`block py-2 px-3 rounded medium:p-2 ${
+                    className={`block py-2 medium:mt-2  px-3 rounded medium:p-2 ${
                       activeItem === "Cryptocurrencies"
-                        ? "text-white bg-blue-700 medium:bg-transparent medium:text-blue-700 dark:text-white"
+                        ? "text-white bg-blue-70 medium:bg-transparent medium:text-blue-700 dark:text-white"
                         : "text-gray-900 hover:bg-gray-100 medium:hover:bg-transparent medium:border-0 medium:hover:text-blue-700 dark:text-white medium:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white medium:dark:hover:bg-transparent"
                     }`}
                   >
@@ -105,7 +105,7 @@ const Header = () => {
                 <div className="relative z-99999 inline-block text-left">
                   <button
                     onClick={toggleExchangesDropdown}
-                    className=" NavLinkBUtton flex items-center justify-between w-full py-2 px-3 rounded medium:w-auto text-gray-900 hover:bg-gray-100 medium:hover:bg-transparent medium:border-0 medium:hover:text-blue-700 dark:text-white medium:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white medium:dark:hover:bg-transparent"
+                    className=" NavLinkBUtton medium:mt-2 flex items-center justify-between w-full py-2 px-3 rounded medium:w-auto text-gray-900 hover:bg-gray-100 medium:hover:bg-transparent medium:border-0 medium:hover:text-blue-700 dark:text-white medium:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white medium:dark:hover:bg-transparent"
                   >
                     Exchanges
                     <svg
@@ -167,25 +167,31 @@ const Header = () => {
                   <li key={item}>
                     <a
                       href="#"
-                      className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 medium:hover:bg-transparent medium:border-0 medium:hover:text-blue-700 medium:p-2 dark:text-white medium:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white medium:dark:hover:bg-transparent"
+                      className="block py-2 px-3 medium:mt-2 text-gray-900 rounded hover:bg-gray-100 medium:hover:bg-transparent medium:border-0 medium:hover:text-blue-700 medium:p-2 dark:text-white medium:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white medium:dark:hover:bg-transparent"
                     >
                       {item}
                     </a>
                   </li>
                 ))}
-                <li className="relative left-[16vw]" ref={searchRef}>
+                <li
+                  className="hidden large:block absolute top-0 left-[50vw] medium:left-[45vw] large:left-[57vw] xlarge:left-[52vw] 2xlarge:left-[55vw]"
+                  ref={searchRef}
+                >
                   <button
                     onClick={toggleSearch}
-                    className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 medium:hover:bg-transparent medium:border-0 medium:hover:text-blue-700 medium:p-2 dark:text-white medium:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white medium:dark:hover:bg-transparent"
+                    className="block py-2 px-3  text-gray-900 rounded hover:bg-gray-100 medium:hover:bg-transparent medium:border-0 medium:hover:text-blue-700 medium:p-2 dark:text-white medium:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white medium:dark:hover:bg-transparent"
                   >
-                    <Search size={24} className=" text-red-600" />
+                    <Search
+                      size={30}
+                      className=" text-red-600 relative large:left-[9vw] large:top-1 xlarge:left-[17vw]  "
+                    />
                   </button>
                   {isSearchExpanded && (
-                    <div className="absolute right-0 -mt-[5vh] w-[20vw] bg-white border border-gray-200 rounded-lg shadow-lg dark:bg-gray-800 dark:border-gray-700">
+                    <div className="absolute right-0 -mt-[5vh] w-[20vw] xlarge:w-[25vw] large:-mt-[5vh] large:-right-[5vw] xlarge:-right-[14vw]  bg-white border border-gray-200 rounded-lg shadow-lg dark:bg-gray-800 dark:border-gray-700">
                       <input
                         type="text"
                         placeholder=" Search Coins,Nfts ..."
-                        className="w-[20vw] p-2 pl-10 text-sm text-gray-900 border-none rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white dark:focus:ring-blue-500"
+                        className="w-[20vw] xlarge:w-[25vw] p-2 pl-10 text-sm text-gray-900 border-none rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white dark:focus:ring-blue-500"
                       />
                       <span className="absolute left-0 top-2 text-gray-600 dark:text-white">
                         <svg
@@ -201,11 +207,12 @@ const Header = () => {
                   )}
                 </li>
                 <button
-                  className="SignButton medium:relative medium:left-[15vw]"
+                  className="SignButton hidden medium:block large:block absolute medium:top-1 top-0 right-0 medium:-right-[18vw] large:-right-[22vw] xlarge:-right-[22vw] 2xlarge:-right-[22vw]
+                "
                   onClick={toggleSignUp}
                 >
                   {isSignedUp ? (
-                    <div className="flex items-center">
+                    <div className="  flex items-center medium:py-1 medium:w-[8vw] large:w-[6vw] 2xlarge:w-[4vw] large:py-1 ">
                       <img
                         src="https://t3.ftcdn.net/jpg/04/65/28/08/360_F_465280897_8nL6xlvBwUcLYIQBmyX0GO9fQjDwNYtV.jpg"
                         alt="Profile"
@@ -225,11 +232,13 @@ const Header = () => {
                       </svg>
                     </div>
                   ) : (
-                    "Sign Up"
+                    <h1 className=" hidden medium:block min-w-[9vw] medium:py-2  xlarge:min-w-[7vw] 2xlarge:min-w-[5vw]">
+                      Sign Up
+                    </h1>
                   )}
                 </button>
                 {isSignedUp && (
-                  <div className=" z-99999  absolute left-[50vw] top-12 w-[20vw] bg-white border border-gray-200 rounded-lg shadow-lg dark:bg-gray-800 dark:border-gray-700">
+                  <div className=" z-99999 absolute top-0 hidden medium:block medium:top-2 large:top-2 right-[42vw] medium:-right-[15vw] large:-right-[18vw] xlarge:-right-[20vw] 2xlarge:-right-[20vw] mt-12 w-[20vw] large:w-[19vw] xlarge:w-[20vw] medium:w-[25vw]bg-white border border-gray-200 rounded-lg shadow-lg dark:bg-gray-800 dark:border-gray-700">
                     <div className="flex items-center p-4">
                       <img
                         src="https://t3.ftcdn.net/jpg/04/65/28/08/360_F_465280897_8nL6xlvBwUcLYIQBmyX0GO9fQjDwNYtV.jpg"
@@ -240,9 +249,9 @@ const Header = () => {
                         Username
                       </span>
                     </div>
-                    <div className=" border-b border-gray-200 dark:border-gray-700"></div>
+                    <div className=" border-b  border-purple-500 dark:border-purple-500"></div>
                     <ul>
-                      <li className="border-b border-gray-200 dark:border-gray-700">
+                      <li className="border-b border-purple-500 dark:border-purple-500">
                         <a
                           href="#"
                           className="flex items-center p-4 hover:bg-gray-100 dark:hover:bg-gray-700"
@@ -257,7 +266,7 @@ const Header = () => {
                           </span>
                         </a>
                       </li>
-                      <li className="border-b border-gray-200 dark:border-gray-700">
+                      <li className="border-b border-purple-500 dark:border-purple-500">
                         <a
                           href="#"
                           className="flex items-center p-4 hover:bg-gray-100 dark:hover:bg-gray-700"
@@ -275,7 +284,7 @@ const Header = () => {
                       <li>
                         <a
                           href="#"
-                          className="flex items-center p-4 hover:bg-gray-100 dark:hover:bg-gray-700"
+                          className="flex items-center p-4 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-b-lg"
                         >
                           <img
                             src="https://w7.pngwing.com/pngs/669/141/png-transparent-white-and-green-signage-grass-brand-sign-apps-dialog-logout-logo-grass-sign-thumbnail.png"

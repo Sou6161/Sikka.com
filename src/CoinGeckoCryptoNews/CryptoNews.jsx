@@ -4,18 +4,18 @@ const CryptoNews = () => {
   const [cryptoNews, setCryptoNews] = useState(null);
   const [Crypto5News, setCrypto5News] = useState(null);
 
-  // useEffect(() => {
-  //   const fetchCryptoNews = async () => {
-  //     const response = await fetch(
-  //       "https://min-api.cryptocompare.com/data/v2/news/?lang=EN&api_key=695cd6c649b0429497ecd26612fcea73328264e00c7eaac6580269c9f3bdc667"
-  //     );
-  //     const cryptoNewsData = await response.json();
-  //     console.log(cryptoNewsData);
-  //     setCryptoNews(cryptoNewsData);
-  //     setCrypto5News(cryptoNewsData.Data.slice(0, 5)); // Get the first 5 articles
-  //   };
-  //   fetchCryptoNews();
-  // }, []);
+  useEffect(() => {
+    const fetchCryptoNews = async () => {
+      const response = await fetch(
+        "https://min-api.cryptocompare.com/data/v2/news/?lang=EN&api_key=695cd6c649b0429497ecd26612fcea73328264e00c7eaac6580269c9f3bdc667"
+      );
+      const cryptoNewsData = await response.json();
+      console.log(cryptoNewsData);
+      setCryptoNews(cryptoNewsData);
+      setCrypto5News(cryptoNewsData.Data.slice(0, 5)); // Get the first 5 articles
+    };
+    fetchCryptoNews();
+  }, []);
 
   return (
     <>
@@ -23,23 +23,26 @@ const CryptoNews = () => {
       <button id="bottone1" className=" mt-10">
         <strong className=" ">Latest Crypto News</strong>
       </button>
-      <div className="mt-10 p-2 h-auto bg-[#1f2937] border-[2px] border-cyan-400 rounded-lg backdrop-blur-md backdrop-filter outline outline-2 outline-yellow-400/50 outline-offset-2">
+      <div className="mt-10 p-2 h-auto bg-[#1f2937] border-[2px] border-cyan-400 rounded-lg backdrop-blur-md backdrop-filter outline outline-2 outline-yellow-400/50 outline-offset-2 flex flex-col">
         {Crypto5News && (
-          <ul>
+          <ul className="flex flex-col xsmall:flex-col small:flex-col medium:flex-row large:flex-row xlarge:flex-row 2xlarge:flex-row gap-4">
             {Crypto5News.map((article, index) => (
-              <li key={index}>
+              <li
+                key={index}
+                className="flex flex-col xsmall:w-full small:w-full medium:w-[48%] large:w-[30%] xlarge:w-[23%] 2xlarge:w-[18%]"
+              >
                 <img
-                  className="w-[90vw] h-[28vh] border-2 border-purple-600 rounded-lg object-center mt-2"
+                  className="w-full h-[28vh] border-2 border-purple-600 rounded-lg object-center mt-2"
                   src={article.imageurl}
                   alt=""
                 />
-                <h2 className="mt-5 text-white  font-semibold">
+                <h2 className="mt-5 text-white font-semibold">
                   {article.title}
                 </h2>
-                <p className="mt-5 text-amber-400  font-semibold">
+                <p className="mt-5 text-amber-400 font-semibold">
                   {article.body.split(" ").slice(0, 20).join(" ")}...
                 </p>
-                <h1 className=" mt-5 text-green-400 font-semibold">
+                <h1 className="mt-5 text-green-400 font-semibold">
                   {article?.source_info?.name}
                 </h1>
                 <h1 className="text-green-400 font-semibold mb-10">
@@ -63,7 +66,8 @@ const CryptoNews = () => {
             ))}
           </ul>
         )}
-      </div><div className="mt-10 border-t-[1px] border-red-400 bg-re-200"></div>
+      </div>
+      <div className="mt-10 border-t-[1px] border-red-400 bg-re-200"></div>
     </>
   );
 };

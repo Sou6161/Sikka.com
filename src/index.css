@@ -462,7 +462,6 @@
   border: 2px solid transparent; /* Make border transparent */
   border-radius: 1rem; /* rounded-lg */
   box-shadow: 0 0 10px #080808;
-  
 }
 
 /* .dingdong:hover {
@@ -511,7 +510,7 @@
   width: 90vw;
   height: 15vh;
   background-color: #e5e5e5; /* bg-zinc-100 */
-  border: 2px solid transparent ; /* Make border transparent */
+  border: 2px solid transparent; /* Make border transparent */
   border-radius: 1rem; /* rounded-lg */
   box-shadow: 0 0 10px #0a0a0a;
 }
@@ -553,7 +552,6 @@
   }
 } */
 
-
 .blink {
   animation: blink 1s infinite;
 }
@@ -563,7 +561,7 @@
     color: #64f89a; /* light green */
   }
   50% {
-    color: #2E865F; /* dark green */
+    color: #2e865f; /* dark green */
   }
   100% {
     color: #13fb68; /* light green */
@@ -615,9 +613,6 @@
   }
 }
 
-
-
-
 .blink-green {
   animation: blink-green 2s infinite;
 }
@@ -631,7 +626,7 @@
     color: #64f86e; /* green-600 */
   }
   50% {
-    color: #2E865F; /* green-400 */
+    color: #2e865f; /* green-400 */
   }
   100% {
     color: #64f86e; /* green-600 */
@@ -650,9 +645,7 @@
   }
 }
 
-
-
-/* From Uiverse.io by Custyyyy */ 
+/* From Uiverse.io by Custyyyy */
 #bottone1 {
   padding-left: 33px;
   padding-right: 33px;
@@ -665,22 +658,20 @@
   text-align: center;
   cursor: pointer;
   transition: 0.4s;
- }
- 
- #bottone1:hover {
-  box-shadow: 7px 5px 56px -14px #C3D900;
- }
- 
- #bottone1:active {
+}
+
+#bottone1:hover {
+  box-shadow: 7px 5px 56px -14px #c3d900;
+}
+
+#bottone1:active {
   transform: scale(0.97);
-  box-shadow: 7px 5px 56px -10px #C3D900;
- }
+  box-shadow: 7px 5px 56px -10px #c3d900;
+}
 
+/* Latest Articles See More Articles */
 
-
- /* Latest Articles See More Articles */
-
- /* From Uiverse.io by StealthWorm */ 
+/* From Uiverse.io by StealthWorm */
 .btn {
   display: flex;
   justify-content: center;
@@ -858,9 +849,7 @@
   }
 }
 
-
-
-/* From Uiverse.io by ahmedyasserdev */ 
+/* From Uiverse.io by ahmedyasserdev */
 .burger {
   display: inline-block;
   cursor: pointer;
@@ -895,7 +884,6 @@
   transform: translateY(-8px) rotate(-45deg);
 }
 
-
 ::webkit-progress-bar {
   background-color: #e6df0c; /* Change this to your desired color */
 }
@@ -903,7 +891,6 @@
 ::webkit-progress-value {
   background-color: #e6df0c; /* Change this to your desired color */
 }
-
 
 /* Large Screen size nav links button css code */
 
@@ -929,13 +916,12 @@
   box-shadow: 0.05em 0.05em;
 }
 
-
 /* large screen size header Signup/in button css code */
 
 .SignButton {
   background: #fbca1f;
   font-family: inherit;
-  padding: 0em 0.5em;
+  padding: 0em 0.8em;
   font-weight: 900;
   font-size: 18px;
   border: 3px solid black;
@@ -954,8 +940,25 @@
   box-shadow: 0.05em 0.05em;
 }
 
-
 .z-99999 {
   z-index: 99999;
 }
 
+
+
+/* scollbar  */
+
+body::-webkit-scrollbar {
+  width: 0.6em;
+}
+
+body::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 50px rgba(8, 195, 242, 0.961);
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: rgb(17, 205, 80);
+  outline: 1px solid rgb(11, 11, 11);
+  border-radius: 0.3em; /* Adjust this value to control the roundness */
+  cursor: pointer;
+}

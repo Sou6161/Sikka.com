@@ -21,6 +21,7 @@ const MainContainer = () => {
   const [TopGainers, setTopGainers] = useState(null);
   const [TopLosers, setTopLosers] = useState(null);
   const [MarketCapChart, setMarketCapChart] = useState(null);
+  const [MarketCapBNB, setMarketCapBNB] = useState(null);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -107,9 +108,28 @@ const MainContainer = () => {
 
   useEffect(() => {
     if (MarketCapChart && MarketCapChart.length > 0) {
-      // console.log(MarketCapChart);
+      console.log(MarketCapChart);
     }
   }, [MarketCapChart]);
+
+  useEffect(() => {
+    const MarketCapChartDataBNB = async () => {
+      const response = await fetch(
+        "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=binancecoin",
+        CoinGeckoApi
+      );
+      const MarketDataBnb = await response.json();
+      // console.log(MarketDataBnb);
+      setMarketCapBNB(MarketDataBnb);
+    };
+    MarketCapChartDataBNB();
+  }, []);
+
+  useEffect(() => {
+    if (MarketCapBNB && MarketCapBNB.length > 0) {
+      console.log(MarketCapBNB);
+    }
+  }, [MarketCapBNB]);
 
   {
     // MarqueeData2 && console.log(MarqueeData2);
@@ -147,9 +167,9 @@ const MainContainer = () => {
                     xsmall:w-[80vw] xsmall:left-[10vw]
                     small:w-[70vw] small:left-[15vw]
                     medium:w-[60vw] medium:left-[20vw]
-                    large:w-[50vw] large:left-[25vw]
-                    xlarge:w-[40vw] xlarge:left-[30vw]
-                    2xlarge:w-[30vw] 2xlarge:left-[35vw]"
+                    large:w-[80vw] large:left-[10vw] large:top-[25vh]
+                    xlarge:w-[40vw] xlarge:left-[10vw] xlarge:top-[28vh]
+                    2xlarge:w-[30vw] 2xlarge:left-[15vw]"
       >
         <div className="mb-4">
           <div className="flex justify-between items-center">
@@ -234,11 +254,11 @@ const MainContainer = () => {
                     xsmall:w-[80vw] xsmall:left-[10vw]
                     small:w-[70vw] small:left-[15vw]
                     medium:w-[60vw] medium:left-[20vw] medium:top-[45vh]
-                    large:w-[50vw] large:left-[25vw]
-                    xlarge:w-[40vw] xlarge:left-[30vw]
-                    2xlarge:w-[30vw] 2xlarge:left-[35vw]"
+                    large:w-[80vw] large:left-[10vw] large:top-[50vh]
+                    xlarge:w-[40vw] xlarge:left-[55vw] xlarge:top-[28vh]
+                    2xlarge:w-[30vw] 2xlarge:left-[48vw]"
       >
-        <div className="mb-4">
+        <div className="mb-5">
           <div className="flex justify-between items-center">
             <div className="flex items-center">
               <img
@@ -257,7 +277,7 @@ const MainContainer = () => {
         </div>
 
         <div>
-          <div className="flex justify-between items-center">
+          <div className="flex justify-between  items-center">
             <div className="flex items-center">
               <img
                 className="w-6 h-6 mr-2 rounded-lg"
@@ -275,15 +295,35 @@ const MainContainer = () => {
             </span>
           </div>
         </div>
+
+        <div>
+          <div className="flex justify-between mt-6 items-center">
+            <div className="flex items-center">
+              <img
+                className="w-6 h-6 mr-2 rounded-lg"
+                src="https://cryptologos.cc/logos/bnb-bnb-logo.png"
+                alt="Ethereum"
+              />
+              <span className="text-sm xsmall:text-base small:text-lg font-semibold text-[#111827]">
+                24h Trading Volume
+              </span>
+            </div>
+            <span className="text-sm xsmall:text-base small:text-lg font-bold text-black">
+              $
+              {MarketCapBNB &&
+                MarketCapBNB[0]?.total_volume?.toLocaleString("en-US")}
+            </span>
+          </div>
+        </div>
       </div>
       <div
         className="absolute top-[60vh] left-5 w-[90vw] h-auto bg-zinc-100 border-[2px] border-teal-600 shadow-teal-glow rounded-lg p-4
                     xsmall:w-[80vw] xsmall:left-[10vw]
                     small:w-[70vw] small:left-[15vw]
                     medium:w-[60vw] medium:left-[20vw] medium:top-[65vh]
-                    large:w-[50vw] large:left-[25vw]
-                    xlarge:w-[40vw] xlarge:left-[30vw]
-                    2xlarge:w-[30vw] 2xlarge:left-[35vw]"
+                    large:w-[80vw] large:left-[10vw] large:top-[67vh]
+                    xlarge:w-[40vw] xlarge:left-[10vw] xlarge:top-[55vh]
+                    2xlarge:w-[30vw] 2xlarge:left-[15vw]"
       >
         <div className="flex justify-between items-center mb-4">
           <h1 className="text-2xl xsmall:text-3xl small:text-4xl font-semibold text-blue-600">
@@ -336,9 +376,9 @@ const MainContainer = () => {
                     xsmall:w-[80vw] xsmall:left-[10vw]
                     small:w-[70vw] small:left-[15vw]
                     medium:w-[60vw] medium:left-[20vw] medium:top-[108vh]
-                    large:w-[50vw] large:left-[25vw]
-                    xlarge:w-[40vw] xlarge:left-[30vw]
-                    2xlarge:w-[30vw] 2xlarge:left-[35vw]"
+                    large:w-[80vw] large:left-[10vw] large:top-[108vh]
+                    xlarge:w-[40vw] xlarge:left-[55vw] xlarge:top-[55vh]
+                    2xlarge:w-[30vw] 2xlarge:left-[48vw]"
       >
         <div className="flex justify-between items-center mb-4">
           <h1 className="text-2xl xsmall:text-3xl small:text-4xl font-semibold text-blue-600">
@@ -388,9 +428,9 @@ const MainContainer = () => {
                     xsmall:w-[80vw] xsmall:left-[10vw]
                     small:w-[70vw] small:left-[15vw]
                     medium:w-[60vw] medium:left-[20vw] medium:top-[150vh]
-                    large:w-[50vw] large:left-[25vw]
-                    xlarge:w-[40vw] xlarge:left-[30vw]
-                    2xlarge:w-[30vw] 2xlarge:left-[35vw]"
+                    large:w-[80vw] large:left-[10vw] large:top-[149vh]
+                    xlarge:w-[40vw] xlarge:left-[33vw] xlarge:top-[97vh]
+                    2xlarge:w-[30vw] 2xlarge:left-[32vw] 2xlarge:top-[93vh] "
       >
         <div className="flex justify-between items-center mb-4">
           <h1 className="text-2xl xsmall:text-3xl small:text-4xl font-semibold text-blue-600">
@@ -435,14 +475,15 @@ const MainContainer = () => {
           ))}
         </ul>
       </div>
-      <div className="  absolute top-[190vh] left-[5vw] 2xlarge:left-[5vw] max-w-[90vw]    2xlarge:max-w-[90vw]   ">
+      <div className="  absolute top-[190vh] large:top-[140vh] left-[5vw] 2xlarge:left-[5vw] max-w-[90vw]  2xlarge:max-w-[90vw]  ">
         <CryptoPricesTable />
         <CryptoNews />
         <LatestArticlesData />
-
         <Footer />
       </div>
-      <div className=" "><AnimatedGridBackground /></div>
+      <div className=" ">
+        <AnimatedGridBackground />
+      </div>
     </div>
   );
 };
