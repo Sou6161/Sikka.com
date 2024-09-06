@@ -962,3 +962,14 @@ body::-webkit-scrollbar-thumb {
   border-radius: 0.3em; /* Adjust this value to control the roundness */
   cursor: pointer;
 }
+
+
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.hide-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}

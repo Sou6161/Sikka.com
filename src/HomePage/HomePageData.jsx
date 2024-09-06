@@ -142,10 +142,21 @@ const MainContainer = () => {
           The global cryptocurrency market cap today is{" "}
           <span>
             {MarqueeData2?.cap ? (
-              <span className="text-[#c2410c]">
+              <span className="text-[#64748b]">
                 {(MarqueeData2.cap / 1e12).toFixed(3)} Trillions, a{" "}
-                <span className="text-[#4BCC00] text-[3.5vw] xsmall:text-[2.5vw] small:text-[2.2vw] medium:text-[2vw] relative top-1 small:top-1 xsmall:top-2 2xlarge:text-[1vw] inline-flex items-center">
-                  <FaCaretUp className="text-[4vw] small:text-[3vw] medium:text-[2.5vw] 2xlarge:text-[1vw]" />{" "}
+                <span
+                  className={`text-[3.5vw] xsmall:text-[2.5vw] small:text-[2.2vw] medium:text-[2vw] relative top-1 small:top-1 xsmall:top-2 2xlarge:text-[1vw] inline-flex items-center ${
+                    MarqueeData?.data?.market_cap_change_percentage_24h_usd < 0
+                      ? "text-red-500"
+                      : "text-[#4BCC00]"
+                  }`}
+                >
+                  {MarqueeData?.data?.market_cap_change_percentage_24h_usd >=
+                  0 ? (
+                    <FaCaretUp className="text-[4vw] small:text-[3vw] medium:text-[2.5vw] 2xlarge:text-[1vw]" />
+                  ) : (
+                    <FaCaretDown className="text-[4vw] small:text-[3vw] medium:text-[2.5vw] 2xlarge:text-[1vw]" />
+                  )}
                   {MarqueeData?.data?.market_cap_change_percentage_24h_usd?.toFixed(
                     1
                   )}
@@ -317,7 +328,7 @@ const MainContainer = () => {
         </div>
       </div>
       <div
-        className="absolute top-[60vh] left-5 w-[90vw] h-auto bg-zinc-100 border-[2px] border-teal-600 shadow-teal-glow rounded-lg p-4
+        className="absolute top-[68vh] left-5 w-[90vw] h-auto bg-zinc-100 border-[2px] border-teal-600 shadow-teal-glow rounded-lg p-4
                     xsmall:w-[80vw] xsmall:left-[10vw]
                     small:w-[70vw] small:left-[15vw]
                     medium:w-[60vw] medium:left-[20vw] medium:top-[65vh]
@@ -372,7 +383,7 @@ const MainContainer = () => {
       </div>
 
       <div
-        className="absolute top-[100vh] left-5 w-[90vw] h-auto bg-zinc-100 border-[2px] border-teal-600 shadow-teal-glow rounded-lg p-4
+        className="absolute top-[107vh] left-5 w-[90vw] h-auto bg-zinc-100 border-[2px] border-teal-600 shadow-teal-glow rounded-lg p-4
                     xsmall:w-[80vw] xsmall:left-[10vw]
                     small:w-[70vw] small:left-[15vw]
                     medium:w-[60vw] medium:left-[20vw] medium:top-[108vh]
@@ -424,7 +435,7 @@ const MainContainer = () => {
         </ul>
       </div>
       <div
-        className="absolute top-[140vh] left-5 w-[90vw] h-auto bg-zinc-100 border-[2px] border-teal-600 shadow-teal-glow rounded-lg p-4
+        className="absolute top-[146vh] left-5 w-[90vw] h-auto bg-zinc-100 border-[2px] border-teal-600 shadow-teal-glow rounded-lg p-4
                     xsmall:w-[80vw] xsmall:left-[10vw]
                     small:w-[70vw] small:left-[15vw]
                     medium:w-[60vw] medium:left-[20vw] medium:top-[150vh]

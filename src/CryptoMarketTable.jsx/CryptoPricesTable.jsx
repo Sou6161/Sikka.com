@@ -227,17 +227,17 @@ const CryptoPricesTable = () => {
         <button
           onClick={handlePrevPage}
           disabled={currentPage === 1}
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 xsmall:py-2 xsmall:px-4 rounded text-xs xsmall:text-sm disabled:bg-gray-300 disabled:cursor-not-allowed"
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-2 xsmall:py-2 xsmall:px-4 rounded text-sm xsmall:text-sm disabled:bg-gray-300 disabled:cursor-not-allowed"
         >
           Previous
         </button>
-        <span className="text-cyan-600 ml-2 xsmall:ml-3 font-semibold text-xs xsmall:text-sm">
+        <span className="text-cyan-600 ml-2 xsmall:ml-3 font-semibold text-lg xsmall:text-sm">
           Page {currentPage}
         </span>
         <button
           onClick={handleNextPage}
           disabled={!hasNextPage}
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 xsmall:py-2 xsmall:px-4 rounded text-xs xsmall:text-sm disabled:bg-gray-300 disabled:cursor-not-allowed"
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-3 xsmall:py-2 xsmall:px-4 rounded text-sm xsmall:text-sm disabled:bg-gray-300 disabled:cursor-not-allowed"
         >
           Next
         </button>
