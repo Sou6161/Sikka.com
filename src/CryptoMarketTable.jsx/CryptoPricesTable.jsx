@@ -7,6 +7,7 @@ import {
   addCGCoinSymbol,
 } from "../ReduxSlice/CGCoinTableGraphSlice";
 import { Sparklines, SparklinesLine } from "react-sparklines";
+import { Link } from "react-router-dom";
 
 const CoinSparkline = ({ coinData }) => {
   const trend =
@@ -70,7 +71,7 @@ const CryptoPricesTable = () => {
       if (response.ok) {
         const coins = await response.json();
         if (Array.isArray(coins) && coins.length > 0) {
-          // console.log(coins, "All CG Coins List per page 100");
+          console.log(coins, "All CG Coins List per page 100");
           setAllCoinsList(coins);
           setHasNextPage(coins.length === coinsPerPage);
 
@@ -169,16 +170,21 @@ const CryptoPricesTable = () => {
                 <td className="sticky left-0 z-10 bg-zinc-300/50 backdrop-blur-sm px-2 py-2 xsmall:py-4 whitespace-nowrap text-xs xsmall:text-sm text-gray-500">
                   {(currentPage - 1) * coinsPerPage + index + 1}
                 </td>
-                <td className="sticky left-8 xsmall:left-9 z-10 bg-zinc-300/50 backdrop-blur-sm px-2 py-2 xsmall:px-3 xsmall:py-4 max-w-[120px] xsmall:max-w-[200px]">
+                <td className="sticky left-8 xsmall:left-9 z-10 bg-zinc-300/50 backdrop-blur-sm px-2 py-2 xsmall:px-3 xsmall:py-4 max-w-[150px] xsmall:max-w-[200px]">
                   <div className="flex items-center">
                     <img
                       src={coin.image}
                       alt={coin.name}
                       className="w-4 h-4 xsmall:w-6 xsmall:h-6 mr-1 xsmall:mr-2"
                     />
-                    <span className="text-xs xsmall:text-sm font-medium w-[20vw] xsmall:w-[33vw] text-gray-900 truncate">
-                      {coin.name}
-                    </span>
+                    <Link to={`/en/coins/${coin.id}`}>
+                      <span className="text-[4vw] xsmall:text-sm 2xlarge:text-[1vw] font-medium w-[20vw] h-[6vh]  whitespace-normal xsmall:w-[33vw] text-gray-900 truncate ">
+                        {coin.name}
+                        <h1 className="flex flex-col text-gray-600 text-[3vw] xsmall:text-[2vw] 2xlarge:text-[0.8vw]">
+                          {coin?.symbol?.toUpperCase()}
+                        </h1>
+                      </span>
+                    </Link>
                   </div>
                 </td>
                 <td className="px-3 py-2 xsmall:px-6 xsmall:py-4 whitespace-nowrap text-xs xsmall:text-sm text-gray-500">

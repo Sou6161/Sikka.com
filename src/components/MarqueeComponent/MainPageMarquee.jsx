@@ -55,10 +55,10 @@ const MainPageMarquee = () => {
   return (
     <div class="relative flex overflow-x-hidden bg-white">
       <div class="animate-marquee whitespace-nowrap">
-        <span class="text-xl mx-10">
+        <span class="text-xl mx-10 font-semibold">
           Coins: {MarqueeData?.data?.active_cryptocurrencies}
         </span>
-        <span className="text-xl mx-4">
+        <span className="text-xl mx-4 font-semibold">
           Market Cap: $
           {MarqueeData2?.cap ? (
             <span>
@@ -94,17 +94,17 @@ const MainPageMarquee = () => {
             ""
           )}
         </span>
-        <span class="text-xl mx-4">
+        <span class="text-xl mx-4 font-semibold">
           24h Vol: $
           {MarqueeData2?.volume ? (MarqueeData2.volume / 1e9).toFixed(3) : ""} B
         </span>
-        <span class="text-xl mx-4">
+        <span class="text-xl mx-4 font-semibold">
           Dominance: BTC{" "}
           {MarqueeData2?.btcDominance
             ? (MarqueeData2.btcDominance * 100).toFixed(2)
             : ""}
           %
-          <span className="ml-3">
+          <span className="ml-3 font-semibold">
             ETH{" "}
             {MarqueeData?.data?.market_cap_percentage?.eth
               ? MarqueeData.data.market_cap_percentage.eth.toFixed(2)
@@ -112,7 +112,7 @@ const MainPageMarquee = () => {
             %
           </span>
         </span>
-        <span class="text-xl mx-4">
+        <span class="text-xl mx-4 font-semibold">
           Liquidity: $
           {MarqueeData2?.liquidity
             ? (MarqueeData2.liquidity / 1e9).toFixed(2)
@@ -122,10 +122,10 @@ const MainPageMarquee = () => {
       </div>
 
       <div class="absolute top-0 left-[5vw] animate-marquee2 whitespace-nowrap">
-        <span class="text-xl mx-10">
+        <span class="text-xl mx-10 font-semibold">
           Coins: {MarqueeData?.data?.active_cryptocurrencies}
         </span>
-        <span className="text-xl mx-4">
+        <span className="text-xl mx-4 font-semibold">
           Market Cap: $
           {MarqueeData2?.cap ? (
             <span>
@@ -142,24 +142,28 @@ const MainPageMarquee = () => {
             ""
           )}
         </span>
-        <span class="text-xl mx-4">
+        <span class="text-xl mx-4 font-semibold">
           24h Vol: $
           {MarqueeData2?.volume ? (MarqueeData2.volume / 1e9).toFixed(3) : ""} B
         </span>
-        <span class="text-xl mx-4">
+        <span class="text-xl mx-4 font-semibold">
           Dominance: BTC{" "}
           {MarqueeData2?.btcDominance
             ? (MarqueeData2.btcDominance * 100).toFixed(2)
             : ""}
           %
         </span>
-        <span class="text-xl mx-4">
+        <span class="text-xl mx-4 font-semibold">
           Liquidity: $
           {MarqueeData2?.liquidity
             ? (MarqueeData2.liquidity / 1e9).toFixed(2)
             : ""}
           B
         </span>
+      </div>
+
+      <div class="absolute top-0 left-0 w-full h-full pointer-events-none">
+        <div class="gradient-mask"></div>
       </div>
     </div>
   );
