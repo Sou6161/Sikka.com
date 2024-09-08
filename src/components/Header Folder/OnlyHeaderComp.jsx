@@ -53,7 +53,7 @@ const OnlyHeaderComp = () => {
       <nav className="relative z-10 bg-white border-gray-200 dark:bg-gray-900 dark:border-gray-700">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-2 2xlarge:p-[1.7vh]">
           <a
-            href="#"
+            href="/"
             className="flex items-center space-x-3 rtl:space-x-reverse"
           >
             <img

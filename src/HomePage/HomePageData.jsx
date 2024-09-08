@@ -74,7 +74,7 @@ const MainContainer = () => {
     GetAllLosers();
   }, []);
   useEffect(() => {
-    AllLosers && console.log(AllLosers, "Get All Gainers");
+    // AllLosers && console.log(AllLosers, "Get All Gainers");
   }, [AllLosers]);
 
   function formatPrice(num) {
@@ -108,7 +108,7 @@ const MainContainer = () => {
 
   useEffect(() => {
     if (MarketCapChart && MarketCapChart.length > 0) {
-      console.log(MarketCapChart);
+      // console.log(MarketCapChart);
     }
   }, [MarketCapChart]);
 
@@ -127,7 +127,7 @@ const MainContainer = () => {
 
   useEffect(() => {
     if (MarketCapBNB && MarketCapBNB.length > 0) {
-      console.log(MarketCapBNB);
+      // console.log(MarketCapBNB);
     }
   }, [MarketCapBNB]);
 
