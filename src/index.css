@@ -1017,3 +1017,61 @@ body::-webkit-scrollbar-thumb {
 .portfoliobutton:active {
   transform: translateY(-1px);
 }
+
+
+/* Blink the graph in single coindetails page */
+
+
+.blink-redsingle {
+  animation: blink-redsingle 1.3s infinite;
+}
+
+.blink-greensingle {
+  animation: blink-greensingle 1.3s infinite;
+}
+
+@keyframes blink-redsingle {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes blink-greensingle {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+
+.TimeGraph {
+  --font-color: #f2ee0e;
+  --bg-color: #121111;
+  --main-color: #05ddfa;
+  width: 50px;
+  height: 40px;
+  border-radius: 5px;
+  border: 2px solid rgb(4, 247, 16);
+  background-color: var(--bg-color);
+  box-shadow: 2px 2px var(--main-color);
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--font-color);
+  cursor: pointer;
+}
+
+.TimeGraph:active {
+  box-shadow: 0px 0px var(--main-color);
+  transform: translate(3px, 3px);
+}
