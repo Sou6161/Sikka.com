@@ -1,8 +1,9 @@
 import React, { useEffect, useState, useMemo } from "react";
 import OnlyHeaderComp from "../Header Folder/OnlyHeaderComp";
 import MainPageMarquee from "../MarqueeComponent/MainPageMarquee";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { FaCaretDown, FaCaretUp, FaStar } from "react-icons/fa";
+import { ChevronDown } from "lucide-react";
 import {
   LineChart,
   Line,
@@ -50,8 +51,61 @@ const CoinFullDetails = () => {
   const priceUSD = CoinDetails?.market_data?.current_price.usd;
   const priceBTC = CoinDetails?.market_data?.current_price.btc;
   const priceChange24h = CoinDetails?.market_data?.price_change_percentage_24h;
+  const [selectedCurrency, setSelectedCurrency] = useState("usd");
+  const [amount, setAmount] = useState("1");
+  const [currencies, setCurrencies] = useState([]);
+  const [isOpen, setIsOpen] = useState(false);
 
   console.log(id, "iouhouhgghuoggoo");
+
+  useEffect(() => {
+    if (
+      CoinDetails &&
+      CoinDetails.market_data &&
+      CoinDetails.market_data.current_price
+    ) {
+      setCurrencies(Object.keys(CoinDetails.market_data.current_price));
+    }
+  }, [CoinDetails]);
+
+  const handleCurrencyChange = (currency) => {
+    setSelectedCurrency(currency);
+    setIsOpen(false);
+  };
+
+  const handleAmountChange = (e) => {
+    const value = e.target.value;
+    // Allow empty string or valid numbers (including decimals)
+    if (value === "" || /^\d*\.?\d*$/.test(value)) {
+      setAmount(value);
+    }
+  };
+
+  const convertedAmount =
+    CoinDetails?.market_data?.current_price[selectedCurrency] *
+    parseFloat(amount);
+
+  const timeframes = [
+    { label: "1h", dataKey: "price_change_percentage_1h_in_currency" },
+    { label: "24h", dataKey: "price_change_percentage_24h_in_currency" },
+    { label: "7d", dataKey: "price_change_percentage_7d_in_currency" },
+    { label: "14d", dataKey: "price_change_percentage_14d_in_currency" },
+    { label: "30d", dataKey: "price_change_percentage_30d_in_currency" },
+    { label: "1y", dataKey: "price_change_percentage_1y_in_currency" },
+  ];
+
+  const formatPercentage = (value) => {
+    if (value === undefined) return "N/A";
+    const formattedValue = value.toFixed(2);
+    const color = value >= 0 ? "text-green-500" : "text-red-500";
+    const arrow = value >= 0 ? "▲" : "▼";
+    return (
+      <span className={`${color} flex items-center justify-center`}>
+        <span className="mr-1">{arrow}</span>
+        <span className="mr-5">{Math.abs(formattedValue)}%</span>
+      </span>
+    );
+  };
 
   const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
@@ -294,7 +348,7 @@ const CoinFullDetails = () => {
         <OnlyHeaderComp />
         <MainPageMarquee />
       </div>
-      <div className="w-[100vw] h-[200vh] text-white bg-black overflow-x-hidden">
+      <div className="w-[100vw] h-[400vh] text-white bg-black overflow-x-hidden">
         <h1 className=" text-[6vw] font-semibold text-red-600 relative left-[8vw] top-[7vh]">
           Overview
         </h1>
@@ -543,7 +597,7 @@ const CoinFullDetails = () => {
               Price
             </button>
             <button
-              class={`button TimeGraph2 mt-5 ml-2 ${
+              class={`button TimeGraph3  mt-5 ml-2 ${
                 chartType === "marketCap" ? "active" : ""
               }`}
               onClick={() => setChartType("marketCap")}
@@ -698,6 +752,249 @@ const CoinFullDetails = () => {
             </ResponsiveContainer>
           </div>
         </div>
+        <div className="relative top-[35vh]">
+          <div className="flex justify-between w-[95vw] mx-auto bg-gray-500/30 backdrop-blur-md border-2 text-black p-2 overflow-x-auto hide-scrollbar rounded-2xl">
+            {timeframes.map((timeframe, index) => (
+              <div key={timeframe.label} className="text-center">
+                <div
+                  className={`font-bold mb-2  ${
+                    index === 0
+                      ? "bg-yellow-600 text-black p-2 rounded-t-lg SmallTable ml-4  "
+                      : "bg-yellow-600 text-black p-2 rounded-t-lg SmallTable ml-1"
+                  }`}
+                >
+                  {timeframe.label}
+                </div>
+                <div className=" text-[4vw] w-[28vw] mx-auto bg-stone-700 border-r-[1px] relative left-   border-gray-400 p-2">
+                  {formatPercentage(
+                    CoinDetails?.market_data?.[timeframe.dataKey]?.usd
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className=" relative top-[42vh] left-5">
+          <h1 className=" text-[6vw]">{CoinDetails?.name} Converter</h1>
+          <div className="bg-white shadow-md rounded-lg p-4 w-[90vw] mt-5">
+            <div className="flex items-center justify-between mb-4">
+              <div className="font-bold text-xl text-black">
+                {CoinDetails?.symbol?.toUpperCase()}
+              </div>
+              <div className="relative">
+                <button
+                  onClick={() => setIsOpen(!isOpen)}
+                  className="flex items-center justify-between w-24 px-2 py-1 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none"
+                >
+                  {selectedCurrency.toUpperCase()}
+                  <ChevronDown size={16} />
+                </button>
+                {isOpen && (
+                  <div className="absolute right-0 mt-2 w-24 bg-white border border-gray-300 rounded-md shadow-lg z-10 max-h-60 overflow-y-auto">
+                    {currencies.map((currency) => (
+                      <button
+                        key={currency}
+                        className="block w-full text-left px-4 py-2 text-sm text-black hover:bg-gray-100"
+                        onClick={() => handleCurrencyChange(currency)}
+                      >
+                        {currency.toUpperCase()}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+            <input
+              type="text"
+              inputMode="decimal"
+              value={amount}
+              onChange={handleAmountChange}
+              className="w-full px-3 py-2 text-lg text-black border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4"
+              placeholder="Enter amount"
+            />
+            <div className="text-2xl font-bold text-red-600">
+              {!isNaN(convertedAmount) ? convertedAmount.toFixed(2) : "0.00"}{" "}
+              {selectedCurrency.toUpperCase()}
+            </div>
+          </div>
+        </div>
+        <div className=" relative top-[48vh] left-5">
+          <h1 className=" text-[6vw]">{CoinDetails?.name} Figures</h1>
+          <div className=" inline-flex mt-5">
+            <h1 className="mr-[30vw]">Market cap</h1>
+            <h1 className=" font-bold">
+              ${CoinDetails?.market_data?.market_cap?.usd.toLocaleString()}
+            </h1>
+          </div>
+          <div className=" border-b-[1px] mt-4  w-[90vw]"></div>
+          <div className=" inline-flex mt-3">
+            <h1 className=" mr-[40vw]">Market Cap/FDV</h1>
+            <h1 className="font-bold">
+              {CoinDetails?.market_data?.market_cap_fdv_ratio}
+            </h1>
+          </div>
+          <div className=" border-b-[1px] mt-4  w-[90vw]"></div>
+          <div className=" inline-flex mt-3">
+            <h1 className=" mr-[10vw]">Fully Diluted Valuation</h1>
+            <h1 className=" font-bold">
+              $
+              {CoinDetails?.market_data?.fully_diluted_valuation?.usd.toLocaleString()}
+            </h1>
+          </div>
+          <div className=" border-b-[1px] mt-4  w-[90vw]"></div>
+          <div className=" inline-flex mt-3">
+            <h1 className=" mr-[25vw]">Circulating Supply</h1>
+            <h1 className="font-bold">
+              {CoinDetails?.market_data?.circulating_supply}
+            </h1>
+          </div>
+          <div className=" border-b-[1px] mt-4  w-[90vw]"></div>
+          <div className=" inline-flex mt-3">
+            <h1 className=" mr-[40vw]">Total Supply</h1>
+            <h1 className="font-bold">
+              {CoinDetails?.market_data?.total_supply}
+            </h1>
+          </div>
+          <div className=" border-b-[1px] mt-4  w-[90vw]"></div>
+          <div className=" inline-flex mt-3">
+            <h1 className=" mr-[40vw]">Max Supply</h1>
+            <h1 className="font-bold">
+              {CoinDetails?.market_data?.total_supply}
+            </h1>
+          </div>
+          <div className=" border-b-[1px] mt-4  w-[90vw]"></div>
+          <div className=" inline-flex mt-3">
+            <h1 className=" mr-[30vw]">Total Volume</h1>
+            <h1 className="font-bold">
+              ${CoinDetails?.market_data?.total_volume?.usd}
+            </h1>
+          </div>
+          <div className=" border-b-[1px] mt-4  w-[90vw]"></div>
+        </div>
+        <div className=" relative top-[55vh] left-5">
+          <h1 className="text-[6vw]">Info</h1>
+          <div className=" inline-flex mt-5">
+            <h1 className=" mr-[20vw] text-white text-[4.5vw]">Website</h1>{" "}
+            <Link to={CoinDetails?.links?.homepage[0]}>
+              <h1 className=" bg-cyan-500 px-2 py-1 rounded-xl font-bold  text--800">
+                {" "}
+                bitcoin.org
+              </h1>
+            </Link>
+            <Link to={CoinDetails?.links?.whitepaper}>
+              <h1 className=" bg-red-600 px-2 py-1 rounded-xl ml-2 font-bold">
+                Whitepaper
+              </h1>
+            </Link>
+          </div>
+          <div className=" border-b-[1px] mt-4  w-[90vw]"></div>
+          <div className=" inline-flex mt-5">
+            <h1 className=" mr-[20vw] text-white text-[4.5vw]">Wallets</h1>{" "}
+            <Link to={CoinDetails?.links?.homepage[0]}>
+              <h1 className=" bg-cyan-500 px-2 py-1 rounded-xl font-bold  text--800">
+                {" "}
+                bitcoin.org
+              </h1>
+            </Link>
+            <Link to={CoinDetails?.links?.whitepaper}>
+              <h1 className=" bg-red-600 px-2 py-1 rounded-xl ml-2 font-bold">
+                Whitepaper
+              </h1>
+            </Link>
+          </div>
+          <div className=" border-b-[1px] mt-4  w-[90vw]"></div>
+          <div className=" inline-flex mt-5">
+            <h1 className=" mr-[11vw] text-white text-[4.5vw]">Community</h1>{" "}
+            <Link to={CoinDetails?.links?.homepage[0]}>
+              <h1 className=" bg-cyan-500 px-2 py-1 rounded-xl font-bold  text--800">
+                {" "}
+                bitcoin.org
+              </h1>
+            </Link>
+            <Link to={CoinDetails?.links?.whitepaper}>
+              <h1 className=" bg-red-600 px-2 py-1 rounded-xl ml-2 font-bold">
+                Whitepaper
+              </h1>
+            </Link>
+          </div>
+          <div className=" border-b-[1px] mt-4  w-[90vw]"></div>
+          <div className=" inline-flex mt-5">
+            <h1 className=" mr-[14vw] text-white text-[4.5vw]">Search on</h1>{" "}
+            <Link to={CoinDetails?.links?.homepage[0]}>
+              <h1 className=" bg-cyan-500 px-2 py-1 rounded-xl font-bold  text--800">
+                {" "}
+                bitcoin.org
+              </h1>
+            </Link>
+            <Link to={CoinDetails?.links?.whitepaper}>
+              <h1 className=" bg-red-600 px-2 py-1 rounded-xl ml-2 font-bold">
+                Whitepaper
+              </h1>
+            </Link>
+          </div>
+          <div className=" border-b-[1px] mt-4  w-[90vw]"></div>
+          <div className=" inline-flex mt-5">
+            <h1 className=" mr-[10vw] text-white text-[4.5vw]">Source Code</h1>{" "}
+            <Link to={CoinDetails?.links?.homepage[0]}>
+              <h1 className=" bg-cyan-500 px-2 py-1 rounded-xl font-bold  text--800">
+                {" "}
+                bitcoin.org
+              </h1>
+            </Link>
+            <Link to={CoinDetails?.links?.whitepaper}>
+              <h1 className=" bg-red-600 px-2 py-1 rounded-xl ml-2 font-bold">
+                Whitepaper
+              </h1>
+            </Link>
+          </div>
+          <div className=" border-b-[1px] mt-4  w-[90vw]"></div>
+          <div className=" inline-flex mt-5">
+            <h1 className=" mr-[20vw] text-white text-[4.5vw]">API ID</h1>{" "}
+            <Link to={CoinDetails?.links?.homepage[0]}>
+              <h1 className=" bg-cyan-500 px-2 py-1 rounded-xl font-bold  text--800">
+                {" "}
+                bitcoin.org
+              </h1>
+            </Link>
+            <Link to={CoinDetails?.links?.whitepaper}>
+              <h1 className=" bg-red-600 px-2 py-1 rounded-xl ml-2 font-bold">
+                Whitepaper
+              </h1>
+            </Link>
+          </div>
+          <div className=" border-b-[1px] mt-4  w-[90vw]"></div>
+          <div className=" inline-flex mt-5">
+            <h1 className=" mr-[20vw] text-white text-[4.5vw]">Chains</h1>{" "}
+            <Link to={CoinDetails?.links?.homepage[0]}>
+              <h1 className=" bg-cyan-500 px-2 py-1 rounded-xl font-bold  text--800">
+                {" "}
+                bitcoin.org
+              </h1>
+            </Link>
+            <Link to={CoinDetails?.links?.whitepaper}>
+              <h1 className=" bg-red-600 px-2 py-1 rounded-xl ml-2 font-bold">
+                Whitepaper
+              </h1>
+            </Link>
+          </div>
+          <div className=" border-b-[1px] mt-4  w-[90vw]"></div>
+          <div className=" inline-flex mt-5">
+            <h1 className=" mr-[12vw] text-white text-[4.5vw]">Categories</h1>{" "}
+            <Link to={CoinDetails?.links?.homepage[0]}>
+              <h1 className=" bg-cyan-500 px-2 py-1 rounded-xl font-bold  text--800">
+                {" "}
+                bitcoin.org
+              </h1>
+            </Link>
+            <Link to={CoinDetails?.links?.whitepaper}>
+              <h1 className=" bg-red-600 px-2 py-1 rounded-xl ml-2 font-bold">
+                Whitepaper
+              </h1>
+            </Link>
+          </div>
+          <div className=" border-b-[1px] mt-4  w-[90vw]"></div>
+        </div>
+        
       </div>
     </>
   );

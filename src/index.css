@@ -1082,7 +1082,7 @@ body::-webkit-scrollbar-thumb {
   --font-color: #fefefe;
   --bg-color: #111;
   --main-color: #fefefe;
-  width: 100px;
+  width: 70px;
   height: 40px;
   border-radius: 5px;
   border: 2px solid var(--main-color);
@@ -1098,3 +1098,47 @@ body::-webkit-scrollbar-thumb {
   box-shadow: 0px 0px var(--main-color);
   transform: translate(3px, 3px);
 }
+
+
+.TimeGraph3 {
+  --font-color: #fefefe;
+  --bg-color: #111;
+  --main-color: #fefefe;
+  width: 105px;
+  height: 40px;
+  border-radius: 5px;
+  border: 2px solid var(--main-color);
+  background-color: var(--bg-color);
+  box-shadow: 2px 2px var(--main-color);
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--font-color);
+  cursor: pointer;
+}
+
+.TimeGraph3:active {
+  box-shadow: 0px 0px var(--main-color);
+  transform: translate(3px, 3px);
+}
+
+
+/* css for small price percentage table in coinfulldetails */
+.SmallTable {
+  --font-color: #fefefe;
+  --bg-color: #111;
+  --main-color: #a34747;
+  width: 80px;
+  height: 40px;
+  border-radius: 5px;
+  border: 2px solid var(--main-color);
+  background-color: var(--bg-color);
+  /* box-shadow: 2px 2px var(--main-color); */
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--font-color);
+}
+
+/* .SmallTable:active {
+  box-shadow: 0px 0px var(--main-color);
+  transform: translate(3px, 3px);
+} */
