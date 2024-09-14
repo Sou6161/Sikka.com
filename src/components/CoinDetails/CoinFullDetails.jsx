@@ -3,7 +3,7 @@ import OnlyHeaderComp from "../Header Folder/OnlyHeaderComp";
 import MainPageMarquee from "../MarqueeComponent/MainPageMarquee";
 import { Link, useParams } from "react-router-dom";
 import { FaCaretDown, FaCaretUp, FaStar } from "react-icons/fa";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, ChevronUp, Search, Copy } from "lucide-react";
 import {
   LineChart,
   Line,
@@ -55,6 +55,12 @@ const CoinFullDetails = () => {
   const [amount, setAmount] = useState("1");
   const [currencies, setCurrencies] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
+
+  const toggleDropdown = () => setIsOpen(!isOpen);
+
+  const explorers =
+    CoinDetails &&
+    CoinDetails?.links?.blockchain_site.filter((site) => site !== "");
 
   console.log(id, "iouhouhgghuoggoo");
 
@@ -606,8 +612,8 @@ const CoinFullDetails = () => {
             </button>
           </div>
         </div>
-        <div className="relative top-[30vh]">
-          <div className="w-full h-96 rounded-lg shadow">
+        <div className="relative top-[30vh] w-[100vw]">
+          <div className="w-[90vw] h-96 rounded-lg shadow relative left-3  ">
             <ResponsiveContainer width="100%" height="100%">
               {chartType === "price" ? (
                 <LineChart data={chartData2}>
@@ -619,15 +625,18 @@ const CoinFullDetails = () => {
                     domain={xDomain}
                   />
                   <YAxis
+                     className=" text-[2.5vw]"
                     tickCount={9}
                     tickValues={tickValuesLowPrices}
                     tickFormatter={(value) => {
                       if (value < 0.01) {
                         return `$${value.toFixed(10)}`;
                       } else if (value < 1) {
-                        return `$${value.toFixed(2)}`;
+                        return `$${value.toFixed(3)}`;
+                      } else if (value < 1000000) {
+                        return `$${(value / 1000).toFixed(2)}K`;
                       } else {
-                        return `$${(value / 1000).toFixed(1)}K`;
+                        return `$${(value / 1000000).toFixed(2)}M`;
                       }
                     }}
                     domain={[lowestPrice, highestPrice]}
@@ -843,158 +852,250 @@ const CoinFullDetails = () => {
           </div>
           <div className=" border-b-[1px] mt-4  w-[90vw]"></div>
           <div className=" inline-flex mt-3">
-            <h1 className=" mr-[25vw]">Circulating Supply</h1>
+            <h1 className=" mr-[20vw]">Circulating Supply</h1>
             <h1 className="font-bold">
-              {CoinDetails?.market_data?.circulating_supply}
+              {CoinDetails?.market_data?.circulating_supply.toFixed(0)}
             </h1>
           </div>
           <div className=" border-b-[1px] mt-4  w-[90vw]"></div>
           <div className=" inline-flex mt-3">
-            <h1 className=" mr-[40vw]">Total Supply</h1>
+            <h1 className=" mr-[35vw]">Total Supply</h1>
             <h1 className="font-bold">
-              {CoinDetails?.market_data?.total_supply}
+              {CoinDetails?.market_data?.total_supply.toFixed(0)}
             </h1>
           </div>
           <div className=" border-b-[1px] mt-4  w-[90vw]"></div>
           <div className=" inline-flex mt-3">
-            <h1 className=" mr-[40vw]">Max Supply</h1>
+            <h1 className=" mr-[35vw]">Max Supply</h1>
             <h1 className="font-bold">
-              {CoinDetails?.market_data?.total_supply}
+              {CoinDetails?.market_data?.total_supply.toFixed(0)}
             </h1>
           </div>
           <div className=" border-b-[1px] mt-4  w-[90vw]"></div>
           <div className=" inline-flex mt-3">
             <h1 className=" mr-[30vw]">Total Volume</h1>
             <h1 className="font-bold">
-              ${CoinDetails?.market_data?.total_volume?.usd}
+              ${CoinDetails?.market_data?.total_volume?.usd.toLocaleString()}
             </h1>
           </div>
           <div className=" border-b-[1px] mt-4  w-[90vw]"></div>
         </div>
         <div className=" relative top-[55vh] left-5">
           <h1 className="text-[6vw]">Info</h1>
-          <div className=" inline-flex mt-5">
-            <h1 className=" mr-[20vw] text-white text-[4.5vw]">Website</h1>{" "}
+          <div className=" inline-flex mt-5 gap-2">
+            <h1 className=" mr-[15vw] text-white text-[4.5vw]">Website</h1>{" "}
             <Link to={CoinDetails?.links?.homepage[0]}>
-              <h1 className=" bg-cyan-500 px-2 py-1 rounded-xl font-bold  text--800">
-                {" "}
-                bitcoin.org
+              <h1 className="bg-cyan-500 px-2 py-1 rounded-xl font-bold  text--800">
+                {CoinDetails?.links?.homepage[0]
+                  .replace(/^https?:\/\/(www\.)?/, "")
+                  .replace(/\/+/g, "")
+                  .replace(/^\.+/, "")}
               </h1>
             </Link>
-            <Link to={CoinDetails?.links?.whitepaper}>
-              <h1 className=" bg-red-600 px-2 py-1 rounded-xl ml-2 font-bold">
-                Whitepaper
+            <Link
+              to={
+                CoinDetails?.links?.announcement_url[0] ||
+                CoinDetails?.links?.whitepaper
+              }
+            >
+              <h1 className="bg-cyan-500 px-2 py-1 rounded-xl font-bold  text--800">
+                {CoinDetails?.links?.announcement_url[0]
+                  ? CoinDetails?.links?.announcement_url[0]
+                      .replace(/^https?:\/\/(www\.)?/, "")
+                      .replace(/\/+/g, "")
+                      .replace(/^\.+/, "")
+                  : "Whitepaper"}
+              </h1>
+            </Link>
+          </div>
+          <div className=" border-b-[1px] mt-4  w-[90vw]"></div>
+          <div className="inline-flex mt-5 relative">
+            <h1 className="mr-[20vw] text-white text-[4.5vw]">Explorers</h1>
+            <div className="relative">
+              <button
+                onClick={toggleDropdown}
+                className="bg-white px-2 py-1 rounded-xl font-bold text-black flex items-center"
+              >
+                {explorers && explorers[0]
+                  ? new URL(explorers[0]).hostname
+                  : "Mempool"}
+                {isOpen ? (
+                  <ChevronUp className="ml-2" />
+                ) : (
+                  <ChevronDown className="ml-2" />
+                )}
+              </button>
+              {isOpen && (
+                <div className="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+                  <div
+                    className="py-1"
+                    role="menu"
+                    aria-orientation="vertical"
+                    aria-labelledby="options-menu"
+                  >
+                    {explorers.slice(1).map((site, index) => (
+                      <Link
+                        key={index}
+                        to={site}
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        role="menuitem"
+                      >
+                        {new URL(site).hostname}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+          <div className=" border-b-[1px] mt-4  w-[90vw]"></div>
+          <div className=" inline-flex mt-5">
+            <h1 className=" mr-[20vw] text-white text-[4.5vw]">Community</h1>{" "}
+            <Link
+              to={`https://x.com/${CoinDetails?.links?.twitter_screen_name}`}
+              className=""
+            >
+              <h1 className=" bg-cyan-500 px-2 py-1 inline-flex rounded-xl text-[3.5vw] font-bold  text--800">
+                {" "}
+                <img
+                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTzPDlXeNQE8FwF2AhD7WUcVhfn2NlrqfJdmZJUOp1Tk0T4yYeuF50V3aVtd4H7YzdZOjc&usqp=CAU"
+                  alt=""
+                  className=" w-[5vw] h-[2.5vh]  object-cover rounded-full"
+                />
+                Twitter
+              </h1>
+            </Link>
+            <Link to={CoinDetails?.links?.subreddit_url}>
+              <h1 className=" bg-purple-500 px-2   py-1 rounded-xl inline-flex ml-2 text-[3.5vw] font-bold">
+                <img
+                  src="https://pbs.twimg.com/profile_images/1729909787029078016/dBjB3Fnr_400x400.jpg"
+                  alt=""
+                  className=" w-[5vw] h-[2.5vh]  object-cover rounded-full"
+                />{" "}
+                Reddit
               </h1>
             </Link>
           </div>
           <div className=" border-b-[1px] mt-4  w-[90vw]"></div>
           <div className=" inline-flex mt-5">
-            <h1 className=" mr-[20vw] text-white text-[4.5vw]">Wallets</h1>{" "}
-            <Link to={CoinDetails?.links?.homepage[0]}>
-              <h1 className=" bg-cyan-500 px-2 py-1 rounded-xl font-bold  text--800">
+            <h1 className=" mr-[45vw] text-white text-[4.5vw]">Search on</h1>{" "}
+            <Link to="https://x.com/?lang=en">
+              <h1 className=" bg-cyan-500 px-2 py-1 rounded-xl inline-flex font-bold  text--800">
                 {" "}
-                bitcoin.org
-              </h1>
-            </Link>
-            <Link to={CoinDetails?.links?.whitepaper}>
-              <h1 className=" bg-red-600 px-2 py-1 rounded-xl ml-2 font-bold">
-                Whitepaper
+                <Search /> Twitter
               </h1>
             </Link>
           </div>
           <div className=" border-b-[1px] mt-4  w-[90vw]"></div>
           <div className=" inline-flex mt-5">
-            <h1 className=" mr-[11vw] text-white text-[4.5vw]">Community</h1>{" "}
-            <Link to={CoinDetails?.links?.homepage[0]}>
-              <h1 className=" bg-cyan-500 px-2 py-1 rounded-xl font-bold  text--800">
+            <h1 className=" mr-[35vw] text-white text-[4.5vw]">Source Code</h1>{" "}
+            <Link to={CoinDetails?.links?.repos_url?.github[0]}>
+              <h1 className=" bg-cyan-500 px-2 py-1 rounded-xl gap-2 inline-flex font-bold  text--800">
                 {" "}
-                bitcoin.org
-              </h1>
-            </Link>
-            <Link to={CoinDetails?.links?.whitepaper}>
-              <h1 className=" bg-red-600 px-2 py-1 rounded-xl ml-2 font-bold">
-                Whitepaper
+                <img
+                  src="https://play-lh.googleusercontent.com/PCpXdqvUWfCW1mXhH1Y_98yBpgsWxuTSTofy3NGMo9yBTATDyzVkqU580bfSln50bFU"
+                  alt=""
+                  className="w-[6vw] h-[3vh] object-cover rounded-full"
+                />{" "}
+                Github
               </h1>
             </Link>
           </div>
           <div className=" border-b-[1px] mt-4  w-[90vw]"></div>
-          <div className=" inline-flex mt-5">
-            <h1 className=" mr-[14vw] text-white text-[4.5vw]">Search on</h1>{" "}
-            <Link to={CoinDetails?.links?.homepage[0]}>
-              <h1 className=" bg-cyan-500 px-2 py-1 rounded-xl font-bold  text--800">
-                {" "}
-                bitcoin.org
-              </h1>
-            </Link>
-            <Link to={CoinDetails?.links?.whitepaper}>
-              <h1 className=" bg-red-600 px-2 py-1 rounded-xl ml-2 font-bold">
-                Whitepaper
-              </h1>
-            </Link>
+          <div className="inline-flex mt-5">
+            <h1 className="mr-[35vw] text-white text-[4.5vw]">API ID</h1>
+            <h1 className="bg-cyan-500 px-2 py-1 rounded-xl font-bold text--800">
+              {CoinDetails?.id}
+            </h1>
+            <button
+              className="ml-2"
+              onClick={() => navigator.clipboard.writeText(CoinDetails?.id)}
+            >
+              <Copy className="w-5 h-5" />
+            </button>
           </div>
           <div className=" border-b-[1px] mt-4  w-[90vw]"></div>
-          <div className=" inline-flex mt-5">
-            <h1 className=" mr-[10vw] text-white text-[4.5vw]">Source Code</h1>{" "}
-            <Link to={CoinDetails?.links?.homepage[0]}>
-              <h1 className=" bg-cyan-500 px-2 py-1 rounded-xl font-bold  text--800">
-                {" "}
-                bitcoin.org
+          <div className="inline-flex mt-5">
+            <h1 className="mr-[25vw] text-white text-[4.5vw]">Chains</h1>
+            <div className="relative">
+              <h1
+                className="bg-cyan-500 px-2 py-1 rounded-xl font-bold text--800 flex items-center cursor-pointer"
+                onClick={() =>
+                  document.getElementById("dropdown").classList.toggle("hidden")
+                }
+              >
+                {CoinDetails?.categories?.find((category) =>
+                  category.includes("Ecosystem")
+                )}
+                <ChevronDown className="w-5 h-5 ml-2" />
               </h1>
-            </Link>
-            <Link to={CoinDetails?.links?.whitepaper}>
-              <h1 className=" bg-red-600 px-2 py-1 rounded-xl ml-2 font-bold">
-                Whitepaper
-              </h1>
-            </Link>
+              <div
+                id="dropdown"
+                className="absolute hidden mt-2 bg-gray-500 rounded-xl"
+              >
+                {CoinDetails?.categories
+                  ?.filter(
+                    (category) =>
+                      category.includes("Ecosystem") &&
+                      category !==
+                        CoinDetails?.categories?.find((category) =>
+                          category.includes("Ecosystem")
+                        )
+                  )
+                  .map((category) => (
+                    <h1
+                      key={category}
+                      className="px-2 py-3 font-bold text--800"
+                    >
+                      {category}
+                    </h1>
+                  ))}
+              </div>
+            </div>
           </div>
           <div className=" border-b-[1px] mt-4  w-[90vw]"></div>
-          <div className=" inline-flex mt-5">
-            <h1 className=" mr-[20vw] text-white text-[4.5vw]">API ID</h1>{" "}
-            <Link to={CoinDetails?.links?.homepage[0]}>
-              <h1 className=" bg-cyan-500 px-2 py-1 rounded-xl font-bold  text--800">
-                {" "}
-                bitcoin.org
+          <div className="inline-flex mt-5">
+            <h1 className="mr-[20vw] text-white text-[4.5vw]">Categories</h1>
+            <div className="relative">
+              <h1
+                className="bg-cyan-500 px-2 py-1 rounded-xl font-bold text--800 flex items-center cursor-pointer"
+                onClick={() =>
+                  document
+                    .getElementById("dropdown1")
+                    .classList.toggle("hidden")
+                }
+              >
+                {CoinDetails?.categories?.find(
+                  (category) => !category.includes("Ecosystem")
+                )}
+                <ChevronDown className="w-5 h-5 ml-2" />
               </h1>
-            </Link>
-            <Link to={CoinDetails?.links?.whitepaper}>
-              <h1 className=" bg-red-600 px-2 py-1 rounded-xl ml-2 font-bold">
-                Whitepaper
-              </h1>
-            </Link>
-          </div>
-          <div className=" border-b-[1px] mt-4  w-[90vw]"></div>
-          <div className=" inline-flex mt-5">
-            <h1 className=" mr-[20vw] text-white text-[4.5vw]">Chains</h1>{" "}
-            <Link to={CoinDetails?.links?.homepage[0]}>
-              <h1 className=" bg-cyan-500 px-2 py-1 rounded-xl font-bold  text--800">
-                {" "}
-                bitcoin.org
-              </h1>
-            </Link>
-            <Link to={CoinDetails?.links?.whitepaper}>
-              <h1 className=" bg-red-600 px-2 py-1 rounded-xl ml-2 font-bold">
-                Whitepaper
-              </h1>
-            </Link>
-          </div>
-          <div className=" border-b-[1px] mt-4  w-[90vw]"></div>
-          <div className=" inline-flex mt-5">
-            <h1 className=" mr-[12vw] text-white text-[4.5vw]">Categories</h1>{" "}
-            <Link to={CoinDetails?.links?.homepage[0]}>
-              <h1 className=" bg-cyan-500 px-2 py-1 rounded-xl font-bold  text--800">
-                {" "}
-                bitcoin.org
-              </h1>
-            </Link>
-            <Link to={CoinDetails?.links?.whitepaper}>
-              <h1 className=" bg-red-600 px-2 py-1 rounded-xl ml-2 font-bold">
-                Whitepaper
-              </h1>
-            </Link>
+              <div
+                id="dropdown1"
+                className="absolute hidden bg-gray-500 mt-2 rounded-xl"
+              >
+                {CoinDetails?.categories
+                  ?.filter(
+                    (category) =>
+                      !category.includes("Ecosystem") &&
+                      category !==
+                        CoinDetails?.categories?.find(
+                          (category) => !category.includes("Ecosystem")
+                        )
+                  )
+                  .map((category) => (
+                    <h1
+                      key={category}
+                      className="px-2 py-1 font-bold text--800"
+                    >
+                      {category}
+                    </h1>
+                  ))}
+              </div>
+            </div>
           </div>
           <div className=" border-b-[1px] mt-4  w-[90vw]"></div>
         </div>
-        
       </div>
     </>
   );
