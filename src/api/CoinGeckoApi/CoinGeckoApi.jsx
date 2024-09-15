@@ -14,4 +14,12 @@ export const CoinGeckoYogeshApi = {
   },
 };
 
+export const CoinGeckoRixerApi = {
+  method: "GET",
+  headers: {
+    accept: "application/json",
+    "x-cg-demo-api-key": "CG-uEjwN42HqyNMERt6PSkdUKmt",
+  },
+};
+
 

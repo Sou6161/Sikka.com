@@ -4,6 +4,7 @@ import MainPageMarquee from "../MarqueeComponent/MainPageMarquee";
 import { Link, useParams } from "react-router-dom";
 import { FaCaretDown, FaCaretUp, FaStar } from "react-icons/fa";
 import { ChevronDown, ChevronUp, Search, Copy } from "lucide-react";
+import { ExternalLink } from "lucide-react";
 import {
   LineChart,
   Line,
@@ -14,6 +15,7 @@ import {
 } from "recharts";
 import {
   CoinGeckoApi,
+  CoinGeckoRixerApi,
   CoinGeckoYogeshApi,
 } from "../../api/CoinGeckoApi/CoinGeckoApi";
 
@@ -36,7 +38,7 @@ const formatPrice = (price) => {
   }
 };
 
-const CoinFullDetails = () => {
+const CoinFullDetails = ({ contractAddress, marketsData }) => {
   const { id } = useParams();
   const [showDropdown, setShowDropdown] = useState(false);
   const [CoinDetails, setCoinDetails] = useState(null);
@@ -55,8 +57,50 @@ const CoinFullDetails = () => {
   const [amount, setAmount] = useState("1");
   const [currencies, setCurrencies] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
+  const [description, setDescription] = useState("");
+  const [hyperlinks, setHyperlinks] = useState({});
+  const truncatedAddress = `${
+    CoinDetails &&
+    CoinDetails?.detail_platforms?.ethereum?.contract_address.slice(0, 6)
+  }...${
+    CoinDetails &&
+    CoinDetails?.detail_platforms?.ethereum?.contract_address.slice(-5)
+  }`;
+  const [MarketsData, setMarketsData] = useState(null);
+
+  const headerStyle = {
+    padding: "12px",
+    textAlign: "left",
+    borderBottom: "2px solid #ddd",
+    fontWeight: "bold",
+  };
+
+  const cellStyle = {
+    padding: "12px",
+    textAlign: "left",
+  };
 
   const toggleDropdown = () => setIsOpen(!isOpen);
+
+  useEffect(() => {
+    const text = CoinDetails && CoinDetails?.description?.en;
+    if (!text) return;
+
+    const regex = /<a.*?href="(.*?)".*?>(.*?)<\/a>/g;
+    let match;
+
+    let newText = text;
+    while ((match = regex.exec(text)) !== null) {
+      const url = match && match[1];
+      const linkText = match && match[2];
+      newText = newText.replace(
+        match[0],
+        `<a href="${url}" style="color: blue; text-decoration: underline">${linkText}</a>`
+      );
+    }
+
+    setDescription(newText);
+  }, [CoinDetails]);
 
   const explorers =
     CoinDetails &&
@@ -348,13 +392,29 @@ const CoinFullDetails = () => {
     CoinMcapDetails && console.log(CoinMcapDetails);
   }, [CoinMcapDetails]);
 
+  useEffect(() => {
+    const FetchMarketsData = async () => {
+      const response = await fetch(
+        "https://api.coingecko.com/api/v3/coins/binancecoin/tickers?include_exchange_logo=true&page=1&order=trust_score_desc&depth=true",
+        CoinGeckoRixerApi
+      );
+      const MarketData = await response.json();
+      setMarketsData(MarketData?.tickers);
+    };
+    FetchMarketsData();
+  }, []);
+
+  useEffect(() => {
+    MarketsData && console.log(MarketsData, " Tickers  Markets Data for coins");
+  }, [MarketsData]);
+
   return (
     <>
       <div>
         <OnlyHeaderComp />
         <MainPageMarquee />
       </div>
-      <div className="w-[100vw] h-[400vh] text-white bg-black overflow-x-hidden">
+      <div className="w-[100vw] h-[900vh] text-white bg-black overflow-x-hidden">
         <h1 className=" text-[6vw] font-semibold text-red-600 relative left-[8vw] top-[7vh]">
           Overview
         </h1>
@@ -625,7 +685,7 @@ const CoinFullDetails = () => {
                     domain={xDomain}
                   />
                   <YAxis
-                     className=" text-[2.5vw]"
+                    className=" text-[2.5vw]"
                     tickCount={9}
                     tickValues={tickValuesLowPrices}
                     tickFormatter={(value) => {
@@ -882,32 +942,68 @@ const CoinFullDetails = () => {
         </div>
         <div className=" relative top-[55vh] left-5">
           <h1 className="text-[6vw]">Info</h1>
-          <div className=" inline-flex mt-5 gap-2">
-            <h1 className=" mr-[15vw] text-white text-[4.5vw]">Website</h1>{" "}
-            <Link to={CoinDetails?.links?.homepage[0]}>
-              <h1 className="bg-cyan-500 px-2 py-1 rounded-xl font-bold  text--800">
-                {CoinDetails?.links?.homepage[0]
-                  .replace(/^https?:\/\/(www\.)?/, "")
-                  .replace(/\/+/g, "")
-                  .replace(/^\.+/, "")}
-              </h1>
-            </Link>
-            <Link
-              to={
-                CoinDetails?.links?.announcement_url[0] ||
-                CoinDetails?.links?.whitepaper
-              }
-            >
-              <h1 className="bg-cyan-500 px-2 py-1 rounded-xl font-bold  text--800">
-                {CoinDetails?.links?.announcement_url[0]
-                  ? CoinDetails?.links?.announcement_url[0]
+          <div className="flex flex-col w-full max-w-3xl">
+            <div className="flex items-center space-x-2 text-gray-600">
+              <span className="text-sm font-medium">Contract</span>
+              <div className="flex items-center ml-5 relative left-10 space-x-1 bg-gray-100 rounded-full px-3 py-1">
+                <img
+                  src="https://w7.pngwing.com/pngs/268/1013/png-transparent-ethereum-eth-hd-logo-thumbnail.png"
+                  alt=""
+                  className="w-[4vw] h-[2vh] object-cover rounded-full"
+                />
+                <span className="text-xs font-medium">Ethereum</span>
+                <span className="text-xs font-semibold">
+                  {truncatedAddress}
+                </span>
+                <Copy
+                  className="w-4 h-4  text-gray-800 cursor-pointer"
+                  onClick={() => {
+                    navigator.clipboard.writeText(
+                      CoinDetails &&
+                        CoinDetails?.detail_platforms?.ethereum
+                          ?.contract_address
+                    );
+                  }}
+                />
+                <ExternalLink className="w-4 h-4 text-gray-400 cursor-pointer" />
+              </div>
+            </div>
+            <div className="mt-2 border-b border-gray-200 w-full"></div>
+          </div>
+
+          {(CoinDetails?.links?.homepage[0] ||
+            CoinDetails?.links?.announcement_url[0]) && (
+            <div className="inline-flex mt-5 gap-2">
+              <h1 className="mr-[20vw] text-white text-[4.5vw]">Website</h1>
+              {CoinDetails?.links?.homepage[0] && (
+                <Link to={CoinDetails?.links?.homepage[0]}>
+                  <h1 className="bg-cyan-500 px-2 py-1 rounded-xl font-bold  text--800">
+                    {CoinDetails?.links?.homepage[0]
                       .replace(/^https?:\/\/(www\.)?/, "")
                       .replace(/\/+/g, "")
-                      .replace(/^\.+/, "")
-                  : "Whitepaper"}
-              </h1>
-            </Link>
-          </div>
+                      .replace(/^\.+/, "")}
+                  </h1>
+                </Link>
+              )}
+              {CoinDetails?.links?.announcement_url[0] && (
+                <Link
+                  to={
+                    CoinDetails?.links?.announcement_url[0] ||
+                    CoinDetails?.links?.whitepaper
+                  }
+                >
+                  <h1 className="bg-cyan-500 px-2 py-1 rounded-xl font-bold  text--800">
+                    {CoinDetails?.links?.announcement_url[0]
+                      ? CoinDetails?.links?.announcement_url[0]
+                          .replace(/^https?:\/\/(www\.)?/, "")
+                          .replace(/\/+/g, "")
+                          .replace(/^\.+/, "")
+                      : "Whitepaper"}
+                  </h1>
+                </Link>
+              )}
+            </div>
+          )}
           <div className=" border-b-[1px] mt-4  w-[90vw]"></div>
           <div className="inline-flex mt-5 relative">
             <h1 className="mr-[20vw] text-white text-[4.5vw]">Explorers</h1>
@@ -1095,6 +1191,159 @@ const CoinFullDetails = () => {
             </div>
           </div>
           <div className=" border-b-[1px] mt-4  w-[90vw]"></div>
+        </div>
+        <div className=" relative top-[65vh] left-5">
+          <h1 className=" font-semibold">
+            How Do You Fell About{" "}
+            <span className=" text-[5vw] font-bold text-lime-400">
+              {CoinDetails?.name}
+            </span>{" "}
+            Today?
+          </h1>
+          <h1 className=" text-[3.5vw] font-light mt-1">
+            The Community is{" "}
+            <span
+              className={
+                CoinDetails?.sentiment_votes_up_percentage >
+                CoinDetails?.sentiment_votes_down_percentage
+                  ? "text-green-400 font-semibold text-[4.5vw]"
+                  : "text-red-600  font-semibold text-[4.5vw]"
+              }
+            >
+              {CoinDetails?.sentiment_votes_up_percentage >
+              CoinDetails?.sentiment_votes_down_percentage
+                ? "Bullish"
+                : "Bearish"}
+            </span>{" "}
+            about{" "}
+            <span>
+              {CoinDetails?.name} ({CoinDetails?.name}) today
+            </span>
+          </h1>
+          <button className="CommunityBullishButton mt-5">
+            🚀 {CoinDetails?.sentiment_votes_up_percentage.toFixed(0)}%
+          </button>
+          <button className="CommunityBullishButton mt-5 ml-10">
+            📉 {CoinDetails?.sentiment_votes_down_percentage.toFixed(0)}%
+          </button>
+        </div>
+        <div className="relative top-[73vh] left-5">
+          <h1 className="text-[6vw] font-semibold">About</h1>
+          <p
+            className="leading-10 w-[90vw] mt-5"
+            dangerouslySetInnerHTML={{ __html: description }}
+          />
+        </div>
+        <div className=" relative top-[85vh] left-5">
+          <h1 className=" text-[6vw] font-semibold">
+            {CoinDetails?.name} Markets
+          </h1>
+
+          <div style={{ overflowX: "auto" }} className=" mt-5">
+            <table style={{ borderCollapse: "collapse", width: "100%" }}>
+              <thead>
+                <tr
+                  style={{ backgroundColor: "gray" }}
+                  className=" rounded-2xl"
+                >
+                  <th style={headerStyle}>#</th>
+                  <th style={headerStyle}>Exchange</th>
+                  <th style={headerStyle}>Pair</th>
+                  <th style={headerStyle}>Price</th>
+                  <th style={headerStyle}>Spread</th>
+                  <th style={headerStyle}>+2% Depth</th>
+                  <th style={headerStyle}>-2% Depth</th>
+                  <th style={headerStyle}>24h Volume</th>
+                  <th style={headerStyle}>Volume %</th>
+                  <th style={headerStyle}>Last Updated</th>
+                  <th style={headerStyle}>Trust Score</th>
+                </tr>
+              </thead>
+              <tbody>
+                {MarketsData &&
+                  MarketsData.map((market, index) => (
+                    <tr key={index} style={{ borderBottom: "1px solid #ddd" }}>
+                      <td style={cellStyle}>{index + 1}</td>
+                      <td style={cellStyle}>
+                        <div
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "8px",
+                          }}
+                        >
+                          <img
+                            src={market?.market?.logo}
+                            alt={market?.market?.name}
+                            style={{
+                              width: "24px",
+                              height: "24px",
+                              borderRadius: "50%",
+                            }}
+                          />
+                          <span>{market?.market?.name}</span>
+                        </div>
+                      </td>
+                      <td
+                        style={cellStyle}
+                      >{`${market?.base}/${market?.target}`}</td>
+                      <td
+                        style={cellStyle}
+                      >{`₹${market?.converted_last?.usd.toFixed(2)}`}</td>
+                      <td style={cellStyle}>{`${(
+                        market?.bid_ask_spread_percentage * 100
+                      ).toFixed(2)}%`}</td>
+                      <td
+                        style={cellStyle}
+                      >{`$${market?.cost_to_move_up_usd.toLocaleString()}`}</td>
+                      <td
+                        style={cellStyle}
+                      >{`$${market?.cost_to_move_down_usd.toLocaleString()}`}</td>
+                      <td
+                        style={cellStyle}
+                      >{`$${market?.converted_volume?.usd.toLocaleString()}`}</td>
+                      <td style={cellStyle}>N/A</td>
+                      <td style={cellStyle}>
+                        {new Date().getTime() -
+                          new Date(market?.last_fetch_at).getTime() <
+                        60000 ? ( // 1 minute
+                          "Recently"
+                        ) : (
+                          <>
+                            {new Date(market?.last_fetch_at).toLocaleDateString(
+                              "en-GB"
+                            )}
+                            <br />
+                            {new Date(market?.last_fetch_at).toLocaleTimeString(
+                              [],
+                              {
+                                hour: "2-digit",
+                                minute: "2-digit",
+                              }
+                            )}
+                          </>
+                        )}
+                      </td>
+                      <td style={cellStyle}>
+                        <span
+                          style={{
+                            padding: "4px 8px",
+                            borderRadius: "4px",
+                            backgroundColor:
+                              market.trust_score === "green"
+                                ? "#4CAF50"
+                                : "#FFC107",
+                            color: "white",
+                          }}
+                        >
+                          {market?.trust_score}
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </>
