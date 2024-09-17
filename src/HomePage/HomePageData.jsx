@@ -13,8 +13,8 @@ import Footer from "../Footer/Footer";
 import { addHomePageMarketCapChart } from "../ReduxSlice/HomePageMCapChart";
 
 const MainContainer = () => {
-  const MarqueeData = useSelector((state) => state.Marquee.MarqueeData);
-  const MarqueeData2 = useSelector((state) => state.Marquee2.MarqueeData2);
+  const MarqueeData = useSelector((state) => state.Marquee?.MarqueeData);
+  const MarqueeData2 = useSelector((state) => state.Marquee2?.MarqueeData2);
   const [GetTrendingCoins, setGetTrendingCoins] = useState(null);
   const [AllGainers, setAllGainers] = useState(null);
   const [AllLosers, setAllLosers] = useState(null);
@@ -132,7 +132,10 @@ const MainContainer = () => {
   }, [MarketCapBNB]);
 
   {
-    // MarqueeData2 && console.log(MarqueeData2);
+    MarqueeData2 && console.log(MarqueeData2, "Marquee Data 2 ");
+  }
+  {
+    MarqueeData && console.log(MarqueeData, "Marquee Data");
   }
   return (
     <div className=" relative ">
@@ -140,33 +143,36 @@ const MainContainer = () => {
         Cryptocurrency Prices by Market Cap
         <p className=" large:relative large:z-99  text-sky-400 text-[3.5vw] xsmall:text-[2.5vw] small:text-[2.2vw] medium:text-[2vw] 2xlarge:text-[1vw] mt-2">
           The global cryptocurrency market cap today is{" "}
-          <span>
-            {MarqueeData2?.cap ? (
-              <span className="text-[#64748b]">
-                {(MarqueeData2.cap / 1e12).toFixed(3)} Trillions, a{" "}
-                <span
-                  className={`text-[3.5vw] xsmall:text-[2.5vw] small:text-[2.2vw] medium:text-[2vw] relative top-1 small:top-1 xsmall:top-2 2xlarge:text-[1vw] inline-flex items-center ${
-                    MarqueeData?.data?.market_cap_change_percentage_24h_usd < 0
-                      ? "text-red-500"
-                      : "text-[#4BCC00]"
-                  }`}
-                >
-                  {MarqueeData?.data?.market_cap_change_percentage_24h_usd >=
-                  0 ? (
-                    <FaCaretUp className="text-[4vw] small:text-[3vw] medium:text-[2.5vw] 2xlarge:text-[1vw]" />
-                  ) : (
-                    <FaCaretDown className="text-[4vw] small:text-[3vw] medium:text-[2.5vw] 2xlarge:text-[1vw]" />
-                  )}
-                  {MarqueeData?.data?.market_cap_change_percentage_24h_usd?.toFixed(
-                    1
-                  )}
-                  %
+          {MarqueeData?.length > 0 && MarqueeData2?.length > 0 && (
+            <span>
+              {MarqueeData2[0].cap ? (
+                <span className="text-[#64748b]">
+                  {(MarqueeData2[0].cap / 1e12).toFixed(3)} Trillions, a{" "}
+                  <span
+                    className={`text-[3.5vw] xsmall:text-[2.5vw] small:text-[2.2vw] medium:text-[2vw] relative top-1 small:top-1 xsmall:top-2 2xlarge:text-[1vw] inline-flex items-center ${
+                      MarqueeData[0].data.market_cap_change_percentage_24h_usd <
+                      0
+                        ? "text-red-500"
+                        : "text-[#4BCC00]"
+                    }`}
+                  >
+                    {MarqueeData[0].data.market_cap_change_percentage_24h_usd >=
+                    0 ? (
+                      <FaCaretUp className="text-[4vw] small:text-[3vw] medium:text-[2.5vw] 2xlarge:text-[1vw]" />
+                    ) : (
+                      <FaCaretDown className="text-[4vw] small:text-[3vw] medium:text-[2.5vw] 2xlarge:text-[1vw]" />
+                    )}
+                    {MarqueeData[0].data.market_cap_change_percentage_24h_usd?.toFixed(
+                      1
+                    )}
+                    %
+                  </span>
                 </span>
-              </span>
-            ) : (
-              ""
-            )}
-          </span>{" "}
+              ) : (
+                ""
+              )}
+            </span>
+          )}
           change in the last 24 hours.{" "}
           <span className="text-purple-500 hover:text-orange-400 text-[3.5vw] xsmall:text-[2.5vw] medium:text-[2vw] 2xlarge:text-[1vw] hover:cursor-pointer hover:underline">
             Read more
@@ -194,29 +200,39 @@ const MainContainer = () => {
                 Market Cap
               </span>
             </div>
-            <span className="text-lg font-bold text-black">
-              ${MarqueeData2?.cap?.toLocaleString("en-US")}
-            </span>
+
+            {MarqueeData2 && MarqueeData2.length > 0 && (
+              <span className="text-lg font-bold text-black">
+                ${MarqueeData2?.[0]?.cap?.toLocaleString("en-US")}
+              </span>
+            )}
           </div>
-          <div className="flex justify-end mt-1">
-            <span
-              className={`flex items-center font-semibold ${
-                MarqueeData?.data?.market_cap_change_percentage_24h_usd >= 0
-                  ? "text-green-500"
-                  : "text-red-500"
-              }`}
-            >
-              {MarqueeData?.data?.market_cap_change_percentage_24h_usd >= 0 ? (
-                <FaCaretUp className="mr-1" />
-              ) : (
-                <FaCaretDown className="mr-1" />
-              )}
-              {MarqueeData?.data?.market_cap_change_percentage_24h_usd?.toFixed(
-                1
-              )}
-              %
-            </span>
-          </div>
+          {MarqueeData &&
+            MarqueeData.length > 0 &&
+            MarqueeData[0].data.market_cap_change_percentage_24h_usd !==
+              undefined && (
+              <div className="flex justify-end mt-1">
+                <span
+                  className={`flex items-center font-semibold ${
+                    MarqueeData[0].data.market_cap_change_percentage_24h_usd >=
+                    0
+                      ? "text-green-500"
+                      : "text-red-500"
+                  }`}
+                >
+                  {MarqueeData[0].data.market_cap_change_percentage_24h_usd >=
+                  0 ? (
+                    <FaCaretUp className="mr-1" />
+                  ) : (
+                    <FaCaretDown className="mr-1" />
+                  )}
+                  {MarqueeData[0].data.market_cap_change_percentage_24h_usd.toFixed(
+                    1
+                  )}
+                  %
+                </span>
+              </div>
+            )}
         </div>
 
         <div>
@@ -281,9 +297,13 @@ const MainContainer = () => {
                 24h Trading Volume
               </span>
             </div>
-            <span className="text-sm xsmall:text-base small:text-lg font-bold text-black">
-              ${MarqueeData2?.volume?.toLocaleString("en-US")}
-            </span>
+            {MarqueeData2 &&
+              MarqueeData2.length > 0 &&
+              MarqueeData2[0].volume !== undefined && (
+                <span className="text-sm xsmall:text-base small:text-lg font-bold text-black">
+                  ${MarqueeData2[0].volume.toLocaleString("en-US")}
+                </span>
+              )}
           </div>
         </div>
 

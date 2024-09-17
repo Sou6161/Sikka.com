@@ -2,7 +2,7 @@ export const TokenInsightApi = {
   method: "GET",
   headers: {
     accept: "application/json",
-    TI_API_KEY: "a530a29b12a543898751680f2b131480",
+    TI_API_KEY: "46499d8f810e48458b6f715c78e168c4",
   },
 };
 
@@ -10,6 +10,6 @@ export const TokenInsightApiCoinData = {
   method: "GET",
   headers: {
     accept: "application/json",
-    TI_API_KEY: "ede5414f303046b0932aa0862e6c8ba4",
+    TI_API_KEY: "c199fbaa2bf54cf1a2b898aedaa9220e",
   },
 };

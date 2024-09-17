@@ -71,9 +71,9 @@ const CryptoPricesTable = () => {
       if (response.ok) {
         const coins = await response.json();
         if (Array.isArray(coins) && coins.length > 0) {
-          console.log(coins, "All CG Coins List per page 100");
+          // console.log(coins, "All CG Coins List per page 100");
           setAllCoinsList(coins);
-          console.log(coins)
+          // console.log(coins)
           setHasNextPage(coins.length === coinsPerPage);
 
           // Map over coins and store IDs and symbols in state

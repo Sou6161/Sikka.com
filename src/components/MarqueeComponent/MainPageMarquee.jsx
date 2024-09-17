@@ -28,7 +28,7 @@ const MainPageMarquee = () => {
   }, []);
 
   useEffect(() => {
-    // MarqueeData && console.log(MarqueeData);
+    // MarqueeData && console.log(MarqueeData,"Marquee Data");
   }, [MarqueeData]);
 
   useEffect(() => {
@@ -49,7 +49,7 @@ const MainPageMarquee = () => {
   }, []);
 
   useEffect(() => {
-    // MarqueeData2 && console.log(MarqueeData2);
+    // MarqueeData2 && console.log(MarqueeData2 ," Marquee Data 2");
   }, [MarqueeData2]);
 
   return (

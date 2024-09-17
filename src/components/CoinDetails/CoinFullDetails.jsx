@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState, useMemo, useCallback } from "react";
 import OnlyHeaderComp from "../Header Folder/OnlyHeaderComp";
 import MainPageMarquee from "../MarqueeComponent/MainPageMarquee";
 import { Link, useParams } from "react-router-dom";
@@ -18,6 +18,8 @@ import {
   CoinGeckoRixerApi,
   CoinGeckoYogeshApi,
 } from "../../api/CoinGeckoApi/CoinGeckoApi";
+import { MdSwapVert } from "react-icons/md";
+import { formatDistanceToNow } from "date-fns";
 
 const formatXAxis = (unixTimestamp) => {
   const date = new Date(unixTimestamp);
@@ -66,21 +68,63 @@ const CoinFullDetails = ({ contractAddress, marketsData }) => {
     CoinDetails &&
     CoinDetails?.detail_platforms?.ethereum?.contract_address.slice(-5)
   }`;
-  const [MarketsData, setMarketsData] = useState(null);
+  const [MarketsData, setMarketsData] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [disableNext, setDisableNext] = useState(false);
+  const [disablePrevious, setDisablePrevious] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const [usdToInrRate, setUsdToInrRate] = useState(0);
+  const [currency, setCurrency] = useState("INR");
 
-  const headerStyle = {
-    padding: "12px",
-    textAlign: "left",
-    borderBottom: "2px solid #ddd",
-    fontWeight: "bold",
-  };
+  const [CoinLatestNews, setCoinLatestNews] = useState(null);
+  const [renderedNews, setRenderedNews] = useState([]);
+  let targetCount = 11;
 
-  const cellStyle = {
-    padding: "12px",
-    textAlign: "left",
-  };
+  useEffect(() => {
+    if (!CoinLatestNews) return;
+
+    const loadImages = async () => {
+      let validNews = [];
+      let index = 0;
+
+      while (validNews.length < targetCount && index < CoinLatestNews.length) {
+        const item = CoinLatestNews[index];
+        if (item.urlToImage) {
+          try {
+            await new Promise((resolve, reject) => {
+              const img = new Image();
+              img.onload = resolve;
+              img.onerror = reject;
+              img.src = item.urlToImage;
+            });
+            validNews.push(item);
+          } catch (error) {
+            // Image failed to load, skip this item
+          }
+        }
+        index++;
+
+        if (index >= CoinLatestNews.length && validNews.length < targetCount) {
+          index = 0; // Start over if we haven't found enough valid news items
+        }
+      }
+
+      setRenderedNews(validNews);
+    };
+
+    loadImages();
+  }, [CoinLatestNews, targetCount]);
+
+  const itemsPerPage = 100;
 
   const toggleDropdown = () => setIsOpen(!isOpen);
+
+  useEffect(() => {
+    fetch("https://api.exchangerate-api.com/v4/latest/USD")
+      .then((response) => response.json())
+      .then((data) => setUsdToInrRate(data.rates.INR))
+      .catch((error) => console.error(error));
+  }, []);
 
   useEffect(() => {
     const text = CoinDetails && CoinDetails?.description?.en;
@@ -191,12 +235,6 @@ const CoinFullDetails = ({ contractAddress, marketsData }) => {
     }
     return null;
   };
-  const Dashboard = ({ CoinChartDetails, lowPrice, highPrice, tickValues }) => {
-    // Check if CoinChartDetails is null or empty
-    if (!CoinChartDetails || CoinChartDetails.length === 0) {
-      return <div>No data available</div>;
-    }
-  };
 
   // Transform CoinChartDetails into the format expected by recharts
   const chartData2 =
@@ -263,7 +301,7 @@ const CoinFullDetails = ({ contractAddress, marketsData }) => {
   }, []);
 
   useEffect(() => {
-    // CoinDetails && console.log(CoinDetails);
+    CoinDetails && console.log(CoinDetails);
   }, [CoinDetails]);
 
   useEffect(() => {
@@ -311,7 +349,7 @@ const CoinFullDetails = ({ contractAddress, marketsData }) => {
   }, [timeFrame, id, CoinDetails, CoinGeckoYogeshApi]);
 
   useEffect(() => {
-    CoinChartDetails && console.log(CoinChartDetails);
+    CoinChartDetails && console.log(CoinChartDetails, `${CoinDetails?.name}`);
   }, [CoinChartDetails]);
 
   useEffect(() => {
@@ -343,21 +381,21 @@ const CoinFullDetails = ({ contractAddress, marketsData }) => {
         CoinGeckoYogeshApi
       );
       const CoinMCapData = await response.json();
-      if (CoinMCapData && CoinMCapData.market_caps) {
-        setCoinMcapDetails(CoinMCapData.market_caps);
+      if (CoinMCapData && CoinMCapData?.market_caps) {
+        setCoinMcapDetails(CoinMCapData?.market_caps);
         const lowest = Math.min(
-          ...CoinMCapData.market_caps.map((item) => item[1])
+          ...CoinMCapData?.market_caps.map((item) => item[1])
         );
         setLowestMarketCap(lowest);
         const highest = Math.max(
-          ...CoinMCapData.market_caps.map((item) => item[1])
+          ...CoinMCapData?.market_caps.map((item) => item[1])
         );
         setHighestMarketCap(highest);
         const minTime = Math.min(
-          ...CoinMCapData.market_caps.map((item) => item[0])
+          ...CoinMCapData?.market_caps.map((item) => item[0])
         );
         const maxTime = Math.max(
-          ...CoinMCapData.market_caps.map((item) => item[0])
+          ...CoinMCapData?.market_caps.map((item) => item[0])
         );
         setXAxisDomain([minTime, maxTime]);
       }
@@ -389,24 +427,70 @@ const CoinFullDetails = ({ contractAddress, marketsData }) => {
     }
   };
   useEffect(() => {
-    CoinMcapDetails && console.log(CoinMcapDetails);
+    CoinMcapDetails &&
+      console.log(
+        CoinMcapDetails,
+        `Market cap detailssssss ${CoinDetails?.name}`
+      );
   }, [CoinMcapDetails]);
 
-  useEffect(() => {
-    const FetchMarketsData = async () => {
+  const fetchMarketsData = useCallback(async (page) => {
+    setIsLoading(true);
+    try {
       const response = await fetch(
-        "https://api.coingecko.com/api/v3/coins/binancecoin/tickers?include_exchange_logo=true&page=1&order=trust_score_desc&depth=true",
+        `https://api.coingecko.com/api/v3/coins/${id}/tickers?include_exchange_logo=true&page=${page}&order=trust_score_desc&depth=true`,
         CoinGeckoRixerApi
       );
-      const MarketData = await response.json();
-      setMarketsData(MarketData?.tickers);
-    };
-    FetchMarketsData();
+      const marketData = await response.json();
+      setMarketsData(marketData?.tickers || []);
+      setDisableNext(marketData?.tickers?.length < itemsPerPage);
+    } catch (error) {
+      console.error("Error fetching market data:", error);
+      setMarketsData([]);
+    } finally {
+      setIsLoading(false);
+    }
   }, []);
+
+  useEffect(() => {
+    fetchMarketsData(currentPage);
+  }, [currentPage, fetchMarketsData]);
+  const handlePageChange = useCallback((page) => {
+    setCurrentPage(page);
+    setDisablePrevious(page === 1);
+  }, []);
+
+  const handleNextPage = useCallback(() => {
+    if (!disableNext) {
+      handlePageChange(currentPage + 1);
+    }
+  }, [disableNext, currentPage, handlePageChange]);
+
+  const handlePreviousPage = useCallback(() => {
+    if (!disablePrevious) {
+      handlePageChange(currentPage - 1);
+    }
+  }, [disablePrevious, currentPage, handlePageChange]);
 
   useEffect(() => {
     MarketsData && console.log(MarketsData, " Tickers  Markets Data for coins");
   }, [MarketsData]);
+
+  useEffect(() => {
+    const FetchCoinLatestNews = async () => {
+      const response = await fetch(
+        `https://newsapi.org/v2/everything?q=bitcoin&apiKey=fbecde2b44f445b4b1fa9f89ae474dd3`
+      );
+      const CoinNews = await response.json();
+      // console.log(CoinNews);
+      setCoinLatestNews(CoinNews?.articles);
+    };
+    FetchCoinLatestNews();
+  }, []);
+
+  useEffect(() => {
+    CoinLatestNews && console.log(CoinLatestNews, "Coin Latest News");
+  }, [CoinLatestNews]);
 
   return (
     <>
@@ -414,7 +498,7 @@ const CoinFullDetails = ({ contractAddress, marketsData }) => {
         <OnlyHeaderComp />
         <MainPageMarquee />
       </div>
-      <div className="w-[100vw] h-[900vh] text-white bg-black overflow-x-hidden">
+      <div className="w-[100vw] h-[1000vh] text-white bg-black overflow-x-hidden">
         <h1 className=" text-[6vw] font-semibold text-red-600 relative left-[8vw] top-[7vh]">
           Overview
         </h1>
@@ -677,6 +761,7 @@ const CoinFullDetails = ({ contractAddress, marketsData }) => {
             <ResponsiveContainer width="100%" height="100%">
               {chartType === "price" ? (
                 <LineChart data={chartData2}>
+                  {console.log("LineChart is rendering")}
                   <XAxis
                     dataKey="time"
                     tickFormatter={formatXAxis}
@@ -1239,110 +1324,189 @@ const CoinFullDetails = ({ contractAddress, marketsData }) => {
             {CoinDetails?.name} Markets
           </h1>
 
-          <div style={{ overflowX: "auto" }} className=" mt-5">
-            <table style={{ borderCollapse: "collapse", width: "100%" }}>
+          <div className="mt-5 overflow-x-auto w-[90vw]">
+            <table className="w-full border-collapse">
               <thead>
-                <tr
-                  style={{ backgroundColor: "gray" }}
-                  className=" rounded-2xl"
-                >
-                  <th style={headerStyle}>#</th>
-                  <th style={headerStyle}>Exchange</th>
-                  <th style={headerStyle}>Pair</th>
-                  <th style={headerStyle}>Price</th>
-                  <th style={headerStyle}>Spread</th>
-                  <th style={headerStyle}>+2% Depth</th>
-                  <th style={headerStyle}>-2% Depth</th>
-                  <th style={headerStyle}>24h Volume</th>
-                  <th style={headerStyle}>Volume %</th>
-                  <th style={headerStyle}>Last Updated</th>
-                  <th style={headerStyle}>Trust Score</th>
+                <tr className="bg-gray-700 rounded-2xl">
+                  <th className="p-2 text-left text-sm font-semibold text-white">
+                    #
+                  </th>
+                  <th className="p-2 text-left text-sm font-semibold text-white">
+                    Exchange
+                  </th>
+                  <th className="p-2 text-left text-sm font-semibold text-white">
+                    Pair
+                  </th>
+                  <th className="p-2 text-left mt-[2vh] text-sm font-semibold text-white flex items-center">
+                    Price
+                    <button
+                      className="ml-2 bg-transparent text-white"
+                      onClick={() =>
+                        setCurrency(currency === "INR" ? "USD" : "INR")
+                      }
+                    >
+                      {currency === "INR" ? (
+                        <MdSwapVert className="text-lg" />
+                      ) : (
+                        <MdSwapVert className="text-lg rotate-180" />
+                      )}
+                    </button>
+                  </th>
+                  <th className="p-2 text-left text-sm font-semibold text-white">
+                    Spread
+                  </th>
+                  <th className="p-2 text-left text-sm font-semibold text-white">
+                    +2% Depth
+                  </th>
+                  <th className="p-2 text-left text-sm font-semibold text-white">
+                    -2% Depth
+                  </th>
+                  <th className="p-2 text-left text-sm font-semibold text-white">
+                    24h Volume
+                  </th>
+                  <th className="p-2 text-left text-sm font-semibold text-white">
+                    Volume %
+                  </th>
+                  <th className="p-2 text-left text-sm font-semibold text-white">
+                    Last Updated
+                  </th>
+                  <th className="p-2 text-left text-sm font-semibold text-white">
+                    Trust Score
+                  </th>
                 </tr>
               </thead>
               <tbody>
                 {MarketsData &&
-                  MarketsData.map((market, index) => (
-                    <tr key={index} style={{ borderBottom: "1px solid #ddd" }}>
-                      <td style={cellStyle}>{index + 1}</td>
-                      <td style={cellStyle}>
-                        <div
-                          style={{
-                            display: "flex",
-                            alignItems: "center",
-                            gap: "8px",
-                          }}
-                        >
-                          <img
-                            src={market?.market?.logo}
-                            alt={market?.market?.name}
-                            style={{
-                              width: "24px",
-                              height: "24px",
-                              borderRadius: "50%",
-                            }}
-                          />
-                          <span>{market?.market?.name}</span>
-                        </div>
-                      </td>
-                      <td
-                        style={cellStyle}
-                      >{`${market?.base}/${market?.target}`}</td>
-                      <td
-                        style={cellStyle}
-                      >{`₹${market?.converted_last?.usd.toFixed(2)}`}</td>
-                      <td style={cellStyle}>{`${(
-                        market?.bid_ask_spread_percentage * 100
-                      ).toFixed(2)}%`}</td>
-                      <td
-                        style={cellStyle}
-                      >{`$${market?.cost_to_move_up_usd.toLocaleString()}`}</td>
-                      <td
-                        style={cellStyle}
-                      >{`$${market?.cost_to_move_down_usd.toLocaleString()}`}</td>
-                      <td
-                        style={cellStyle}
-                      >{`$${market?.converted_volume?.usd.toLocaleString()}`}</td>
-                      <td style={cellStyle}>N/A</td>
-                      <td style={cellStyle}>
-                        {new Date().getTime() -
-                          new Date(market?.last_fetch_at).getTime() <
-                        60000 ? ( // 1 minute
-                          "Recently"
-                        ) : (
-                          <>
-                            {new Date(market?.last_fetch_at).toLocaleDateString(
-                              "en-GB"
-                            )}
-                            <br />
-                            {new Date(market?.last_fetch_at).toLocaleTimeString(
-                              [],
-                              {
+                  MarketsData.map((market, index) => {
+                    if (
+                      market?.base?.startsWith("0X") &&
+                      market?.target?.startsWith("0X")
+                    ) {
+                      return null;
+                    }
+                    return (
+                      <tr key={index} className="border-b border-gray-700">
+                        <td className="p-2 whitespace-nowrap">
+                          {(currentPage - 1) * itemsPerPage + index + 1}
+                        </td>
+                        <td className="p-2 whitespace-nowrap">
+                          <div className="flex items-center gap-2">
+                            <img
+                              src={market?.market?.logo}
+                              alt={market?.market?.name}
+                              className="w-6 h-6 rounded-full"
+                            />
+                            <span className="truncate max-w-[150px]">
+                              {market?.market?.name}
+                            </span>
+                          </div>
+                        </td>
+                        <td className="p-2 whitespace-nowrap">
+                          {`${market?.base}/${market?.target}`}
+                        </td>
+                        <td className="p-2 whitespace-nowrap">
+                          {currency === "INR"
+                            ? `₹${(
+                                market?.converted_last?.usd * usdToInrRate
+                              ).toFixed(2)}`
+                            : `$${market?.converted_last?.usd.toFixed(2)}`}
+                        </td>
+                        <td className="p-2 whitespace-nowrap">{`${(
+                          market?.bid_ask_spread_percentage * 100
+                        ).toFixed(2)}%`}</td>
+                        <td className="p-2 whitespace-nowrap">{`$${market?.cost_to_move_up_usd.toLocaleString()}`}</td>
+                        <td className="p-2 whitespace-nowrap">{`$${market?.cost_to_move_down_usd.toLocaleString()}`}</td>
+                        <td className="p-2 whitespace-nowrap">{`$${market?.converted_volume?.usd.toLocaleString()}`}</td>
+                        <td className="p-2 whitespace-nowrap">N/A</td>
+                        <td className="p-2 whitespace-nowrap">
+                          {new Date().getTime() -
+                            new Date(market?.last_fetch_at).getTime() <
+                          60000 ? (
+                            "Recently"
+                          ) : (
+                            <>
+                              {new Date(
+                                market?.last_fetch_at
+                              ).toLocaleDateString("en-GB")}
+                              <br />
+                              {new Date(
+                                market?.last_fetch_at
+                              ).toLocaleTimeString([], {
                                 hour: "2-digit",
                                 minute: "2-digit",
-                              }
-                            )}
-                          </>
-                        )}
-                      </td>
-                      <td style={cellStyle}>
-                        <span
-                          style={{
-                            padding: "4px 8px",
-                            borderRadius: "4px",
-                            backgroundColor:
+                              })}
+                            </>
+                          )}
+                        </td>
+                        <td className="p-2 whitespace-nowrap">
+                          <span
+                            className={`px-2 py-1 rounded text-white text-xs ${
                               market.trust_score === "green"
-                                ? "#4CAF50"
-                                : "#FFC107",
-                            color: "white",
-                          }}
-                        >
-                          {market?.trust_score}
-                        </span>
-                      </td>
-                    </tr>
-                  ))}
+                                ? "bg-green-500"
+                                : "bg-yellow-500"
+                            }`}
+                          >
+                            {market?.trust_score}
+                          </span>
+                        </td>
+                      </tr>
+                    );
+                  })}
               </tbody>
             </table>
+          </div>
+          <div className="mt-5 flex justify-between items-center">
+            <button
+              className="Paginationbutton"
+              onClick={handlePreviousPage}
+              disabled={disablePrevious}
+            >
+              <span className="shadow"></span>
+              <span className="edge"></span>
+              <span className="front text">Previous</span>
+            </button>
+            <span>Page {currentPage}</span>
+            <button
+              className={`Paginationbutton mr-[10vw] ${
+                disableNext ? "disabled-yellow" : ""
+              }`}
+              onClick={handleNextPage}
+              disabled={disableNext}
+            >
+              <span className="shadow"></span>
+              <span className="edge"></span>
+              <span className="front text">Next</span>
+            </button>
+          </div>
+        </div>
+        <div className=" relative top-[95vh] left-5">
+          <h1 className=" text-[6vw]">{CoinDetails?.name} Latest News</h1>
+          <div className="mt-10">
+            {renderedNews.map((coin, index) => (
+              <div key={index} className="">
+                <img
+                  className="w-[90vw] h-[25vh] object-cover rounded-lg"
+                  src={coin.urlToImage}
+                  alt={coin.title}
+                  loading="lazy"
+                />
+                <h1 className=" mt-5 mb-[5vh] leading-7 font-semibold text-[4.5vw] w-[90vw]">
+                  {coin?.title}
+                </h1>
+                <h1>
+                  Source : <span>{coin?.source?.name}</span>{" "}
+                </h1>
+                <h1 className=" mb-[5vh]">
+                  About:{" "}
+                  <span>
+                    {formatDistanceToNow(new Date(coin?.publishedAt), {
+                      addSuffix: true,
+                    })}
+                  </span>
+                </h1>
+                <div className=" w-[90vw] border-b-[1px] mb-[5vh]"></div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
