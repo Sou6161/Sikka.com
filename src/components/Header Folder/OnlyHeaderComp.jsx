@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import logo from "/Sourabh Web dev Projects/Sikka.com/src/Images Folder/HeaderLogo.png";
+import  logo from '/src/Images Folder/HeaderLogo.png?asset';
 import { Search } from "lucide-react";
 
 const OnlyHeaderComp = () => {

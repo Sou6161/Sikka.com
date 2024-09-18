@@ -3,7 +3,7 @@ import OnlyHeaderComp from "../Header Folder/OnlyHeaderComp";
 import MainPageMarquee from "../MarqueeComponent/MainPageMarquee";
 import { Link, useParams } from "react-router-dom";
 import { FaCaretDown, FaCaretUp, FaStar } from "react-icons/fa";
-import { ChevronDown, ChevronUp, Search, Copy } from "lucide-react";
+import { ChevronDown, ChevronUp, Search, Copy, Star } from "lucide-react";
 import { ExternalLink } from "lucide-react";
 import {
   LineChart,
@@ -20,6 +20,8 @@ import {
 } from "../../api/CoinGeckoApi/CoinGeckoApi";
 import { MdSwapVert } from "react-icons/md";
 import { formatDistanceToNow } from "date-fns";
+import CoinNewsInDetails from "../../CoinGeckoCryptoNews/CoinNewsInDetails";
+import Footer from "../../Footer/Footer";
 
 const formatXAxis = (unixTimestamp) => {
   const date = new Date(unixTimestamp);
@@ -78,6 +80,8 @@ const CoinFullDetails = ({ contractAddress, marketsData }) => {
 
   const [CoinLatestNews, setCoinLatestNews] = useState(null);
   const [renderedNews, setRenderedNews] = useState([]);
+  const [TrendingCoins, setTrendingCoins] = useState(null);
+
   let targetCount = 11;
 
   useEffect(() => {
@@ -477,20 +481,49 @@ const CoinFullDetails = ({ contractAddress, marketsData }) => {
   }, [MarketsData]);
 
   useEffect(() => {
-    const FetchCoinLatestNews = async () => {
+    const FetchTrendingCoins = async () => {
       const response = await fetch(
-        `https://newsapi.org/v2/everything?q=bitcoin&apiKey=fbecde2b44f445b4b1fa9f89ae474dd3`
+        "https://api.coingecko.com/api/v3/search/trending",
+        CoinGeckoRixerApi
       );
-      const CoinNews = await response.json();
-      // console.log(CoinNews);
-      setCoinLatestNews(CoinNews?.articles);
+      const trendingcoins = await response.json();
+      // console.log(trendingcoins);
+      setTrendingCoins(trendingcoins?.coins);
     };
-    FetchCoinLatestNews();
+    FetchTrendingCoins();
   }, []);
 
   useEffect(() => {
-    CoinLatestNews && console.log(CoinLatestNews, "Coin Latest News");
-  }, [CoinLatestNews]);
+    TrendingCoins && console.log(TrendingCoins, "Trending Coins");
+  }, [TrendingCoins]);
+
+  // useEffect(() => {
+  //   const FetchCoinLatestNews = async () => {
+  //     const response = await fetch(
+  //       `https://newsapi.org/v2/everything?exact_phrase=tether&q="tether"&language=en&to=2024-09-17&apiKey=fbecde2b44f445b4b1fa9f89ae474dd3`
+  //     );
+  //     const CoinNews = await response.json();
+  //     // console.log(CoinNews);
+  //     setCoinLatestNews(CoinNews?.articles);
+  //   };
+  //   FetchCoinLatestNews();
+  // }, []);
+
+  // useEffect(() => {
+  //   CoinLatestNews && console.log(CoinLatestNews, "Coin Latest News");
+  // }, [CoinLatestNews]);
+
+  // useEffect(() => {
+  //   const abcd = async () => {
+  //     const res = await fetch(
+  //       `https://api.coingecko.com/api/v3/coins/${id}/news`,
+  //       CoinGeckoRixerApi
+  //     );
+  //     const data = await res.json();
+  //     console.log(data);
+  //   };
+  //   // abcd();
+  // });
 
   return (
     <>
@@ -498,7 +531,7 @@ const CoinFullDetails = ({ contractAddress, marketsData }) => {
         <OnlyHeaderComp />
         <MainPageMarquee />
       </div>
-      <div className="w-[100vw] h-[1000vh] text-white bg-black overflow-x-hidden">
+      <div className="w-[100vw]  text-white bg-black overflow-x-hidden">
         <h1 className=" text-[6vw] font-semibold text-red-600 relative left-[8vw] top-[7vh]">
           Overview
         </h1>
@@ -1027,35 +1060,36 @@ const CoinFullDetails = ({ contractAddress, marketsData }) => {
         </div>
         <div className=" relative top-[55vh] left-5">
           <h1 className="text-[6vw]">Info</h1>
-          <div className="flex flex-col w-full max-w-3xl">
-            <div className="flex items-center space-x-2 text-gray-600">
-              <span className="text-sm font-medium">Contract</span>
-              <div className="flex items-center ml-5 relative left-10 space-x-1 bg-gray-100 rounded-full px-3 py-1">
-                <img
-                  src="https://w7.pngwing.com/pngs/268/1013/png-transparent-ethereum-eth-hd-logo-thumbnail.png"
-                  alt=""
-                  className="w-[4vw] h-[2vh] object-cover rounded-full"
-                />
-                <span className="text-xs font-medium">Ethereum</span>
-                <span className="text-xs font-semibold">
-                  {truncatedAddress}
-                </span>
-                <Copy
-                  className="w-4 h-4  text-gray-800 cursor-pointer"
-                  onClick={() => {
-                    navigator.clipboard.writeText(
-                      CoinDetails &&
-                        CoinDetails?.detail_platforms?.ethereum
-                          ?.contract_address
-                    );
-                  }}
-                />
-                <ExternalLink className="w-4 h-4 text-gray-400 cursor-pointer" />
+          {CoinDetails?.detail_platforms?.ethereum?.contract_address && (
+            <div className="flex flex-col w-full max-w-3xl">
+              <div className="flex items-center space-x-2 text-gray-600">
+                <span className="text-sm font-medium">Contract</span>
+                <div className="flex items-center ml-5 relative left-10 space-x-1 bg-gray-100 rounded-full px-3 py-1">
+                  <img
+                    src="https://w7.pngwing.com/pngs/268/1013/png-transparent-ethereum-eth-hd-logo-thumbnail.png"
+                    alt=""
+                    className="w-[4vw] h-[2vh] object-cover rounded-full"
+                  />
+                  <span className="text-xs font-medium">Ethereum</span>
+                  <span className="text-xs font-semibold">
+                    {truncatedAddress}
+                  </span>
+                  <Copy
+                    className="w-4 h-4  text-gray-800 cursor-pointer"
+                    onClick={() => {
+                      navigator.clipboard.writeText(
+                        CoinDetails &&
+                          CoinDetails?.detail_platforms?.ethereum
+                            ?.contract_address
+                      );
+                    }}
+                  />
+                  <ExternalLink className="w-4 h-4 text-gray-400 cursor-pointer" />
+                </div>
               </div>
+              <div className="mt-2 border-b border-gray-200 w-full"></div>
             </div>
-            <div className="mt-2 border-b border-gray-200 w-full"></div>
-          </div>
-
+          )}
           {(CoinDetails?.links?.homepage[0] ||
             CoinDetails?.links?.announcement_url[0]) && (
             <div className="inline-flex mt-5 gap-2">
@@ -1479,10 +1513,11 @@ const CoinFullDetails = ({ contractAddress, marketsData }) => {
             </button>
           </div>
         </div>
-        <div className=" relative top-[95vh] left-5">
-          <h1 className=" text-[6vw]">{CoinDetails?.name} Latest News</h1>
+        <div className=" relative w-[90vw] top-[85vh] left-5">
+          {/* <h1 className=" text-[6vw]">{CoinDetails?.name} Latest News</h1> */}
           <div className="mt-10">
-            {renderedNews.map((coin, index) => (
+            <CoinNewsInDetails />
+            {/* {renderedNews.map((coin, index) => (
               <div key={index} className="">
                 <img
                   className="w-[90vw] h-[25vh] object-cover rounded-lg"
@@ -1506,8 +1541,129 @@ const CoinFullDetails = ({ contractAddress, marketsData }) => {
                 </h1>
                 <div className=" w-[90vw] border-b-[1px] mb-[5vh]"></div>
               </div>
-            ))}
+            ))} */}
           </div>
+        </div>
+        <div className="p-4 relative top-[90vh] max-w-md mx-auto">
+          <h1 className="text-2xl font-bold mb-4">Trending Coins</h1>
+          <div className="space-y-2">
+            {TrendingCoins &&
+              TrendingCoins.map((coin, index) => (
+                <div
+                  key={index}
+                  className="bg-zinc-800 border-b-2 border-yellow-400 hover:border-blue-600 hover:border-t-2 rounded-lg px-4 py-6 flex items-center justify-between shadow-sm"
+                >
+                  <div className="flex items-center space-x-3 flex-1 min-w-0">
+                    <img
+                      src={coin.item.thumb}
+                      alt={coin.item.name}
+                      className="w-8 h-8 rounded-full flex-shrink-0"
+                    />
+                    <div className="flex flex-col min-w-0">
+                      <span className="font-semibold truncate">
+                        {coin.item.symbol}
+                      </span>
+                      <span className="text-sm text-gray-500 truncate">
+                        ₹{coin.item.data.price.toFixed(6)}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="flex items-center">
+                    <span
+                      className={`flex items-center ${
+                        coin.item.data.price_change_percentage_24h.usd > 0
+                          ? "text-green-500"
+                          : "text-red-500"
+                      }`}
+                    >
+                      {coin.item.data.price_change_percentage_24h.usd > 0 ? (
+                        <ChevronUp size={16} />
+                      ) : (
+                        <ChevronDown size={16} />
+                      )}
+                      {Math.abs(
+                        coin.item.data.price_change_percentage_24h.usd
+                      ).toFixed(1)}
+                      %
+                    </span>
+                    <Star size={16} className="ml-2 text-gray-400" />
+                  </div>
+                </div>
+              ))}
+          </div>
+        </div>
+        <div className=" relative top-[90vh] left-5">
+          <h1 className=" text-[4.5vw] text-blue-700 font-semibold">
+            {CoinDetails?.name} ({CoinDetails?.symbol.toUpperCase()}) price has
+            increased today.
+          </h1>
+          <p className=" w-[90vw] leading-7 mt-5 text-gray-500">
+            The price of {CoinDetails?.name} (
+            {CoinDetails?.symbol.toUpperCase()}) is{" "}
+            <span className=" text-amber-200">
+              {" "}
+              {(
+                CoinDetails?.market_data?.current_price?.usd * usdToInrRate
+              ).toLocaleString("en-IN", {
+                style: "currency",
+                currency: "INR",
+              })}{" "}
+            </span>
+            today with a total volume of{" "}
+            <span className=" text-amber-200">
+              {" "}
+              {(
+                CoinDetails?.market_data?.total_volume?.usd * usdToInrRate
+              ).toLocaleString("en-IN", {
+                style: "currency",
+                currency: "INR",
+              })}{" "}
+            </span>{" "}
+            .This represents a{" "}
+            <span className=" text-amber-200">
+              {" "}
+              {CoinDetails?.market_data?.price_change_percentage_24h.toFixed(2)}
+              %{" "}
+            </span>{" "}
+            price increase in the last 24 hours and a{" "}
+            <span className=" text-amber-200">
+              {" "}
+              {CoinDetails?.market_data?.price_change_percentage_7d.toFixed(
+                2
+              )}%{" "}
+            </span>
+            price increase in the past 7 days. With a circulating supply of{" "}
+            <span className="text-amber-200">
+              {CoinDetails?.market_data?.circulating_supply >= 1e12
+                ? (CoinDetails?.market_data?.circulating_supply / 1e12).toFixed(
+                    2
+                  ) + "T"
+                : CoinDetails?.market_data?.circulating_supply >= 1e9
+                ? (CoinDetails?.market_data?.circulating_supply / 1e9).toFixed(
+                    2
+                  ) + "B"
+                : CoinDetails?.market_data?.circulating_supply >= 1e6
+                ? (CoinDetails?.market_data?.circulating_supply / 1e6).toFixed(
+                    2
+                  ) + "M"
+                : CoinDetails?.market_data?.circulating_supply.toLocaleString()}
+            </span>
+            , <span className="text-amber-200">{CoinDetails?.name}</span> is
+            valued at a market cap of{" "}
+            <span className="text-amber-200">
+              {" "}
+              {(
+                CoinDetails?.market_data?.market_cap?.usd * usdToInrRate
+              ).toLocaleString("en-IN", {
+                style: "currency",
+                currency: "INR",
+              })}
+            </span>
+            .
+          </p>
+        </div>
+        <div className=" relative top-[95vh]">
+          <Footer />
         </div>
       </div>
     </>

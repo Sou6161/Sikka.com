@@ -15,6 +15,11 @@ const Header = () => {
   const toggleExchangesDropdown = () => setIsExchangesOpen(!isExchangesOpen);
   const searchRef = useRef(null);
   const [isSignedUp, setIsSignedUp] = useState(false);
+  const [isCryptocurrenciesOpen, setIsCryptocurrenciesOpen] = useState(false);
+
+  const toggleCryptocurrenciesDropdown = () => {
+    setIsCryptocurrenciesOpen(!isCryptocurrenciesOpen);
+  };
 
   const toggleSignUp = () => {
     setIsSignedUp(!isSignedUp);
@@ -89,20 +94,60 @@ const Header = () => {
               id="navbar-dropdown"
             >
               <ul className="2xlarge:ml-[0vw] relative flex flex-col font-medium p-4 medium:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 medium:space-x-2 rtl:space-x-reverse medium:flex-row medium:mt-0 medium:border-0 medium:bg-white dark:bg-gray-800 medium:dark:bg-gray-900 dark:border-gray-700">
-                <li>
-                  <a
-                    href="#"
-                    onClick={() => handleItemClick("Cryptocurrencies")}
-                    className={`block py-2 medium:mt-2  px-3 rounded medium:p-2 ${
-                      activeItem === "Cryptocurrencies"
-                        ? "text-white bg-blue-70 medium:bg-transparent medium:text-blue-700 dark:text-white"
-                        : "text-gray-900 hover:bg-gray-100 medium:hover:bg-transparent medium:border-0 medium:hover:text-blue-700 dark:text-white medium:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white medium:dark:hover:bg-transparent"
-                    }`}
+                <div className="relative z-99999 inline-block  text-left">
+                  <button
+                    onClick={toggleCryptocurrenciesDropdown}
+                    className="NavLinkBUtton medium:mt-2 flex items-center justify-between w-full py-2 px-3 rounded medium:w-auto text-gray-900 hover:bg-gray-100 medium:hover:bg-transparent medium:border-0 medium:hover:text-blue-700 dark:text-white medium:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white medium:dark:hover:bg-transparent"
                   >
                     Cryptocurrencies
-                  </a>
-                </li>
-                <div className="relative z-99999 inline-block text-left">
+                    <svg
+                      className="w-2.5 h-2.5 ms-2.5"
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 10 6"
+                    >
+                      <path
+                        stroke="currentColor"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="m1 1 4 4 4-4"
+                      />
+                    </svg>
+                  </button>
+                  {isCryptocurrenciesOpen && (
+                    <div className="absolute z-20 right-0 mt-2 w-44 bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600">
+                      <ul className="py-2 text-sm text-gray-700 dark:text-gray-400">
+                        <li>
+                          <a
+                            href="#"
+                            className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                          >
+                            By Market Cap
+                          </a>
+                        </li>
+                        <li>
+                          <a
+                            href="#"
+                            className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                          >
+                            Categories
+                          </a>
+                        </li>
+                        <li>
+                          <a
+                            href="#"
+                            className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                          >
+                            Chains
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  )}
+                </div>
+                <div className="relative z-99998 inline-block top-2 text-left">
                   <button
                     onClick={toggleExchangesDropdown}
                     className=" NavLinkBUtton medium:mt-2 flex items-center justify-between w-full py-2 px-3 rounded medium:w-auto text-gray-900 hover:bg-gray-100 medium:hover:bg-transparent medium:border-0 medium:hover:text-blue-700 dark:text-white medium:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white medium:dark:hover:bg-transparent"

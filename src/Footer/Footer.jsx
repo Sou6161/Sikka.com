@@ -1,5 +1,6 @@
 import React from "react";
 import { Github, Twitter, Linkedin, Mail } from "lucide-react";
+import logo from "/Sourabh Web dev Projects/Sikka.com/src/Images Folder/HeaderLogo.png";
 
 const Footer = () => {
   return (
@@ -7,12 +8,10 @@ const Footer = () => {
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-blue-600 via-indigo-700 to-purple-800 animate-gradient"></div>
       </div>
-      <div className="relative max-w-6xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
+      <div className="relative max-w-6xl mx-auto px-4 py-10 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="md:col-span-2">
-            <h2 className="text-2xl font-bold text-white mb-4">
-              CryptoConnect
-            </h2>
+            <img className=" mb-4  h-[5vh] object-cover" src={logo} alt="" />
             <p className="mb-4">
               Empowering your crypto journey with cutting-edge solutions and
               expert insights.
@@ -42,9 +41,9 @@ const Footer = () => {
             <h3 className="text-lg font-semibold text-white mb-4">
               Quick Links
             </h3>
-            <ul className="space-y-2">
+            <ul className="space-y-2 ">
               <li>
-                <a href="#" className="hover:text-white transition-colors">
+                <a href="#" className="hover:text-white  transition-colors">
                   Home
                 </a>
               </li>
@@ -76,16 +75,16 @@ const Footer = () => {
                   href="mailto:info@cryptoconnect.com"
                   className="hover:text-white transition-colors"
                 >
-                  info@cryptoconnect.com
+                  info@coinfam.com
                 </a>
               </li>
-              <li>123 Blockchain Street</li>
-              <li>Crypto City, CC 12345</li>
+              <li>123 Crypto Street</li>
+              <li>Blokchain City, CC 12345</li>
             </ul>
           </div>
         </div>
         <div className="mt-8 pt-8 border-t border-gray-700 text-sm text-center">
-          <p>&copy; 2024 CryptoConnect. All rights reserved.</p>
+          <p>&copy; 2024 CoinFam. All rights reserved.</p>
         </div>
       </div>
       <style jsx>{`
@@ -102,7 +101,7 @@ const Footer = () => {
         }
         .animate-gradient {
           background-size: 200% 200%;
-          animation: gradient 15s ease infinite;
+          animation: gradient 3s ease infinite;
         }
       `}</style>
     </footer>

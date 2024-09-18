@@ -898,7 +898,7 @@
   background: #b3d616;
   font-family: inherit;
   padding: 0.5em em;
-  font-weight: 900;
+  font-weight: 900; 
   font-size: 18px;
   border: 3px solid black;
   border-radius: 0.4em;
@@ -942,8 +942,11 @@
 
 /* Normal Small Classes */
 
-.z-99999 {
-  z-index: 99999;
+.z-99998 {
+  z-index: 99998;
+}
+.z-99999{
+z-index:999999
 }
 
 
@@ -1276,3 +1279,5 @@ a {
   cursor: not-allowed;
   opacity: 0.2;
 }
+
+
