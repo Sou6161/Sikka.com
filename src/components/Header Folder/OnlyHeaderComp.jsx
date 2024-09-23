@@ -1,6 +1,20 @@
 import React, { useState, useRef, useEffect } from "react";
-import  logo from '/src/Images Folder/HeaderLogo.png?asset';
-import { Search } from "lucide-react";
+import logo from "/src/Images Folder/HeaderLogo.png?asset";
+import { ChevronDown, Search } from "lucide-react";
+import { PiRankingFill } from "react-icons/pi";
+import { BiSolidCategory } from "react-icons/bi";
+import { FaRectangleList } from "react-icons/fa6";
+import { PiSparkleFill } from "react-icons/pi";
+import { GiTrophy } from "react-icons/gi";
+import { BsBank } from "react-icons/bs";
+import { IoCubeSharp } from "react-icons/io5";
+import { RiNftLine } from "react-icons/ri";
+import { FaCoins } from "react-icons/fa";
+import { TiStarburst } from "react-icons/ti";
+import { FaBookOpen } from "react-icons/fa";
+import { ImNewspaper } from "react-icons/im";
+import { BiSolidUserAccount } from "react-icons/bi";
+import { IoBagSharp } from "react-icons/io5";
 
 const OnlyHeaderComp = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -13,6 +27,61 @@ const OnlyHeaderComp = () => {
   const toggleExchangesDropdown = () => setIsExchangesOpen(!isExchangesOpen);
   const searchRef = useRef(null);
   const [isSignedUp, setIsSignedUp] = useState(false);
+  const [isCryptocurrenciesOpen, setIsCryptocurrenciesOpen] = useState(false);
+  const [isNFTDropdownOpen, setIsNFTDropdownOpen] = useState(false);
+  const [isLearnDropdownOpen, setIsLearnDropdownOpen] = useState(false);
+  const [isMyPortfolio, setisMyPortfolio] = useState(false);
+  const [isMyAccountOpen, setisMyAccountOpen] = useState(false);
+  const [isMoreDropdownOpen, setIsMoreDropdownOpen] = useState(false);
+
+  const DropdownItem = ({ icon, label, isOpen, toggleOpen, subItems }) => (
+    <div className="relative mt-1 "> 
+      <button
+        onClick={toggleOpen}
+        className="flex items-center w-full NavLinkBUtton   px-4 py-2 text-sm text-gray-700 hover:bg-gray-10 focus:outline-none"
+      >
+        {icon && <span className="mr-2">{icon}</span>}
+        {label}
+        <ChevronDown className="w-4 h-4 ml-auto" />
+      </button>
+      {isOpen && (
+        <div className="absolute NavLinkBUtton   left-full top-0 w-48 bg-whit rounded-md shadow-lg">
+          {subItems.map((item, index) => (
+            <a
+              key={index}
+              href="#"
+              className="flex px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+            >
+              {item.icon && <span className="mr-2">{item.icon}</span>}
+              {item.label}
+            </a>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+
+  const toggleMoreDropdown = () => setIsMoreDropdownOpen(!isMoreDropdownOpen);
+
+  const toggleMyAccountDropdown = () => {
+    setisMyAccountOpen(!isMyAccountOpen);
+  };
+
+  const toggleMyPortfolioDropdown = () => {
+    setisMyPortfolio(!isMyPortfolio);
+  };
+
+  const toggleNFTDropdown = () => {
+    setIsNFTDropdownOpen(!isNFTDropdownOpen);
+  };
+
+  const toggleLearnDropdown = () => {
+    setIsLearnDropdownOpen(!isLearnDropdownOpen);
+  };
+
+  const toggleCryptocurrenciesDropdown = () => {
+    setIsCryptocurrenciesOpen(!isCryptocurrenciesOpen);
+  };
 
   const toggleSignUp = () => {
     setIsSignedUp(!isSignedUp);
@@ -51,17 +120,17 @@ const OnlyHeaderComp = () => {
   return (
     <>
       <nav className="relative z-10 bg-white border-gray-200 dark:bg-gray-900 dark:border-gray-700">
-        <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-2 2xlarge:p-[1.7vh]">
+        <div className="max-w-screen-xl   flex flex-wrap items-center justify-between mx-auto p-2 2xlarge:p-[1.7vh]">
           <a
             href="/"
             className="flex items-center space-x-3 rtl:space-x-reverse"
           >
             <img
-              src={logo}
+              src={logo}  
               className="h-8 relative top-1 2xlarge:h-10"
               alt="Logo"
             />
-            <span className="self-center text-[5vw] 2xlarge:text-xl font-semibold whitespace-nowrap dark:text-white"></span>
+            <span className="self-center text-[5vw] xsmall:text-[4vw] small:text-[3vw] medium:text-[2vw] large:text-xl font-semibold whitespace-nowrap dark:text-white"></span>
           </a>
 
           <input
@@ -71,7 +140,7 @@ const OnlyHeaderComp = () => {
             onChange={toggleDropdownmenu}
           />
           <label
-            className="burger medium:hidden large:hidden xlarge:hidden 2xlarge:hidden"
+            className=" xsmall:mr-10 burger medium:hidden large:hidden xlarge:hidden 2xlarge:hidden"
             htmlFor="burger-checkbox"
           >
             <span></span>
@@ -85,24 +154,131 @@ const OnlyHeaderComp = () => {
             } w-full medium:block large:block medium:max-w-[62vw] medium:relative medium:mr-[19vw] large:mr-[22vw] `}
             id="navbar-dropdown"
           >
-            <ul className="2xlarge:ml-[0vw] relative flex flex-col font-medium p-4 medium:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 medium:space-x-2 rtl:space-x-reverse medium:flex-row medium:mt-0 medium:border-0 medium:bg-white dark:bg-gray-800 medium:dark:bg-gray-900 dark:border-gray-700">
-              <li>
-                <a
-                  href="#"
-                  onClick={() => handleItemClick("Cryptocurrencies")}
-                  className={`block py-2 medium:mt-2  px-3 rounded medium:p-2 ${
-                    activeItem === "Cryptocurrencies"
-                      ? "text-white bg-blue-70 medium:bg-transparent medium:text-blue-700 dark:text-white"
-                      : "text-gray-900 hover:bg-gray-100 medium:hover:bg-transparent medium:border-0 medium:hover:text-blue-700 dark:text-white medium:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white medium:dark:hover:bg-transparent"
-                  }`}
+            <ul className="2xlarge:ml-[0vw] h-[56vh] medium:h-[6vh]  large:h-[7vh] 2xlarge:h-[6vh] relative flex flex-col font-medium p-4 medium:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 medium:space-x-2 rtl:space-x-reverse medium:flex-row medium:mt-0 medium:border-0 medium:bg-white dark:bg-gray-800 medium:dark:bg-gray-900 dark:border-gray-700">
+              <div className="relative z-99999 inline-block  text-left">
+                <button
+                  onClick={toggleCryptocurrenciesDropdown}
+                  className="NavLinkBUtton medium:mt-2 flex items-center justify-between w-full py-2 px-3 rounded medium:w-auto text-gray-900 hover:bg-gray-100 medium:hover:bg-transparent medium:border-0 medium:hover:text-blue-700 dark:text-white medium:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white medium:dark:hover:bg-transparent"
                 >
                   Cryptocurrencies
-                </a>
-              </li>
-              <div className="relative z-99999 inline-block text-left">
+                  <svg
+                    className="w-2.5 h-2.5 ms-2.5"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 10 6"
+                  >
+                    <path
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="m1 1 4 4 4-4"
+                    />
+                  </svg>
+                </button>
+                {isCryptocurrenciesOpen && (
+                  <div className="absolute z-20 right-0 w-[86vw] medium:w-[35vw] mt-2 w-  bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600">
+                    <ul className="py-2 text-sm text-gray-700 dark:text-gray-400">
+                      <li className=" ">
+                        <a
+                          href="#"
+                          className=" w-[86vw] text-[4vw] medium:text-[2.5vw] inline-flex gap-2   block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                        >
+                          <PiRankingFill className=" text-[6vw] medium:text-[3vw] text-white" />
+                          <span className=" text-green-400">By Market Cap</span>
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="#"
+                          className=" w-[86vw] text-[4vw] medium:text-[2.5vw] inline-flex gap-2 block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                        >
+                          <BiSolidCategory className=" text-[6vw] text-white medium:text-[3vw]" />
+                          <span className=" text-green-400">Categories</span>
+                        </a>
+                      </li>
+                      <li className=" ml-5 mt-2 mb-3 inline-flex">
+                        Popular
+                        <div className=" w-[65vw] medium:w-[40vw] border-b-[1px] border-gray-500 relative -top-2 left-1"></div>
+                      </li>
+                      <li>
+                        <a
+                          href="#"
+                          className=" w-[86vw] text-[4vw] medium:text-[2  vw] inline-flex gap-2 block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                        >
+                          <span className=" text-green-400 inline-flex gap-2 text-[4vw] medium:text-[2.5vw]">
+                            <FaRectangleList className=" text-white text-[6vw] medium:text-[3vw] " />
+                            Highlights
+                          </span>
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="#"
+                          className=" w-[86vw] text-[4vw] medium:text-[2.5vw] inline-flex gap-2 block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                        >
+                          <span className=" text-green-400 truncate inline-flex gap-2 text-[4vw] medium:text-[2.5vw]">
+                            <PiSparkleFill className=" text-white text-[6vw] medium:text-[3vw]" />
+                            <span className=" truncate">
+                              New Cryptocurrencies
+                            </span>
+                          </span>
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="#"
+                          className=" w-[86vw] text-[4vw] inline-flex gap-2 block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                        >
+                          <span className=" text-green-400 inline-flex gap-2 text-[4vw] medium:text-[2.5vw]">
+                            <GiTrophy className="  text-white text-[6vw] medium:text-[3vw]" />
+                            Gainers & Losers
+                          </span>
+                        </a>
+                      </li>
+                      <li className=" ml-5 mt-2 mb-3 inline-flex">
+                        Tools
+                        <div className=" w-[70vw]  border-b-[1px] border-gray-500 relative -top-2 left-1"></div>
+                      </li>
+                      <li>
+                        <a
+                          href="#"
+                          className=" w-[86vw] text-[4vw] inline-flex gap-2 block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                        >
+                          <span className=" text-green-400 inline-flex ml-1 text-[4vw] medium:text-[2.5vw]">
+                            All Coins
+                          </span>
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="#"
+                          className=" w-[86vw] text-[4vw] inline-flex gap-2 block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                        >
+                          <span className=" text-green-400 inline-flex ml-1 text-[4vw] medium:text-[2.5vw]">
+                            Comapare Coins
+                          </span>
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="#"
+                          className=" w-[86vw] text-[4vw] inline-flex gap-2 block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                        >
+                          <span className=" text-green-400 inline-flex ml-1 text-[4vw] medium:text-[2.5vw]">
+                            Converter
+                          </span>
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                )}
+              </div>
+              <div className="relative z-99998 inline-block top-2 2xlarge:top-0 text-left">
                 <button
                   onClick={toggleExchangesDropdown}
-                  className=" NavLinkBUtton medium:mt-2 flex items-center justify-between w-full py-2 px-3 rounded medium:w-auto text-gray-900 hover:bg-gray-100 medium:hover:bg-transparent medium:border-0 medium:hover:text-blue-700 dark:text-white medium:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white medium:dark:hover:bg-transparent"
+                  className=" NavLinkBUtton  flex items-center justify-between w-full py-2 px-3 rounded medium:w-auto text-gray-900 hover:bg-gray-100 medium:hover:bg-transparent medium:border-0 medium:hover:text-blue-700 dark:text-white medium:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white medium:dark:hover:bg-transparent"
                 >
                   Exchanges
                   <svg
@@ -122,14 +298,17 @@ const OnlyHeaderComp = () => {
                   </svg>
                 </button>
                 {isExchangesOpen && (
-                  <div className="absolute z-9999 right-0 mt-2 w-44 bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600">
+                  <div className="absolute z-9999 right-0 w-[86vw] medium:w-[35vw] mt-2 bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600">
                     <ul className="py-2 text-sm text-gray-700 dark:text-gray-400">
                       <li>
                         <a
                           href="#"
                           className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                         >
-                          Dashboard
+                          <span className=" inline-flex relative gap-2 text-[4vw] medium:text-[3vw]  text-green-400">
+                            <BsBank className=" text-[6vw] text-white" />
+                            Crypto Exchanges
+                          </span>
                         </a>
                       </li>
                       <li>
@@ -137,39 +316,279 @@ const OnlyHeaderComp = () => {
                           href="#"
                           className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                         >
-                          Settings
-                        </a>
-                      </li>
-                      <li>
-                        <a
-                          href="#"
-                          className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                        >
-                          Earnings
+                          <span className="inline-flex relative gap-2 text-[4vw] text-green-400">
+                            <IoCubeSharp className=" text-[6vw] text-white" />
+                            Derivatives
+                          </span>
                         </a>
                       </li>
                     </ul>
+                  </div>
+                )}
+              </div>
+
+              <div className=" hidden medium:block large:block xlarge:hidden ">
+                <button
+                  onClick={toggleMoreDropdown}
+                  className="flex items-center mt-3 px-4 py-2 bg-blue-500 text-white rounded-lg transition-all hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+                >
+                  More
+                  <ChevronDown className="w-4 h-4 ml-2" />
+                </button>
+                {isMoreDropdownOpen && (
+                  <div className="absolute right-[9vw] xlarge:right-[20vw]  mt-2 w-56 bg-whit rounded-md shadow-lg z-20">
                     <div className="py-1">
-                      <a
-                        href="#"
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-                      >
-                        Sign out
-                      </a>
+                      <DropdownItem
+                        icon={<RiNftLine className="w-5 h-5" />}
+                        label="NFT"
+                        isOpen={isNFTDropdownOpen}
+                        toggleOpen={toggleNFTDropdown}
+                        subItems={[
+                          { icon: <RiNftLine />, label: "NFT Floor Price" },
+                          { icon: <FaCoins />, label: "NFT Related Coins" },
+                          { icon: <TiStarburst />, label: "NFT Watchlist" },
+                        ]}
+                      
+                      />
+                      <DropdownItem
+                        icon={<FaBookOpen className="w-5 h-5" />}
+                        label="Learn"
+                        isOpen={isLearnDropdownOpen}
+                        toggleOpen={toggleLearnDropdown}
+                        subItems={[
+                          { icon: <FaBookOpen />, label: "Research Insights" },
+                          { icon: <ImNewspaper />, label: "Crypto News" },
+                        ]}
+                      />
+                      <DropdownItem
+                        icon={<IoBagSharp className="w-5 h-5" />}
+                        label="My Portfolio"
+                        isOpen={isMyPortfolio}
+                        toggleOpen={toggleMyPortfolioDropdown}
+                        subItems={[{ label: "My Coins" }, { label: "My NFTs" }]}
+                      />
+                      <DropdownItem
+                        icon={<BiSolidUserAccount className="w-5 h-5" />}
+                        label="My Account"
+                        isOpen={isMyAccountOpen}
+                        toggleOpen={toggleMyAccountDropdown}
+                        subItems={[{ label: "Sign Up" }]}
+                      />
                     </div>
                   </div>
                 )}
               </div>
-              {["NFT", "Learn", "Products"].map((item) => (
-                <li key={item}>
+
+              {/* For Screens lower than medium */}
+
+              <>
+                <div className="relative block medium:hidden xlarge:block   inline-block text-left top-4 2xlarge:top-0 ">
+                  <a
+                    onClick={() => toggleNFTDropdown()}
+                    className="NavLinkBUtton medium:-mt-2 flex items-center justify-between w-full py-2 px-3 rounded medium:w-auto text-white hover:text-white hover:bg-opacity-20 medium:hover:bg-transparent medium:border-0 dark:text-white medium:dark:hover:text-white dark:hover:bg-opacity-20 dark:hover:text-white medium:dark:hover:bg-transparent"
+                  >
+                    NFT
+                    <svg
+                      className="w-2.5 h-2.5 ms-2.5 text-white"
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 10 6"
+                    >
+                      <path
+                        stroke="currentColor"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="m1 1 4 4 4-4"
+                      />
+                    </svg>
+                  </a>
+                  {isNFTDropdownOpen && (
+                    <div className="absolute z-99999 right-0 w-[86vw] mt-2 bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600">
+                      <ul>
+                        <li>
+                          <a
+                            href="#"
+                            className="block py-4 px-3 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                          >
+                            <span className="inline-flex relative gap-2 text-[4vw] text-green-400">
+                              <RiNftLine className=" text-[6vw] text-white" />
+                              NFT Floor Price
+                            </span>
+                          </a>
+                        </li>
+                        <li>
+                          <a
+                            href="#"
+                            className="block py-2 px-3 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                          >
+                            <span className="inline-flex relative gap-2 text-[4vw] text-green-400">
+                              <FaCoins className="text-[6vw] text-white" />
+                              NFT Related Coins
+                            </span>
+                          </a>
+                        </li>
+                        <li>
+                          <a
+                            href="#"
+                            className="block py-2 px-3 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                          >
+                            <span className="inline-flex relative gap-2 text-[4vw] text-green-400">
+                              <TiStarburst className="text-[6vw] text-white" />
+                              NFT Watchlist
+                            </span>
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  )}
+                </div>
+                <div className="relative block medium:hidden xlarge:block inline-block text-left top-6 2xlarge:top-0">
                   <a
                     href="#"
-                    className="block py-2 px-3 medium:mt-2 text-gray-900 rounded hover:bg-gray-100 medium:hover:bg-transparent medium:border-0 medium:hover:text-blue-700 medium:p-2 dark:text-white medium:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white medium:dark:hover:bg-transparent"
+                    onClick={() => toggleLearnDropdown()}
+                    className="NavLinkBUtton medium:-mt-4 flex items-center justify-between w-full py-2 px-3 rounded medium:w-auto text-white hover:text-white hover:bg-opacity-20 medium:hover:bg-transparent medium:border-0 medium:hover:text-white dark:text-white medium:dark:hover:text-white dark:hover:bg-opacity-20 dark:hover:text-white medium:dark:hover:bg-transparent"
                   >
-                    {item}
+                    Learn
+                    <svg
+                      className="w-2.5 h-2.5 ms-2.5 text-white"
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 10 6"
+                    >
+                      <path
+                        stroke="currentColor"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="m1 1 4 4 4-4"
+                      />
+                    </svg>
                   </a>
-                </li>
-              ))}
+                  {isLearnDropdownOpen && (
+                    <div className="absolute z-99999 right-0 w-[86vw] mt-2  bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600">
+                      <ul>
+                        <li>
+                          <a
+                            href="#"
+                            className="block py-2 px-3 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                          >
+                            <span className="inline-flex relative gap-2 text-[4vw] text-green-400">
+                              <FaBookOpen className="text-[6vw] text-white" />
+                              Research Insights
+                            </span>
+                          </a>
+                        </li>
+                        <li>
+                          <a
+                            href="#"
+                            className="block py-2 px-3 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                          >
+                            <span className="inline-flex relative gap-2 text-[4vw] text-green-400">
+                              <ImNewspaper className=" text-[6vw] text-white" />
+                              Crypto News
+                            </span>
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  )}
+                </div>
+                <div className="relative block medium:hidden xlarge:block z-99998 inline-block top-8 2xlarge:top-0 text-left">
+                  <button
+                    onClick={toggleMyPortfolioDropdown}
+                    className=" NavLinkBUtton medium:-mt-7 flex items-center justify-between w-full medium:py-[1.5vh]  py-2 px-3 rounded medium:w-[21vw] xlarge:w-[13vw] text-gray-900 hover:bg-gray-100 medium:hover:bg-transparent medium:border-0 medium:hover:text-blue-700 dark:text-white medium:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white medium:dark:hover:bg-transparent"
+                  >
+                    My Portfolio
+                    <svg
+                      className="w-2.5 h-2.5 ms-2.5"
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 10 6"
+                    >
+                      <path
+                        stroke="currentColor"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="m1 1 4 4 4-4"
+                      />
+                    </svg>
+                  </button>
+                  {isMyPortfolio && (
+                    <div className="absolute z-30 right-0 w-[86vw] mt-2 bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600">
+                      <ul className="py-2 text-sm text-gray-700 dark:text-gray-400">
+                        <li>
+                          <a
+                            href="#"
+                            className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                          >
+                            <span className=" inline-flex relative gap-2 text-[4vw] text-green-400">
+                              My Coins
+                            </span>
+                          </a>
+                        </li>
+                        <li>
+                          <a
+                            href="#"
+                            className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                          >
+                            <span className="inline-flex relative gap-2 text-[4vw] text-green-400">
+                              My NFTs
+                            </span>
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  )}
+                </div>
+                <div className="relative block medium:hidden xlarge:block z-20 inline-block top-10 2xlarge:top-0 text-left">
+                  <button
+                    onClick={toggleMyAccountDropdown}
+                    className=" NavLinkBUtton medium:-mt-9 flex items-center justify-between w-full py-3 px-3 rounded medium:w-[22vw] xlarge:w-[14vw] text-gray-900 hover:bg-gray-100 medium:hover:bg-transparent medium:border-0 medium:hover:text-blue-700 dark:text-white medium:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white medium:dark:hover:bg-transparent"
+                  >
+                    <span className=" inline-flex relative gap-2  text-green-400">
+                      <BiSolidUserAccount className="text-[7.5vw] xlarge:text-[1.5vw] xlarge:mt-1 text-white" />
+                      My Account
+                    </span>
+                    <svg
+                      className="w-2.5 h-2.5 ms-2.5"
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 10 6"
+                    >
+                      <path
+                        stroke="currentColor"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="m1 1 4 4 4-4"
+                      />
+                    </svg>
+                  </button>
+                  {isMyAccountOpen && (
+                    <div className="absolute z-9999 right-0 w-[86vw] mt-2 bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600">
+                      <ul className="py-2 text-sm text-gray-700 dark:text-gray-400">
+                        <li>
+                          <a
+                            href="#"
+                            className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                          >
+                            <span className=" inline-flex relative gap-2 text-[4vw] text-green-400">
+                              Sign Up
+                            </span>
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  )}
+                </div>
+              </>
+
               <li
                 className="hidden large:block absolute top-0 left-[50vw] medium:left-[45vw] large:left-[57vw] xlarge:left-[52vw] 2xlarge:left-[55vw]"
                 ref={searchRef}
@@ -184,13 +603,13 @@ const OnlyHeaderComp = () => {
                   />
                 </button>
                 {isSearchExpanded && (
-                  <div className="absolute right-0 -mt-[5vh] w-[20vw] xlarge:w-[25vw] large:-mt-[5vh] large:-right-[5vw] xlarge:-right-[14vw]  bg-white border border-gray-200 rounded-lg shadow-lg dark:bg-gray-800 dark:border-gray-700">
+                  <div className="absolute right-0 -mt-[5vh] w-[20vw] xlarge:w-[25vw] large:-mt-[5vh] large:-right-[5vw] xlarge:-right-[14vw] xlarge:top-[14vh]  bg-white border border-gray-200 rounded-lg shadow-lg dark:bg-gray-800 dark:border-gray-700">
                     <input
                       type="text"
                       placeholder=" Search Coins,Nfts ..."
-                      className="w-[20vw] xlarge:w-[25vw] p-2 pl-10 text-sm text-gray-900 border-none rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white dark:focus:ring-blue-500"
+                      className="w-[20vw] xlarge:w-[25vw] p-2 pl-10 xlarge:py-3 text-sm text-gray-900 border-none rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white dark:focus:ring-blue-500"
                     />
-                    <span className="absolute left-0 top-2 text-gray-600 dark:text-white">
+                    <span className="absolute left-0 top-2 xlarge:top-3 text-gray-600 dark:text-white">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 24 24"
@@ -205,7 +624,7 @@ const OnlyHeaderComp = () => {
               </li>
               <button
                 className="SignButton hidden medium:block large:block absolute medium:top-1 top-0 right-0 medium:-right-[18vw] large:-right-[22vw] xlarge:-right-[22vw] 2xlarge:-right-[22vw]
-                  "
+                "
                 onClick={toggleSignUp}
               >
                 {isSignedUp ? (

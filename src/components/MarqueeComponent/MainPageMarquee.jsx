@@ -68,11 +68,11 @@ const MainPageMarquee = () => {
                   MarqueeData?.data?.market_cap_change_percentage_24h_usd >= 0
                     ? "blink-green"
                     : "blink-red"
-                } text-[5vw]  medium:text-[2vw] 2xlarge:text-[1vw] inline-flex items-center`}
+                } text-[5vw]  medium:text-[2vw] xlarge:text-[1.6vw] xlarge:mt-1 2xlarge:text-[1vw] inline-flex items-center`}
               >
                 {MarqueeData?.data?.market_cap_change_percentage_24h_usd >=
                 0 ? (
-                  <FaCaretUp className="blink-green text-[4vw]  2xlarge:text-[1vw]" />
+                  <FaCaretUp className="blink-green text-[4vw] xlarge:text-[2vw]  2xlarge:text-[1vw]" />
                 ) : (
                   <FaCaretDown className="text-[4.5vw] 2xlarge:text-[1vw] blink-red" />
                 )}
@@ -130,8 +130,8 @@ const MainPageMarquee = () => {
           {MarqueeData2?.cap ? (
             <span>
               {(MarqueeData2.cap / 1e12).toFixed(3)}T
-              <span className="text-green-400  2xlarge:text-[1vw]  inline-flex items-center">
-                <FaCaretUp className="text-[4vw] 2xlarge:text-[1vw]" />{" "}
+              <span className="text-green-400  2xlarge:text-[1vw] xlarge:text-[1.6vw]  inline-flex items-center">
+                <FaCaretUp className="text-[4vw] 2xlarge:text-[1vw] xlarge:text-[1.5vw]" />{" "}
                 {MarqueeData?.data?.market_cap_change_percentage_24h_usd?.toFixed(
                   1
                 )}

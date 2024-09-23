@@ -12,6 +12,7 @@ import {
   YAxis,
   Tooltip,
   ResponsiveContainer,
+  CartesianGrid,
 } from "recharts";
 import {
   CoinGeckoApi,
@@ -53,7 +54,7 @@ const CoinFullDetails = ({ contractAddress, marketsData }) => {
   const [lowestMarketCap, setLowestMarketCap] = useState(0);
   const [highestMarketCap, setHighestMarketCap] = useState(0);
   const [xAxisDomain, setXAxisDomain] = useState([0, 0]);
-
+  const [screenSize, setScreenSize] = useState(window.innerWidth);
   const priceUSD = CoinDetails?.market_data?.current_price.usd;
   const priceBTC = CoinDetails?.market_data?.current_price.btc;
   const priceChange24h = CoinDetails?.market_data?.price_change_percentage_24h;
@@ -65,10 +66,15 @@ const CoinFullDetails = ({ contractAddress, marketsData }) => {
   const [hyperlinks, setHyperlinks] = useState({});
   const truncatedAddress = `${
     CoinDetails &&
-    CoinDetails?.detail_platforms?.ethereum?.contract_address.slice(0, 6)
+    CoinDetails?.detail_platforms?.ethereum?.contract_address.slice(
+      screenSize >= 1024 && screenSize <= 1280 ? 0 : 0,
+      screenSize >= 1024 && screenSize <= 1280 ? 10 : 6
+    )
   }...${
     CoinDetails &&
-    CoinDetails?.detail_platforms?.ethereum?.contract_address.slice(-5)
+    CoinDetails?.detail_platforms?.ethereum?.contract_address.slice(
+      screenSize >= 1024 && screenSize <= 1280 ? -10 : -5
+    )
   }`;
   const [MarketsData, setMarketsData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -81,7 +87,25 @@ const CoinFullDetails = ({ contractAddress, marketsData }) => {
   const [CoinLatestNews, setCoinLatestNews] = useState(null);
   const [renderedNews, setRenderedNews] = useState([]);
   const [TrendingCoins, setTrendingCoins] = useState(null);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
+  useEffect(() => {
+    const handleResize = () => {
+      setScreenSize(window.innerWidth);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  const toggleDropdownChains = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
+
+  const ecosystemCategory = CoinDetails?.categories?.find((category) =>
+    category.includes("Ecosystem")
+  );
   let targetCount = 11;
 
   useEffect(() => {
@@ -497,105 +521,89 @@ const CoinFullDetails = ({ contractAddress, marketsData }) => {
     TrendingCoins && console.log(TrendingCoins, "Trending Coins");
   }, [TrendingCoins]);
 
-  // useEffect(() => {
-  //   const FetchCoinLatestNews = async () => {
-  //     const response = await fetch(
-  //       `https://newsapi.org/v2/everything?exact_phrase=tether&q="tether"&language=en&to=2024-09-17&apiKey=fbecde2b44f445b4b1fa9f89ae474dd3`
-  //     );
-  //     const CoinNews = await response.json();
-  //     // console.log(CoinNews);
-  //     setCoinLatestNews(CoinNews?.articles);
-  //   };
-  //   FetchCoinLatestNews();
-  // }, []);
-
-  // useEffect(() => {
-  //   CoinLatestNews && console.log(CoinLatestNews, "Coin Latest News");
-  // }, [CoinLatestNews]);
-
-  // useEffect(() => {
-  //   const abcd = async () => {
-  //     const res = await fetch(
-  //       `https://api.coingecko.com/api/v3/coins/${id}/news`,
-  //       CoinGeckoRixerApi
-  //     );
-  //     const data = await res.json();
-  //     console.log(data);
-  //   };
-  //   // abcd();
-  // });
-
   return (
     <>
       <div>
         <OnlyHeaderComp />
         <MainPageMarquee />
       </div>
-      <div className="w-[100vw]  text-white bg-black overflow-x-hidden">
-        <h1 className=" text-[6vw] font-semibold text-red-600 relative left-[8vw] top-[7vh]">
+      <div className="w-[100vw] text-white bg-black overflow-x-hidden">
+        <h1 className="text-[6vw] xsmall:text-[4vw] small:text-[3.5vw] medium:text-[3vw] medium:ml-[15vw] large:ml-[20vw] xlarge:ml-[7vw]  large:text-[2.5vw] xlarge:text-[2vw] 2xlarge:text-[1.5vw] font-semibold text-red-600 ml-[8vw] mt-[7vh]">
           Overview
         </h1>
-        <img
-          className=" relative left-[8vw] top-[12vh]  "
-          src={CoinDetails?.image?.thumb}
-          alt=""
-        />
-        <h1 className=" inline-flex text-white relative left-[16vw] top-[8vh] text-[5.2vw]">
-          {CoinDetails?.name}
-          <h1 className="relative left-5 text-gray-400">
-            {CoinDetails?.symbol?.toUpperCase()} Price
-          </h1>
-          <span
-            className="text-white border-[2px] border-red-600 rounded-full bg-yellow-400 p-1 relative top-1 left-[30vw] cursor-pointer"
-            onClick={() => setShowDropdown(!showDropdown)}
-          >
-            <FaStar className="" />
-            {showDropdown && (
-              <div
-                className="absolute bg-white shadow-md p-2 rounded-md border border-gray-200"
-                style={{
-                  top: "150%",
-                  right: "0%",
-                  zIndex: 1,
-                  width: "170px",
-                }}
+
+        <div className="flex items-center mt-8 ml-[8vw] large:ml-[14vw] xlarge:ml-[2vw]">
+          <img
+            className="w-8 h-8 xsmall:w-10 xsmall:h-10 small:w-10 small:h-10 medium:w-9 medium:h-9"
+            src={CoinDetails?.image?.large}
+            alt=""
+          />
+
+          <div className="ml-4 flex flex-wrap items-center">
+            <h1 className="text-[5.2vw] xsmall:text-[4vw] small:text-[3vw] medium:text-[2.2vw] medium:ml-[1vw] large:text-[2.2vw] large:ml-[vw] xlarge:text-[1.5vw]   2xlarge:text-[1.5vw] text-white font-semibold">
+              {CoinDetails?.name}
+            </h1>
+
+            <h1 className="ml-2 text-[4vw] xsmall:text-[3vw] small:text-[2.5vw] medium:text-[2vw] large:text-[1.8vw] xlarge:text-[1.5vw] 2xlarge:text-[1.2vw] text-gray-400">
+              {CoinDetails?.symbol?.toUpperCase()} Price
+            </h1>
+
+            <div className="relative ml-[3vw]  mt-2 xsmall:mt-0 medium:ml-[20vw] xlarge:ml-[10vw]">
+              <span
+                className="text-white border-2 border-red-600 rounded-full bg-yellow-400 p-1 cursor-pointer inline-flex items-center justify-center w-8 h-8"
+                onClick={() => setShowDropdown(!showDropdown)}
               >
-                <a
-                  href="#"
-                  className="inline-block px-2 font-semibold bg-gray-200 py-2 -ml- hover:bg-red-100 rounded-lg text-[4.5vw] w-[40vw] text-gray-600"
+                <FaStar className="w-4 h-4" />
+              </span>
+
+              {showDropdown && (
+                <div
+                  className="absolute bg-white shadow-md p-2 rounded-md border border-gray-200"
+                  style={{
+                    top: "150%",
+                    right: "0%",
+                    zIndex: 1,
+                    width: "170px",
+                  }}
                 >
-                  Add to Portfolio
-                </a>
-                <h1 className="text-[3.5vw] ml-2 w-[50vw] text-gray-600">
-                  Added{" "}
-                  {CoinDetails?.watchlist_portfolio_users?.toLocaleString()}{" "}
-                  Users
-                </h1>
-              </div>
-            )}
+                  <a
+                    href="#"
+                    className="inline-block px-2 font-semibold bg-gray-200 py-2 hover:bg-red-100 rounded-lg text-[4.5vw] xsmall:text-[3vw] small:text-[2.5vw] medium:text-[1.5vw] large:text-[1.3vw] xlarge:text-[1vw] 2xlarge:text-[1.2vw] w-full  xsmall:whitespace-nowrap text-gray-600"
+                  >
+                    Add to Portfolio
+                  </a>
+                  <h1 className="text-[3.5vw] xsmall:text-[2.4vw] small:text-[2.5vw] medium:text-[1.5vw] medium:ml-1 large:text-[1.3vw] xlarge:text-[1vw] 2xlarge:text-[1.2vw] ml- text-gray-600">
+                    Added{" "}
+                    {CoinDetails?.watchlist_portfolio_users?.toLocaleString()}{" "}
+                    Users
+                  </h1>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+        <h1 className=" font-semibold text-[7.5vw] xsmall:text-[4vw] small:text-[4vw] medium:text-[2.5vw] large:text-[3vw] xlarge:text-[2.2vw] 2xlarge:text-[2.5vw] ml-[10vh] xsmall:ml-[12vh] small:ml-[15vh] mt-[2vh] xsmall:mt-[2vh] medium:ml-[17vh] large:ml-[32vh] xlarge:ml-[12vh]">
+          <span className="min-w-[50vw]">
+            $
+            {CoinDetails?.market_data?.current_price?.usd >= 100
+              ? CoinDetails?.market_data?.current_price?.usd?.toFixed(
+                  CoinDetails?.market_data?.current_price?.usd
+                    ?.toString()
+                    .split(".")[0].length > 2
+                    ? 2
+                    : CoinDetails?.market_data?.current_price?.usd
+                        ?.toString()
+                        .split(".")[0] === "0"
+                    ? 8
+                    : 4
+                )
+              : CoinDetails?.market_data?.current_price?.usd?.toFixed(8)}
           </span>
         </h1>
-        <div>
-          <h1 className="relative text-[7.5vw] left-[4vh] top-[10vh]">
-            <span className="min-w-[20vw]">
-              $
-              {CoinDetails?.market_data?.current_price?.usd >= 100
-                ? CoinDetails?.market_data?.current_price?.usd?.toFixed(
-                    CoinDetails?.market_data?.current_price?.usd
-                      ?.toString()
-                      .split(".")[0].length > 2
-                      ? 2
-                      : CoinDetails?.market_data?.current_price?.usd
-                          ?.toString()
-                          .split(".")[0] === "0"
-                      ? 8
-                      : 4
-                  )
-                : CoinDetails?.market_data?.current_price?.usd?.toFixed(8)}
-            </span>
-          </h1>
-          <h1 className=" text-[3.5vw] relative top-[11vh] left-[10vw] inline-flex">
-            <span className="min-w-[20vw]">
+
+        <div className="flex flex-wrap items-center mt-2  ml-[20vw] xsmall:ml-[16vw]  medium:ml-[14vw] large:ml-[19vw] xlarge:ml-[6vw]">
+          <h1 className="text-[3.5vw] xsmall:text-[3vw] small:text-[2.5vw] medium:text-[2.5vw] large:text-[1.8vw] xlarge:text-[1.5vw] 2xlarge:text-[1.2vw]">
+            <span className="min-w-[50vw]">
               {CoinDetails?.market_data?.current_price?.btc
                 ?.toString()
                 .split(".")[0] === "0"
@@ -613,134 +621,157 @@ const CoinFullDetails = ({ contractAddress, marketsData }) => {
                   )}{" "}
               BTC
             </span>
-            <span className="text-green-400 text-[5vw] relative font-semibold left-[33vw] -top-[6vh]">
-              {CoinDetails?.market_data?.price_change_percentage_24h >= 0 ? (
-                <FaCaretUp className="inline-flex blink-green text-[5.5vw] relative -top-1" />
-              ) : (
-                <FaCaretDown className="inline-flex blink-red text-[5.5vw] relative -top-1" />
-              )}
-              <span
-                className={`${
-                  CoinDetails?.market_data?.price_change_percentage_24h >= 0
-                    ? "blink-green"
-                    : "blink-red"
-                }`}
-              >
-                {CoinDetails?.market_data?.price_change_percentage_24h?.toFixed(
-                  CoinDetails?.market_data?.price_change_percentage_24h
-                    ?.toString()
-                    .split(".")[0].length > 2
-                    ? 2
-                    : CoinDetails?.market_data?.price_change_percentage_24h
-                        ?.toString()
-                        .split(".")[0] === "0 "
-                    ? 10
-                    : 2
-                )}
-                %
-              </span>
-            </span>
-            <span className="relative right-[17vw]">
-              {CoinDetails?.market_data?.price_change_percentage_24h_in_currency
-                ?.btc >= 0 ? (
-                <FaCaretUp className="inline-flex blink-green relative -top-[0.3vw]" />
-              ) : (
-                <FaCaretDown className="inline-flex blink-red" />
-              )}
-              <span
-                className={`${
-                  CoinDetails?.market_data
-                    ?.price_change_percentage_24h_in_currency?.btc >= 0
-                    ? "blink-green"
-                    : "blink-red"
-                }`}
-              >
-                {CoinDetails?.market_data?.price_change_percentage_24h_in_currency?.btc?.toFixed(
-                  CoinDetails?.market_data?.price_change_percentage_24h_in_currency?.btc
-                    ?.toString()
-                    .split(".")[0].length > 2
-                    ? 2
-                    : CoinDetails?.market_data?.price_change_percentage_24h_in_currency?.btc
-                        ?.toString()
-                        .split(".")[0] === "0 "
-                    ? 10
-                    : 2
-                )}
-                %
-              </span>
-            </span>
           </h1>
-        </div>
-        <div>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 300 50"
-            className="w-full h-auto relative top-[12vh]"
-          >
-            <defs>
-              <linearGradient
-                id="priceGradient"
-                x1="0%"
-                y1="0%"
-                x2="100%"
-                y2="0%"
-              >
-                <stop
-                  offset="0%"
-                  style={{ stopColor: "red", stopOpacity: 1 }}
-                />
-                <stop
-                  offset="100%"
-                  style={{ stopColor: "green", stopOpacity: 1 }}
-                />
-              </linearGradient>
-            </defs>
-            <rect
-              x="10"
-              y="10"
-              width="280"
-              height="10"
-              fill="url(#priceGradient)"
-              rx="5"
-              ry="5"
-            />
-            <text x="10" y="45" fontFamily="Arial" fontSize="12" fill="red">
-              $
-              {CoinDetails?.market_data?.low_24h?.usd?.toFixed(
-                CoinDetails?.market_data?.low_24h?.usd?.toString().split(".")[0]
-                  .length > 2
-                  ? 2
-                  : CoinDetails?.market_data?.low_24h?.usd
-                      ?.toString()
-                      .split(".")[0] === "0"
-                  ? 8
-                  : 4
-              )}
-            </text>
-            <text x="235" y="45" fontFamily="Arial" fontSize="12" fill="green">
-              $
-              {CoinDetails?.market_data?.high_24h?.usd?.toFixed(
-                CoinDetails?.market_data?.high_24h?.usd
+
+          <span className="text-green-400 text-[5vw] xsmall:text-[3.5vw] small:text-[2.5vw] medium:text-[2.2vw] large:text-[1.6vw] xlarge:text-[1.5vw] 2xlarge:text-[2vw] font-semibold ml-[22vw] xsmall:ml-[24vw] medium:ml-[15vw] -mt-[11vh] xsmall:-mt-[10vh]  medium:-mt-[11vh] large:-mt-[13vh] xlarge:-mt-[12vh] ">
+            {CoinDetails?.market_data?.price_change_percentage_24h >= 0 ? (
+              <FaCaretUp className="inline-flex blink-green text-[5.5vw] xsmall:text-[4vw] small:text-[3vw] medium:text-[2.3vw] large:text-[1.5vw] xlarge:text-[1.5vw] 2xlarge:text-[2.5vw] relative -top-1 xlarge:-top-1 large:top-0" />
+            ) : (
+              <FaCaretDown className="inline-flex blink-red text-[5.5vw] xsmall:text-[4vw] small:text-[3vw] medium:text-[2.3vw] large:text-[1.8vw] xlarge:text-[1.5vw] 2xlarge:text-[2.5vw] relative -top-1" />
+            )}
+            <span
+              className={`${
+                CoinDetails?.market_data?.price_change_percentage_24h >= 0
+                  ? "blink-green"
+                  : "blink-red"
+              }`}
+            >
+              {CoinDetails?.market_data?.price_change_percentage_24h?.toFixed(
+                CoinDetails?.market_data?.price_change_percentage_24h
                   ?.toString()
                   .split(".")[0].length > 2
                   ? 2
-                  : CoinDetails?.market_data?.high_24h?.usd
+                  : CoinDetails?.market_data?.price_change_percentage_24h
                       ?.toString()
-                      .split(".")[0] === "0"
-                  ? 8
-                  : 4
+                      .split(".")[0] === "0 "
+                  ? 10
+                  : 2
               )}
-            </text>
-          </svg>
+              %
+            </span>
+          </span>
         </div>
-        <div className=" relative top-[15vh] left-5">
-          <h1>
+
+        <span className="inline-block relative -top-7 left-[50vw] mt-2 small:left-[40vw] small:mt-1 medium:-mt-1   ml-[20vw] medium:ml-[8vw] xsmall:ml-[15vw] xlarge:left-[22vw]  text-[4vw] xsmall:text-[3vw] small:text-[2.5vw] medium:text-[2.2vw] large:text-[1.5vw] xlarge:text-[1.4vw] 2xlarge:text-[1vw]">
+          {CoinDetails?.market_data?.price_change_percentage_24h_in_currency
+            ?.btc >= 0 ? (
+            <FaCaretUp className="inline-flex blink-green relative -top-[0.3vw] xlarge:-top-1" />
+          ) : (
+            <FaCaretDown className="inline-flex blink-red" />
+          )}
+          <span
+            className={`${
+              CoinDetails?.market_data?.price_change_percentage_24h_in_currency
+                ?.btc >= 0
+                ? "blink-green"
+                : "blink-red"
+            }`}
+          >
+            {CoinDetails?.market_data?.price_change_percentage_24h_in_currency?.btc?.toFixed(
+              CoinDetails?.market_data?.price_change_percentage_24h_in_currency?.btc
+                ?.toString()
+                .split(".")[0].length > 2
+                ? 2
+                : CoinDetails?.market_data?.price_change_percentage_24h_in_currency?.btc
+                    ?.toString()
+                    .split(".")[0] === "0 "
+                ? 10
+                : 2
+            )}
+            %
+          </span>
+        </span>
+        <svg
+          viewBox="0 0 300 50"
+          className="w-full  xsmall:w-[80vw]  xsmall:mx-auto medium:w-[70vw] large:w-[60vw] large:ml-[20vw] xlarge:ml-[5vw] xlarge:w-[35vw] h-auto"
+        >
+          <defs>
+            <linearGradient
+              id="priceGradient"
+              x1="0%"
+              y1="0%"
+              x2="100%"
+              y2="0%"
+            >
+              <stop offset="0%" style={{ stopColor: "red", stopOpacity: 1 }} />
+              <stop
+                offset="100%"
+                style={{ stopColor: "green", stopOpacity: 1 }}
+              />
+            </linearGradient>
+          </defs>
+          <rect
+            x="10"
+            y="10"
+            width="280"
+            height={window.innerWidth < 480 || window.innerWidth > 1536 ? 7 : 3}
+            fill="url(#priceGradient)"
+            rx="5"
+            ry="5"
+          />
+          <text
+            x="10"
+            y={window.innerWidth >= 640 && window.innerWidth <= 768 ? 27 : 27}
+            fontFamily="Arial"
+            className="text-[3vw] xsmall:text-[2vw]  small:text-[1.5vw] medium:text-[1vw] large:text-[0.8vw] xlarge:text-[0.6vw] 2xlarge:text-[1vw]"
+            fill="red"
+          >
+            $
+            {CoinDetails?.market_data?.low_24h?.usd?.toFixed(
+              CoinDetails?.market_data?.low_24h?.usd?.toString().split(".")[0]
+                .length > 2
+                ? 2
+                : CoinDetails?.market_data?.low_24h?.usd
+                    ?.toString()
+                    .split(".")[0] === "0"
+                ? 8
+                : 4
+            )}
+          </text>
+          <text
+            x={
+              window.innerWidth >= 640 && window.innerWidth <= 768
+                ? 240
+                : window.innerWidth >= 1289 && window.innerWidth <= 1536
+                ? 245
+                : 250
+            }
+            y={
+              window.innerWidth >= 640 && window.innerWidth <= 768
+                ? 27
+                : window.innerWidth >= 1289 && window.innerWidth <= 1536
+                ? 30
+                : 27
+            }
+            fontFamily="Arial"
+            className="text-[3vw] xsmall:text-[2vw] small:text-[1.5vw] medium:text-[1vw] large:text-[0.8vw] xlarge:text-[0.7vw] 2xlarge:text-[1vw]"
+            fill="green"
+          >
+            $
+            {CoinDetails?.market_data?.high_24h?.usd?.toFixed(
+              CoinDetails?.market_data?.high_24h?.usd?.toString().split(".")[0]
+                .length > 2
+                ? 2
+                : CoinDetails?.market_data?.high_24h?.usd
+                    ?.toString()
+                    .split(".")[0] === "0"
+                ? 8
+                : 4
+            )}
+          </text>
+        </svg>
+        <span className=" text-white relative -top-[6vh] xsmall:-top-[7vh] small:-top-[9vh] left-[40vw] text-[3vw] xsmall:text-[2.5vw] medium:text-[2vw] medium:left-[44vw]  medium:-top-[8vh] large:text-[1.5vw] large:-top-[11vh] xlarge:text-[1vw] xlarge:-top-[8vh] xlarge:left-[18vw]">
+          24 Hour Range
+        </span>
+
+        <div className=" relative left-5 xsmall:left-[10vw] medium:left-[14vw] large:ml-[5vw] xlarge:left-[42vw] xlarge:bottom-[45vh]">
+          <h1 className=" text-[6vw] xsmall:text-[4vw] small:text-[3vw] medium:text-[2vw] xlarge:grid xlarge:grid-cols-4 ">
             {CoinDetails?.name} Price Chart{" "}
             {`(${CoinDetails?.symbol?.toUpperCase()})`}
           </h1>
-          <div>
+          <div className=" small:flex small:gap-4 large:gap-10 xlarge:gap-2">
             <button
-              class="button TimeGraph mt-5"
+              class="button TimeGraph mt-5 "
               onClick={() => setTimeFrame("24h")}
             >
               24h
@@ -770,7 +801,7 @@ const CoinFullDetails = ({ contractAddress, marketsData }) => {
               1y
             </button>
           </div>
-          <div>
+          <div className=" small:flex small:gap-4 large:gap-10 xlarge:gap-5">
             <button
               class={`button TimeGraph2 mt-5 ${
                 chartType === "price" ? "active" : ""
@@ -789,21 +820,29 @@ const CoinFullDetails = ({ contractAddress, marketsData }) => {
             </button>
           </div>
         </div>
-        <div className="relative top-[30vh] w-[100vw]">
-          <div className="w-[90vw] h-96 rounded-lg shadow relative left-3  ">
+        <div className="relative top-[8vh] w-[100vw]">
+          <div className="w-[95vw] xsmall:w-[93vw] small:w-[90vw] xlarge:w-[50vw] xlarge:left-[47vw] xlarge:bottom-[45vh]  h-96 rounded-lg shadow relative small:left-5    ">
             <ResponsiveContainer width="100%" height="100%">
               {chartType === "price" ? (
                 <LineChart data={chartData2}>
                   {console.log("LineChart is rendering")}
+                  <CartesianGrid
+                    vertical={false}
+                    horizontal={true}
+                    strokeDasharray="0.5"
+                    stroke="#E5E7EB"
+                  />
                   <XAxis
                     dataKey="time"
                     tickFormatter={formatXAxis}
                     minTickGap={30}
                     tick={{ fontSize: 10 }}
                     domain={xDomain}
+                    axisLine={{ stroke: "gray" }}
+                    tickLine={{ stroke: "gray" }}
                   />
                   <YAxis
-                    className=" text-[2.5vw]"
+                    className=" text-[3vw] xsmall:text-[2vw] medium:text-[1.5vw] large:text-[1.1vw]"
                     tickCount={9}
                     tickValues={tickValuesLowPrices}
                     tickFormatter={(value) => {
@@ -818,6 +857,8 @@ const CoinFullDetails = ({ contractAddress, marketsData }) => {
                       }
                     }}
                     domain={[lowestPrice, highestPrice]}
+                    axisLine={true}
+                    tickLine={true}
                   />
                   <Tooltip content={<CustomTooltip />} />
                   <Line
@@ -845,6 +886,12 @@ const CoinFullDetails = ({ contractAddress, marketsData }) => {
                     bottom: 5,
                   }}
                 >
+                  <CartesianGrid
+                    vertical={false}
+                    horizontal={true}
+                    strokeDasharray="0.5"
+                    stroke="#E5E7EB"
+                  />
                   <XAxis
                     dataKey="0"
                     tickFormatter={(unixTimestamp) => {
@@ -899,6 +946,8 @@ const CoinFullDetails = ({ contractAddress, marketsData }) => {
                     })}
                     tick={{ fontSize: 10 }}
                     domain={xAxisDomain}
+                    axisLine={{ stroke: "#E5E7EB" }}
+                    tickLine={{ stroke: "#E5E7EB" }}
                   />
                   <YAxis
                     tickCount={9}
@@ -922,6 +971,9 @@ const CoinFullDetails = ({ contractAddress, marketsData }) => {
                       }
                     }}
                     domain={[lowestMarketCap, highestMarketCap]}
+                    axisLine={true}
+                    tickLine={true}
+                    className="text-[3vw] xsmall:text-[2vw] medium:text-[1.5vw] large:text-[1.1vw]"
                   />
                   <Tooltip
                     content={<CustomTooltip />}
@@ -939,20 +991,24 @@ const CoinFullDetails = ({ contractAddress, marketsData }) => {
             </ResponsiveContainer>
           </div>
         </div>
-        <div className="relative top-[35vh]">
-          <div className="flex justify-between w-[95vw] mx-auto bg-gray-500/30 backdrop-blur-md border-2 text-black p-2 overflow-x-auto hide-scrollbar rounded-2xl">
+        <div className="relative top-[10vh] small:right-10 xlarge:left-[8vw] xlarge:-top-[30vh]">
+          <div className="flex justify-between w-[95vw] mx-auto bg-gray-500/30 backdrop-blur-md border-2 text-black p-2 overflow-x-auto hide-scrollbar rounded-2xl medium:w-[70vw] large:w-[60vw] small:w-[80vw] xsmall:w-[90vw] xsmall:mr-10 medium:mr-[14vw] xlarge:w-[45vw] ">
             {timeframes.map((timeframe, index) => (
               <div key={timeframe.label} className="text-center">
                 <div
                   className={`font-bold mb-2  ${
                     index === 0
-                      ? "bg-yellow-600 text-black p-2 rounded-t-lg SmallTable ml-4  "
-                      : "bg-yellow-600 text-black p-2 rounded-t-lg SmallTable ml-1"
+                      ? "bg-yellow-600 text-black p-2 rounded-t-lg SmallTable ml-3 xsmall:ml-4 small:ml-5 medium:ml-6  "
+                      : "bg-yellow-600 text-black p-2 rounded-t-lg SmallTable ml-3 small:ml-5 medium:ml-4"
                   }`}
                 >
                   {timeframe.label}
                 </div>
-                <div className=" text-[4vw] w-[28vw] mx-auto bg-stone-700 border-r-[1px] relative left-   border-gray-400 p-2">
+                <div
+                  className={
+                    "text-[4vw] xsmall:text-[3vw] small:text-[2vw] medium:text-[2vw] w-[28vw] xsmall:w-[20vw] small:w-[18vw] medium:w-[13vw] large:text-[1.5vw] xlarge:text-[1.2vw] large:w-[10vw] xlarge:w-[8vw]  mx-auto bg-stone-700 border-r-[1px] relative    border-gray-400 p-2"
+                  }
+                >
                   {formatPercentage(
                     CoinDetails?.market_data?.[timeframe.dataKey]?.usd
                   )}
@@ -961,9 +1017,11 @@ const CoinFullDetails = ({ contractAddress, marketsData }) => {
             ))}
           </div>
         </div>
-        <div className=" relative top-[42vh] left-5">
-          <h1 className=" text-[6vw]">{CoinDetails?.name} Converter</h1>
-          <div className="bg-white shadow-md rounded-lg p-4 w-[90vw] mt-5">
+        <div className=" relative top-[18vh] left-5 small:left-[8vw] medium:left-[12vw] large:left-[17vw] xlarge:left-[6vw] xlarge:-top-[90vh] ">
+          <h1 className=" text-[6vw] xsmall:text-[4vw] small:text-[3.5vw] medium:text-[2.5vw] large:text-[1.5vw] ">
+            {CoinDetails?.name} Converter
+          </h1>
+          <div className="bg-white shadow-md rounded-lg p-4 w-[90vw] small:w-[80vw] medium:w-[60vw] large:w-[55vw] xlarge:w-[37vw] mt-5">
             <div className="flex items-center justify-between mb-4">
               <div className="font-bold text-xl text-black">
                 {CoinDetails?.symbol?.toUpperCase()}
@@ -999,134 +1057,163 @@ const CoinFullDetails = ({ contractAddress, marketsData }) => {
               className="w-full px-3 py-2 text-lg text-black border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4"
               placeholder="Enter amount"
             />
-            <div className="text-2xl font-bold text-red-600">
+            <div className="text-[5vw] xsmall:text-[3vw] medium:text-[2vw] large:text-[1.6vw] font-bold text-red-600">
               {!isNaN(convertedAmount) ? convertedAmount.toFixed(2) : "0.00"}{" "}
               {selectedCurrency.toUpperCase()}
             </div>
           </div>
         </div>
-        <div className=" relative top-[48vh] left-5">
-          <h1 className=" text-[6vw]">{CoinDetails?.name} Figures</h1>
-          <div className=" inline-flex mt-5">
-            <h1 className="mr-[30vw]">Market cap</h1>
-            <h1 className=" font-bold">
+        <div className=" relative top-[24vh] left-5 small:left-[8vw] medium:left-[12vw] large:left-[17vw] xlarge:left-[6vw] xlarge:-top-[80vh]">
+          <h1 className=" text-[6vw] xsmall:text-[4vw] small:text-[3.5vw] medium:text-[2.7vw] large:text-[2vw]">
+            {CoinDetails?.name} Figures
+          </h1>
+          <div className=" inline-flex mt-5 ">
+            <h1 className="mr-[25vw]  xsmall:mr-[45vw] large:text-[1.5vw] xlarge:mr-[25vw]">
+              Market cap
+            </h1>
+            <h1 className=" font-bold small:ml-[3vw] medium:-ml-[10vw] large:-ml-[9vw]">
               ${CoinDetails?.market_data?.market_cap?.usd.toLocaleString()}
             </h1>
           </div>
-          <div className=" border-b-[1px] mt-4  w-[90vw]"></div>
+          <div className=" border-b-[1px] mt-4  w-[90vw] small:w-[80vw] medium:w-[60vw] xlarge:w-[35vw]"></div>
           <div className=" inline-flex mt-3">
-            <h1 className=" mr-[40vw]">Market Cap/FDV</h1>
-            <h1 className="font-bold">
+            <h1 className=" mr-[40vw] xsmall:mr-[50vw] medium:mr-[34vw] large:text-[1.5vw] xlarge:mr-[13vw]">
+              Market Cap/FDV
+            </h1>
+            <h1 className="font-bold small:ml-[3vw] ">
               {CoinDetails?.market_data?.market_cap_fdv_ratio}
             </h1>
           </div>
-          <div className=" border-b-[1px] mt-4  w-[90vw]"></div>
+          <div className=" border-b-[1px] mt-4  w-[90vw] small:w-[80vw] medium:w-[60vw] xlarge:w-[35vw]"></div>
           <div className=" inline-flex mt-3">
-            <h1 className=" mr-[10vw]">Fully Diluted Valuation</h1>
-            <h1 className=" font-bold">
+            <h1 className=" mr-[5vw] xsmall:mr-[30vw] medium:mr-[22vw] large:mr-[25vw] large:text-[1.5vw] xlarge:mr-[5vw]">
+              Fully Diluted Valuation
+            </h1>
+            <h1 className=" font-bold small:ml-[3vw]">
               $
               {CoinDetails?.market_data?.fully_diluted_valuation?.usd.toLocaleString()}
             </h1>
           </div>
-          <div className=" border-b-[1px] mt-4  w-[90vw]"></div>
+          <div className=" border-b-[1px] mt-4  w-[90vw] small:w-[80vw] medium:w-[60vw] xlarge:w-[35vw]"></div>
           <div className=" inline-flex mt-3">
-            <h1 className=" mr-[20vw]">Circulating Supply</h1>
-            <h1 className="font-bold">
+            <h1 className=" mr-[20vw] xsmall:mr-[40vw] large:text-[1.5vw] xlarge:mr-[19vw]">
+              Circulating Supply
+            </h1>
+            <h1 className="font-bold small:ml-[5vw] medium:-ml-[8vw] large:-ml-[6vw] ">
               {CoinDetails?.market_data?.circulating_supply.toFixed(0)}
             </h1>
           </div>
-          <div className=" border-b-[1px] mt-4  w-[90vw]"></div>
+          <div className=" border-b-[1px] mt-4  w-[90vw] small:w-[80vw] medium:w-[60vw] xlarge:w-[35vw]"></div>
           <div className=" inline-flex mt-3">
-            <h1 className=" mr-[35vw]">Total Supply</h1>
-            <h1 className="font-bold">
+            <h1 className=" mr-[35vw] xsmall:mr-[45vw] large:text-[1.5vw] xlarge:mr-[24vw]">
+              Total Supply
+            </h1>
+            <h1 className="font-bold small:ml-[5vw] medium:-ml-[10vw] large:-ml-[7vw]">
               {CoinDetails?.market_data?.total_supply.toFixed(0)}
             </h1>
           </div>
-          <div className=" border-b-[1px] mt-4  w-[90vw]"></div>
+          <div className=" border-b-[1px] mt-4  w-[90vw] small:w-[80vw] medium:w-[60vw] xlarge:w-[35vw]"></div>
           <div className=" inline-flex mt-3">
-            <h1 className=" mr-[35vw]">Max Supply</h1>
-            <h1 className="font-bold">
+            <h1 className=" mr-[35vw] xsmall:mr-[45vw] large:text-[1.5vw] xlarge:mr-[24vw]">
+              Max Supply
+            </h1>
+            <h1 className="font-bold small:ml-[5vw] medium:-ml-[10vw] large:-ml-[7vw]">
               {CoinDetails?.market_data?.total_supply.toFixed(0)}
             </h1>
           </div>
-          <div className=" border-b-[1px] mt-4  w-[90vw]"></div>
+          <div className=" border-b-[1px] mt-4  w-[90vw] small:w-[80vw] medium:w-[60vw] xlarge:w-[35vw]"></div>
           <div className=" inline-flex mt-3">
-            <h1 className=" mr-[30vw]">Total Volume</h1>
-            <h1 className="font-bold">
+            <h1 className=" mr-[30vw] xsmall:mr-[40vw] large:text-[1.5vw] xlarge:mr-[19vw]">
+              Total Volume
+            </h1>
+            <h1 className="font-bold small:ml-[5vw] medium:-ml-[7vw] large:-ml-[4vw]">
               ${CoinDetails?.market_data?.total_volume?.usd.toLocaleString()}
             </h1>
           </div>
-          <div className=" border-b-[1px] mt-4  w-[90vw]"></div>
+          <div className=" border-b-[1px] mt-4  w-[90vw] small:w-[80vw] medium:w-[60vw] xlarge:w-[35vw]"></div>
         </div>
-        <div className=" relative top-[55vh] left-5">
-          <h1 className="text-[6vw]">Info</h1>
+        <div className="relative top-[30vh] left-5 xsmall:left-3 small:left-4 medium:left-[6vw] large:left-[11vw] xlarge:-top-[70vh] xlarge:left-[6vw] xlarge:max-w-[35vw]  ">
+          <h1 className="text-[6vw] xsmall:text-[4vw] small:text-[3.5vw] small:ml-[6vw] medium:text-[2.7vw] large:text-[2vw] xlarge:ml-0">
+            Info
+          </h1>
+
           {CoinDetails?.detail_platforms?.ethereum?.contract_address && (
-            <div className="flex flex-col w-full max-w-3xl">
-              <div className="flex items-center space-x-2 text-gray-600">
-                <span className="text-sm font-medium">Contract</span>
-                <div className="flex items-center ml-5 relative left-10 space-x-1 bg-gray-100 rounded-full px-3 py-1">
+            <div className="flex flex-col">
+              <div className="small:ml-[6vw] flex flex-row xsmall:flex-row items-start xsmall:items-center space-y-2 xsmall:space-y-0 xsmall:space-x-2 text-gray-600 mt-5 xlarge:ml-0">
+                <span className="text-white text-[4.5vw] xsmall:text-[3.5vw] small:text-[3vw] medium:text-[2.2vw] large:text-[1.8vw] xlarge:text-[1.3vw]">
+                  Contract
+                </span>
+                <div className="flex items-center relative -top-2 xsmall:top-0 xsmall:left-[34vw] left-[10vw] medium:left-[25vw] large:left-[27vw] xlarge:left-[15vw] space-x-2 bg-gray-100 rounded-full px-3 py-1 mt-1 xsmall:mt-0">
                   <img
                     src="https://w7.pngwing.com/pngs/268/1013/png-transparent-ethereum-eth-hd-logo-thumbnail.png"
                     alt=""
-                    className="w-[4vw] h-[2vh] object-cover rounded-full"
+                    className="w-[4vw] h-[2vh] xsmall:w-4 xsmall:h-4 object-cover rounded-full"
                   />
                   <span className="text-xs font-medium">Ethereum</span>
                   <span className="text-xs font-semibold">
                     {truncatedAddress}
                   </span>
                   <Copy
-                    className="w-4 h-4  text-gray-800 cursor-pointer"
+                    className="w-4 h-4 text-gray-800 cursor-pointer"
                     onClick={() => {
                       navigator.clipboard.writeText(
-                        CoinDetails &&
-                          CoinDetails?.detail_platforms?.ethereum
-                            ?.contract_address
+                        CoinDetails?.detail_platforms?.ethereum
+                          ?.contract_address
                       );
                     }}
                   />
                   <ExternalLink className="w-4 h-4 text-gray-400 cursor-pointer" />
                 </div>
               </div>
-              <div className="mt-2 border-b border-gray-200 w-full"></div>
+              <div className="mt-2 border-b border-gray-200 w-[90vw] small:w-[80vw] small:ml-[6vw] medium:w-[60vw] xlarge:w-full xlarge:ml-0"></div>
             </div>
           )}
+
           {(CoinDetails?.links?.homepage[0] ||
             CoinDetails?.links?.announcement_url[0]) && (
-            <div className="inline-flex mt-5 gap-2">
-              <h1 className="mr-[20vw] text-white text-[4.5vw]">Website</h1>
-              {CoinDetails?.links?.homepage[0] && (
-                <Link to={CoinDetails?.links?.homepage[0]}>
-                  <h1 className="bg-cyan-500 px-2 py-1 rounded-xl font-bold  text--800">
-                    {CoinDetails?.links?.homepage[0]
-                      .replace(/^https?:\/\/(www\.)?/, "")
-                      .replace(/\/+/g, "")
-                      .replace(/^\.+/, "")}
-                  </h1>
-                </Link>
-              )}
-              {CoinDetails?.links?.announcement_url[0] && (
-                <Link
-                  to={
-                    CoinDetails?.links?.announcement_url[0] ||
-                    CoinDetails?.links?.whitepaper
-                  }
-                >
-                  <h1 className="bg-cyan-500 px-2 py-1 rounded-xl font-bold  text--800">
-                    {CoinDetails?.links?.announcement_url[0]
-                      ? CoinDetails?.links?.announcement_url[0]
-                          .replace(/^https?:\/\/(www\.)?/, "")
-                          .replace(/\/+/g, "")
-                          .replace(/^\.+/, "")
-                      : "Whitepaper"}
-                  </h1>
-                </Link>
-              )}
+            <div className="flex flex-row xsmall:flex-row mt-5 gap-2">
+              <h1 className="text-white text-[4.5vw] xsmall:text-[3.5vw] small:text-[3vw] small:ml-[6vw] medium:text-[2.2vw] large:text-[1.8vw] medium:-mt-2 xlarge:text-[1.3vw] xlarge:ml-0">
+                Website
+              </h1>
+              <div className="flex flex-wrap gap-2 relative left-[15vh] xsmall:left-[35vh] small:left-[45vw] medium:left-[30vw] xlarge:left-[15vw]">
+                {CoinDetails?.links?.homepage[0] && (
+                  <Link to={CoinDetails?.links?.homepage[0]}>
+                    <h1 className="bg-white px-3 py-1 xsmall:px-3 xsmall:py-2 rounded-xl font-bold text-xs medium:-mt-1">
+                      {CoinDetails?.links?.homepage[0]
+                        .replace(/^https?:\/\/(www\.)?/, "")
+                        .replace(/\/+/g, "")
+                        .replace(/^\.+/, "")}
+                    </h1>
+                  </Link>
+                )}
+                {CoinDetails?.links?.announcement_url[0] && (
+                  <Link
+                    to={
+                      CoinDetails?.links?.announcement_url[0] ||
+                      CoinDetails?.links?.whitepaper
+                    }
+                  >
+                    <h1 className="bg-white px-3 py-1 xsmall:px-3 xsmall:py-2 rounded-xl font-bold text-xs medium:-mt-1  ">
+                      {CoinDetails?.links?.announcement_url[0]
+                        ? CoinDetails?.links?.announcement_url[0]
+                            .replace(/^https?:\/\/(www\.)?/, "")
+                            .replace(/\/+/g, "")
+                            .replace(/^\.+/, "")
+                        : "Whitepaper"}
+                    </h1>
+                  </Link>
+                )}
+              </div>
             </div>
           )}
-          <div className=" border-b-[1px] mt-4  w-[90vw]"></div>
-          <div className="inline-flex mt-5 relative">
-            <h1 className="mr-[20vw] text-white text-[4.5vw]">Explorers</h1>
-            <div className="relative">
+
+          <div className="border-b-[1px] mt-2 w-[90vw] small:w-[80vw] small:ml-[6vw] medium:w-[60vw] xlarge:w-[35vw] xlarge:ml-0 medium:mt-1"></div>
+
+          <div className="flex flex-row xsmall:flex-row items-start xsmall:items-center mt-5 gap-2 medium:mt-2">
+            <h1 className="text-white text-[4.5vw] xsmall:text-[3.5vw] small:text-[3vw] small:ml-[6vw] medium:text-[2.2vw] large:text-[1.8vw] xlarge:text-[1.3vw] xlarge:ml-0">
+              Explorers
+            </h1>
+            <div className="relative left-[12vh] xsmall:left-[35vh] small:left-[40vh] medium:left-[30vw] xlarge:left-[15vw]">
               <button
                 onClick={toggleDropdown}
                 className="bg-white px-2 py-1 rounded-xl font-bold text-black flex items-center"
@@ -1163,117 +1250,142 @@ const CoinFullDetails = ({ contractAddress, marketsData }) => {
               )}
             </div>
           </div>
-          <div className=" border-b-[1px] mt-4  w-[90vw]"></div>
-          <div className=" inline-flex mt-5">
-            <h1 className=" mr-[20vw] text-white text-[4.5vw]">Community</h1>{" "}
+
+          <div className="border-b-[1px] mt-2 w-[90vw] small:w-[80vw] small:ml-[6vw] medium:w-[60vw] xlarge:ml-0 xlarge:w-[35vw]"></div>
+
+          <div className="flex flex-row xsmall:flex-row items-start xsmall:items-center mt-5 gap-2 medium:mt-2">
+            <h1 className="text-white text-[4.5vw] xsmall:text-[3.5vw] small:text-[3vw] small:ml-[6vw] medium:text-[2.2vw] large:text-[1.8vw] xlarge:text-[1.3vw] xlarge:ml-0">
+              Community
+            </h1>
+            <div className="flex flex-wrap gap-2 relative left-[8vh] xsmall:left-[30vh] xlarge:left-[12vw]">
+              <Link
+                to={`https://x.com/${CoinDetails?.links?.twitter_screen_name}`}
+                className=""
+              >
+                <h1 className="bg-white px-2 py-1 inline-flex items-center rounded-xl text-[3.5vw] xsmall:text-xs small:text-sm font-bold">
+                  <img
+                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTzPDlXeNQE8FwF2AhD7WUcVhfn2NlrqfJdmZJUOp1Tk0T4yYeuF50V3aVtd4H7YzdZOjc&usqp=CAU"
+                    alt=""
+                    className="w-[5vw] h-[2.5vh] xsmall:w-6 xsmall:h-6 object-cover rounded-full mr-1"
+                  />
+                  Twitter
+                </h1>
+              </Link>
+              <Link to={CoinDetails?.links?.subreddit_url}>
+                <h1 className="bg-white px-2 py-1 rounded-xl inline-flex items-center text-[3.5vw] xsmall:text-xs small:text-sm font-bold">
+                  <img
+                    src="https://pbs.twimg.com/profile_images/1729909787029078016/dBjB3Fnr_400x400.jpg"
+                    alt=""
+                    className="w-[5vw] h-[2.5vh] xsmall:w-6 xsmall:h-6 object-cover rounded-full mr-1"
+                  />
+                  Reddit
+                </h1>
+              </Link>
+            </div>
+          </div>
+
+          <div className="border-b-[1px] mt-2 w-[90vw] small:w-[80vw] small:ml-[6vw] medium:w-[60vw] xlarge:ml-0 xlarge:w-[35vw]"></div>
+
+          <div className="flex flex-row xsmall:flex-row items-start xsmall:items-center mt-4 gap-2 medium:mt-2">
+            <h1 className="text-white text-[4.5vw] xsmall:text-[3.5vw] small:text-[3vw] small:ml-[6vw] medium:text-[2.2vw] large:text-[1.8vw] xlarge:text-[1.3vw] xlarge:ml-0">
+              Search on
+            </h1>
             <Link
-              to={`https://x.com/${CoinDetails?.links?.twitter_screen_name}`}
-              className=""
+              to="https://x.com/?lang=en"
+              className="relative left-[19vh] xsmall:left-[40vh] xlarge:left-[15vw] -top-1"
             >
-              <h1 className=" bg-cyan-500 px-2 py-1 inline-flex rounded-xl text-[3.5vw] font-bold  text--800">
-                {" "}
-                <img
-                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTzPDlXeNQE8FwF2AhD7WUcVhfn2NlrqfJdmZJUOp1Tk0T4yYeuF50V3aVtd4H7YzdZOjc&usqp=CAU"
-                  alt=""
-                  className=" w-[5vw] h-[2.5vh]  object-cover rounded-full"
-                />
-                Twitter
-              </h1>
-            </Link>
-            <Link to={CoinDetails?.links?.subreddit_url}>
-              <h1 className=" bg-purple-500 px-2   py-1 rounded-xl inline-flex ml-2 text-[3.5vw] font-bold">
-                <img
-                  src="https://pbs.twimg.com/profile_images/1729909787029078016/dBjB3Fnr_400x400.jpg"
-                  alt=""
-                  className=" w-[5vw] h-[2.5vh]  object-cover rounded-full"
-                />{" "}
-                Reddit
+              <h1 className="bg-white px-3 py-1 xsmall:px-3 xsmall:py-2 rounded-xl inline-flex items-center font-bold text-[3.5vw]  xsmall:text-[2.2vw] small:text-[2.5vw] medium:text-[1.3vw] medium:py-1">
+                <Search className="mr-1 " /> Twitter
               </h1>
             </Link>
           </div>
-          <div className=" border-b-[1px] mt-4  w-[90vw]"></div>
-          <div className=" inline-flex mt-5">
-            <h1 className=" mr-[45vw] text-white text-[4.5vw]">Search on</h1>{" "}
-            <Link to="https://x.com/?lang=en">
-              <h1 className=" bg-cyan-500 px-2 py-1 rounded-xl inline-flex font-bold  text--800">
-                {" "}
-                <Search /> Twitter
-              </h1>
-            </Link>
-          </div>
-          <div className=" border-b-[1px] mt-4  w-[90vw]"></div>
-          <div className=" inline-flex mt-5">
-            <h1 className=" mr-[35vw] text-white text-[4.5vw]">Source Code</h1>{" "}
-            <Link to={CoinDetails?.links?.repos_url?.github[0]}>
-              <h1 className=" bg-cyan-500 px-2 py-1 rounded-xl gap-2 inline-flex font-bold  text--800">
-                {" "}
+
+          <div className="border-b-[1px]  w-[90vw] small:w-[80vw] small:ml-[6vw] medium:w-[60vw] xlarge:ml-0 xlarge:w-[35vw]"></div>
+
+          <div className="flex flex-row xsmall:flex-row items-start xsmall:items-center mt-5 small:mt-3 gap-2 medium:mt-1">
+            <h1 className="text-white text-[4.5vw] xsmall:text-[3.5vw] small:text-[3vw] small:ml-[6vw] medium:text-[2.2vw] large:text-[1.8vw] xlarge:text-[1.3vw] xlarge:ml-0">
+              Source Code
+            </h1>
+            <Link
+              to={CoinDetails?.links?.repos_url?.github[0]}
+              className="relative left-[16vh] xsmall:left-[38vh] xlarge:left-[15vw]"
+            >
+              <h1 className="bg-white px-2 py-1 xsmall:px-3 xsmall:py-2 rounded-xl gap-2 inline-flex items-center font-bold text-[3.5vw] xsmall:text-xs small:text-sm medium:py-2">
                 <img
                   src="https://play-lh.googleusercontent.com/PCpXdqvUWfCW1mXhH1Y_98yBpgsWxuTSTofy3NGMo9yBTATDyzVkqU580bfSln50bFU"
                   alt=""
-                  className="w-[6vw] h-[3vh] object-cover rounded-full"
-                />{" "}
+                  className="w-[6vw] h-[3vh] xsmall:w-4 xsmall:h-4 object-cover rounded-full"
+                />
                 Github
               </h1>
             </Link>
           </div>
-          <div className=" border-b-[1px] mt-4  w-[90vw]"></div>
-          <div className="inline-flex mt-5">
-            <h1 className="mr-[35vw] text-white text-[4.5vw]">API ID</h1>
-            <h1 className="bg-cyan-500 px-2 py-1 rounded-xl font-bold text--800">
-              {CoinDetails?.id}
+
+          <div className="border-b-[1px] mt-4 w-[90vw] small:mt-2 small:w-[80vw] small:ml-[6vw] medium:w-[60vw] xlarge:ml-0 xlarge:w-[35vw]"></div>
+
+          <div className="flex flex-row xsmall:flex-row items-start xsmall:items-center mt-5 small:mt-2 gap-2 medium:mt-2">
+            <h1 className="text-white text-[4.5vw] xsmall:text-[3.5vw] small:text-[3vw] small:ml-[6vw] medium:text-[2.2vw] large:text-[1.8vw] xlarge:text-[1.3vw] xlarge:ml-0 ">
+              API ID
             </h1>
-            <button
-              className="ml-2"
-              onClick={() => navigator.clipboard.writeText(CoinDetails?.id)}
-            >
-              <Copy className="w-5 h-5" />
-            </button>
+            <div className="flex items-center relative left-[35vw] xsmall:left-[45vh] xlarge:left-[18vw]">
+              <h1 className="bg-white text-black px-2 py-1 xsmall:px-2 xsmall:py-2 rounded-xl font-bold text-[3.5vw] xsmall:text-[2.4vw] small:text-sm">
+                {CoinDetails?.id}
+              </h1>
+              <button
+                className="ml-2"
+                onClick={() => navigator.clipboard.writeText(CoinDetails?.id)}
+              >
+                <Copy className="w-5 h-5" />
+              </button>
+            </div>
           </div>
-          <div className=" border-b-[1px] mt-4  w-[90vw]"></div>
-          <div className="inline-flex mt-5">
-            <h1 className="mr-[25vw] text-white text-[4.5vw]">Chains</h1>
-            <div className="relative">
+
+          <div className="border-b-[1px] mt-4 w-[90vw] small:mt-2 small:w-[80vw] small:ml-[6vw] medium:w-[60vw] xlarge:ml-0 xlarge:w-[35vw]"></div>
+
+          <div className="flex flex-row xsmall:flex-row items-start xsmall:items-center mt-5 small:mt-2 gap-2 medium:mt-2">
+            <h1 className="text-white text-[4.5vw] xsmall:text-[3.5vw] small:text-[3vw] small:ml-[6vw] medium:text-[2.2vw] large:text-[1.8vw] xlarge:text-[1.3vw] xlarge:ml-0">
+              Chains
+            </h1>
+            <div className="relative left-[28vw] xsmall:left-[46vw] small:left-[40vw] medium:left-[30vw] xlarge:left-[15vw]">
               <h1
-                className="bg-cyan-500 px-2 py-1 rounded-xl font-bold text--800 flex items-center cursor-pointer"
-                onClick={() =>
-                  document.getElementById("dropdown").classList.toggle("hidden")
-                }
+                className="bg-white text-black px-2 py-1 xsmall:px-3 xsmall:py-2 rounded-xl font-bold text-[3.5vw] xsmall:text-[2.4vw] small:text-sm flex items-center cursor-pointer"
+                onClick={toggleDropdownChains}
               >
                 {CoinDetails?.categories?.find((category) =>
                   category.includes("Ecosystem")
                 )}
                 <ChevronDown className="w-5 h-5 ml-2" />
               </h1>
-              <div
-                id="dropdown"
-                className="absolute hidden mt-2 bg-gray-500 rounded-xl"
-              >
-                {CoinDetails?.categories
-                  ?.filter(
-                    (category) =>
-                      category.includes("Ecosystem") &&
-                      category !==
-                        CoinDetails?.categories?.find((category) =>
-                          category.includes("Ecosystem")
-                        )
-                  )
-                  .map((category) => (
-                    <h1
-                      key={category}
-                      className="px-2 py-3 font-bold text--800"
-                    >
-                      {category}
-                    </h1>
-                  ))}
-              </div>
+              {isDropdownOpen && (
+                <div className="absolute mt-2 z-50 w-full bg-gray-500 rounded-xl">
+                  {CoinDetails?.categories
+                    ?.filter(
+                      (category) =>
+                        category.includes("Ecosystem") &&
+                        category !== ecosystemCategory
+                    )
+                    .map((category) => (
+                      <h1
+                        key={category}
+                        className="px-2 py-3 font-bold text-[3.5vw] xsmall:text-xs small:text-sm"
+                      >
+                        {category}
+                      </h1>
+                    ))}
+                </div>
+              )}
             </div>
           </div>
-          <div className=" border-b-[1px] mt-4  w-[90vw]"></div>
-          <div className="inline-flex mt-5">
-            <h1 className="mr-[20vw] text-white text-[4.5vw]">Categories</h1>
-            <div className="relative">
+
+          <div className="border-b-[1px] mt-4 w-[90vw] small:mt-2 small:w-[80vw] small:ml-[6vw] medium:w-[60vw] xlarge:ml-0 xlarge:w-[35vw]"></div>
+
+          <div className="flex flex-row xsmall:flex-row items-start xsmall:items-center mt-5 small:mt-2 gap-2 medium:mt-2">
+            <h1 className="text-white text-[4.5vw] xsmall:text-[3.5vw] small:text-[3vw] small:ml-[6vw] medium:text-[2.2vw] large:text-[1.8vw] xlarge:text-[1.3vw] xlarge:ml-0">
+              Categories
+            </h1>
+            <div className="relative left-[25vw] xsmall:left-[35vw] small:left-[30vw] medium:left-[20vw] xlarge:left-[9vw]">
               <h1
-                className="bg-cyan-500 px-2 py-1 rounded-xl font-bold text--800 flex items-center cursor-pointer"
+                className="bg-white text-black px-2 py-1 xsmall:px-3 xsmall:py-2 rounded-xl font-bold text-[3.5vw] xsmall:text-xs small:text-sm flex items-center cursor-pointer"
                 onClick={() =>
                   document
                     .getElementById("dropdown1")
@@ -1287,7 +1399,7 @@ const CoinFullDetails = ({ contractAddress, marketsData }) => {
               </h1>
               <div
                 id="dropdown1"
-                className="absolute hidden bg-gray-500 mt-2 rounded-xl"
+                className="absolute w-full hidden z-50 bg-gray-500 mt-2 rounded-xl"
               >
                 {CoinDetails?.categories
                   ?.filter(
@@ -1301,7 +1413,7 @@ const CoinFullDetails = ({ contractAddress, marketsData }) => {
                   .map((category) => (
                     <h1
                       key={category}
-                      className="px-2 py-1 font-bold text--800"
+                      className="px-2 py-1 font-bold text-[3.5vw] xsmall:text-xs small:text-sm"
                     >
                       {category}
                     </h1>
@@ -1309,24 +1421,26 @@ const CoinFullDetails = ({ contractAddress, marketsData }) => {
               </div>
             </div>
           </div>
-          <div className=" border-b-[1px] mt-4  w-[90vw]"></div>
+
+          <div className="border-b-[1px] mt-4 w-[90vw] small:mt-2 small:w-[80vw] small:ml-[6vw] medium:w-[60vw] xlarge:ml-0 xlarge:w-[35vw]"></div>
         </div>
-        <div className=" relative top-[65vh] left-5">
-          <h1 className=" font-semibold">
-            How Do You Fell About{" "}
-            <span className=" text-[5vw] font-bold text-lime-400">
+
+        <div className="relative top-[35vh] left-5 xsmall:left-4 small:left-[8vw]  medium:left-[12vw] large:left-[50vw] large:-top-[100vh]">
+          <h1 className="font-semibold text-[4vw] xsmall:text-lg small:text-[2.5vw] medium:text-[2.2vw] large:text-[2.3vw] xlarge:text-[1.5vw] ">
+            How Do You Feel About{" "}
+            <span className="text-[5vw] xsmall:text-xl small:text-[2.5vw] medium:text-[2.2vw] large:text-[2.2vw] xlarge:text-[1.5vw] font-bold text-lime-400">
               {CoinDetails?.name}
             </span>{" "}
             Today?
           </h1>
-          <h1 className=" text-[3.5vw] font-light mt-1">
+          <h1 className="text-[3.5vw] xsmall:text-sm small:text-base medium:text-lg large:text-xl font-light mt-1">
             The Community is{" "}
             <span
               className={
                 CoinDetails?.sentiment_votes_up_percentage >
                 CoinDetails?.sentiment_votes_down_percentage
-                  ? "text-green-400 font-semibold text-[4.5vw]"
-                  : "text-red-600  font-semibold text-[4.5vw]"
+                  ? "text-green-400 font-semibold text-[4.5vw] xsmall:text-base small:text-lg medium:text-xl large:text-2xl"
+                  : "text-red-600 font-semibold text-[4.5vw] xsmall:text-base small:text-lg medium:text-xl large:text-2xl"
               }
             >
               {CoinDetails?.sentiment_votes_up_percentage >
@@ -1336,29 +1450,34 @@ const CoinFullDetails = ({ contractAddress, marketsData }) => {
             </span>{" "}
             about{" "}
             <span>
-              {CoinDetails?.name} ({CoinDetails?.name}) today
+              {CoinDetails?.name} ({CoinDetails?.symbol})
             </span>
           </h1>
-          <button className="CommunityBullishButton mt-5">
-            🚀 {CoinDetails?.sentiment_votes_up_percentage.toFixed(0)}%
-          </button>
-          <button className="CommunityBullishButton mt-5 ml-10">
-            📉 {CoinDetails?.sentiment_votes_down_percentage.toFixed(0)}%
-          </button>
+          <div className="flex mt-5 space-x-4 xsmall:space-x-6 small:space-x-8 medium:space-x-10">
+            <button className="CommunityBullishButton text-[3vw] xsmall:text-[2.5vw] small:text-[2.5vw] medium:text-base large:text-lg">
+              🚀 {CoinDetails?.sentiment_votes_up_percentage.toFixed(0)}%
+            </button>
+            <button className="CommunityBullishButton text-[3vw] xsmall:text-[2.5vw] small:text-sm medium:text-base large:text-lg">
+              📉 {CoinDetails?.sentiment_votes_down_percentage.toFixed(0)}%
+            </button>
+          </div>
         </div>
-        <div className="relative top-[73vh] left-5">
-          <h1 className="text-[6vw] font-semibold">About</h1>
+
+        <div className="relative top-[42vh] left-5 small:left-[8vw] medium:left-[12vw] large:left-[17vw]  xlarge:left-[48vw] xlarge:-top-[195vh] xlarge:ml-0 xlarge:mb-0 xlarge:mt-0 xlarge:mr-0">
+          <h1 className="text-[6vw] xsmall:text-[4vw] small:text-[3vw] medium:text-[2.5vw] large:text-[2.2vw] font-semibold">
+            About
+          </h1>
           <p
-            className="leading-10 w-[90vw] mt-5"
+            className="leading-10 w-[90vw] mt-5 small:w-[80vw] large:w-[70vw] large:text-[1.5vw] xlarge:w-[50vw] xlarge:text-[1.2vw]"
             dangerouslySetInnerHTML={{ __html: description }}
           />
         </div>
-        <div className=" relative top-[85vh] left-5">
-          <h1 className=" text-[6vw] font-semibold">
+        <div className=" relative top-[45vh] left-5 xsmall:left-2 small:left-[8vw] medium:left-[12vw] large:left-[17vw] xlarge:-top-[180vh] xlarge:left-[6vw] xlarge:ml-0 xlarge:mb-0 xlarge:mt-0 xlarge:mr-0">
+          <h1 className=" text-[6vw] xsmall:text-[4vw] medium:text-[2.5vw] xlarge:text-[1.8vw] font-semibold">
             {CoinDetails?.name} Markets
           </h1>
 
-          <div className="mt-5 overflow-x-auto w-[90vw]">
+          <div className="mt-5 overflow-x-auto w-[90vw] xsmall:w-[90vw] small:w-[85vw] medium:w-[80vw] xlarge:w-[95vw]">
             <table className="w-full border-collapse">
               <thead>
                 <tr className="bg-gray-700 rounded-2xl">
@@ -1491,7 +1610,7 @@ const CoinFullDetails = ({ contractAddress, marketsData }) => {
           </div>
           <div className="mt-5 flex justify-between items-center">
             <button
-              className="Paginationbutton"
+              className="Paginationbutton xlarge:left-[25vw]"
               onClick={handlePreviousPage}
               disabled={disablePrevious}
             >
@@ -1501,7 +1620,7 @@ const CoinFullDetails = ({ contractAddress, marketsData }) => {
             </button>
             <span>Page {currentPage}</span>
             <button
-              className={`Paginationbutton mr-[10vw] ${
+              className={`Paginationbutton mr-[10vw] small:mr-[20vw] medium:mr-[30vw] large:mr-[25vw] xlarge:right-[20vw] ${
                 disableNext ? "disabled-yellow" : ""
               }`}
               onClick={handleNextPage}
@@ -1513,94 +1632,79 @@ const CoinFullDetails = ({ contractAddress, marketsData }) => {
             </button>
           </div>
         </div>
-        <div className=" relative w-[90vw] top-[85vh] left-5">
-          {/* <h1 className=" text-[6vw]">{CoinDetails?.name} Latest News</h1> */}
+        <div className=" relative w-[90vw] top-[46vh] xlarge:top-[15vh] left-5">
           <div className="mt-10">
             <CoinNewsInDetails />
-            {/* {renderedNews.map((coin, index) => (
-              <div key={index} className="">
-                <img
-                  className="w-[90vw] h-[25vh] object-cover rounded-lg"
-                  src={coin.urlToImage}
-                  alt={coin.title}
-                  loading="lazy"
-                />
-                <h1 className=" mt-5 mb-[5vh] leading-7 font-semibold text-[4.5vw] w-[90vw]">
-                  {coin?.title}
-                </h1>
-                <h1>
-                  Source : <span>{coin?.source?.name}</span>{" "}
-                </h1>
-                <h1 className=" mb-[5vh]">
-                  About:{" "}
-                  <span>
-                    {formatDistanceToNow(new Date(coin?.publishedAt), {
-                      addSuffix: true,
-                    })}
-                  </span>
-                </h1>
-                <div className=" w-[90vw] border-b-[1px] mb-[5vh]"></div>
-              </div>
-            ))} */}
           </div>
         </div>
-        <div className="p-4 relative top-[90vh] max-w-md mx-auto">
-          <h1 className="text-2xl font-bold mb-4">Trending Coins</h1>
-          <div className="space-y-2">
+        <div className="p-4 relative xsmall:-left-5  top-[50vh] w-full xsmall:max-w-[90%] small:max-w-[80%] medium:max-w-2xl medium:-left-2 large:max-w-3xl xlarge:max-w-4x 2xlarge:max-w-5xl mx-auto">
+          <h1 className="text-xl xsmall:text-[4vw] small:text-[4vw] medium:text-[2.5vw] font-semibold mb-4">
+            Trending Coins
+          </h1>
+          <div className="space-y-2 xlarge:grid ">
             {TrendingCoins &&
               TrendingCoins.map((coin, index) => (
                 <div
                   key={index}
-                  className="bg-zinc-800 border-b-2 border-yellow-400 hover:border-blue-600 hover:border-t-2 rounded-lg px-4 py-6 flex items-center justify-between shadow-sm"
+                  className="bg-zinc-800 border-b-2 border-yellow-400 hover:border-blue-600 hover:border-t-2 rounded-lg px-2 xsmall:px-4 py-4 xsmall:py-6 flex items-center justify-between shadow-sm"
                 >
-                  <div className="flex items-center space-x-3 flex-1 min-w-0">
+                  <div className="flex items-center space-x-2 xsmall:space-x-3 flex-1 min-w-0">
                     <img
                       src={coin.item.thumb}
                       alt={coin.item.name}
-                      className="w-8 h-8 rounded-full flex-shrink-0"
+                      className="w-6 h-6 xsmall:w-8 xsmall:h-8 rounded-full flex-shrink-0"
                     />
                     <div className="flex flex-col min-w-0">
-                      <span className="font-semibold truncate">
+                      <span className="font-semibold truncate text-sm xsmall:text-base">
                         {coin.item.symbol}
                       </span>
-                      <span className="text-sm text-gray-500 truncate">
+                      <span className="text-xs xsmall:text-sm text-gray-500 truncate">
                         ₹{coin.item.data.price.toFixed(6)}
                       </span>
                     </div>
                   </div>
                   <div className="flex items-center">
                     <span
-                      className={`flex items-center ${
+                      className={`flex items-center text-xs xsmall:text-sm ${
                         coin.item.data.price_change_percentage_24h.usd > 0
                           ? "text-green-500"
                           : "text-red-500"
                       }`}
                     >
                       {coin.item.data.price_change_percentage_24h.usd > 0 ? (
-                        <ChevronUp size={16} />
+                        <ChevronUp
+                          size={14}
+                          className="xsmall:w-4 xsmall:h-4"
+                        />
                       ) : (
-                        <ChevronDown size={16} />
+                        <ChevronDown
+                          size={14}
+                          className="xsmall:w-4 xsmall:h-4"
+                        />
                       )}
                       {Math.abs(
                         coin.item.data.price_change_percentage_24h.usd
                       ).toFixed(1)}
                       %
                     </span>
-                    <Star size={16} className="ml-2 text-gray-400" />
+                    <Star
+                      size={14}
+                      className="ml-2 text-gray-400 xsmall:w-4 xsmall:h-4"
+                    />
                   </div>
                 </div>
               ))}
           </div>
         </div>
-        <div className=" relative top-[90vh] left-5">
-          <h1 className=" text-[4.5vw] text-blue-700 font-semibold">
+        <div className="relative top-[53vh] left-5 xsmall:top-[53vh] small:top-[53vh] small:left-[9vw] medium:top-[53vh] medium:left-[14vw] large:left-[16vw]">
+          <h1 className="text-[4.5vw] xsmall:text-[3.5vw] small:text-[3vw] medium:text-[2.5vw] large:text-[2vw] text-blue-700 font-semibold">
             {CoinDetails?.name} ({CoinDetails?.symbol.toUpperCase()}) price has
             increased today.
           </h1>
-          <p className=" w-[90vw] leading-7 mt-5 text-gray-500">
+          <p className="w-[90vw] xsmall:w-[90vw] small:w-[85vw] medium:w-[70vw] leading-7 mt-5 text-gray-500">
             The price of {CoinDetails?.name} (
             {CoinDetails?.symbol.toUpperCase()}) is{" "}
-            <span className=" text-amber-200">
+            <span className="text-amber-200">
               {" "}
               {(
                 CoinDetails?.market_data?.current_price?.usd * usdToInrRate
@@ -1610,7 +1714,7 @@ const CoinFullDetails = ({ contractAddress, marketsData }) => {
               })}{" "}
             </span>
             today with a total volume of{" "}
-            <span className=" text-amber-200">
+            <span className="text-amber-200">
               {" "}
               {(
                 CoinDetails?.market_data?.total_volume?.usd * usdToInrRate
@@ -1618,15 +1722,15 @@ const CoinFullDetails = ({ contractAddress, marketsData }) => {
                 style: "currency",
                 currency: "INR",
               })}{" "}
-            </span>{" "}
+            </span>
             .This represents a{" "}
-            <span className=" text-amber-200">
+            <span className="text-amber-200">
               {" "}
               {CoinDetails?.market_data?.price_change_percentage_24h.toFixed(2)}
               %{" "}
-            </span>{" "}
+            </span>
             price increase in the last 24 hours and a{" "}
-            <span className=" text-amber-200">
+            <span className="text-amber-200">
               {" "}
               {CoinDetails?.market_data?.price_change_percentage_7d.toFixed(
                 2
@@ -1662,7 +1766,7 @@ const CoinFullDetails = ({ contractAddress, marketsData }) => {
             .
           </p>
         </div>
-        <div className=" relative top-[95vh]">
+        <div className=" relative top-[60vh] small:w-[100vw] ">
           <Footer />
         </div>
       </div>

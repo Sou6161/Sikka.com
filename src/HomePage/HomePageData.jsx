@@ -132,10 +132,10 @@ const MainContainer = () => {
   }, [MarketCapBNB]);
 
   {
-    MarqueeData2 && console.log(MarqueeData2, "Marquee Data 2 ");
+    // MarqueeData2 && console.log(MarqueeData2, "Marquee Data 2 ");
   }
   {
-    MarqueeData && console.log(MarqueeData, "Marquee Data");
+    // MarqueeData && console.log(MarqueeData, "Marquee Data");
   }
   return (
     <div className=" relative ">

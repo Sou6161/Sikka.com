@@ -573,3 +573,11 @@ export default Example;
 
 
                 {/* <Tooltip content={<CustomTooltip />} /> */}
+
+
+
+
+this code is given by you remember you just given me recently i just started the conversatioj in new chat becoz of conversation limit so the problem is occuring that i want to move this div somewhere at the top of my website and now recently it is somewhere at the middle of website so for xlarge screens i want to move top of the website and also  make sure that problem does not occurs that when increasing screen size from 1280px to 1536px this whole code doesnt not moves down when increasing the screen size 
+
+plzz fix these all error
+

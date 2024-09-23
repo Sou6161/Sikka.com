@@ -48,8 +48,8 @@ const CoinNewsInDetails = () => {
 
   return (
     <>
-      <div className="mt-10 border-b-[1px] border-red-600 bg-red-200"></div>
-      <div className="flex justify-center mt-10">
+      <div className="mt-10 border-b-[1px] medium:w-[70vw] xlarge:w-[90vw] xlarge:relative xlarge:left-[3vw] xlarge:-top-[190vh] medium:mx-auto border-red-600 bg-red-200"></div>
+      <div className="flex justify-center mt-10 xlarge:relative xlarge:-top-[190vh] xlarge:left-[2vw]">
         <button
           id="bottone1"
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
@@ -60,47 +60,48 @@ const CoinNewsInDetails = () => {
           </strong>
         </button>
       </div>
-      <div className="mt-10 p-2 bg-[#1f2937] border-[2px]  border-cyan-400 rounded-lg backdrop-blur-md backdrop-filter outline outline-2 outline-yellow-400/50 outline-offset-2 overflow-x-auto hide-scrollbar">
-        <ul className=" pb-4">
+      <div className="mt-10 p-2  xsmall:p-3  rounded-lg backdrop-blur-md backdrop-filter  outline-offset-2 overflow-x-auto hide-scrollbar xlarge:ml-[5vw] xlarge:w-[90vw] xlarge:border-l-2 xlarge:border-r-2 xlarge:relative xlarge:-top-[190vh]  ">
+        <ul className="pb-4 mt-2 flex-nowrap space-x-1  xsmall:space-x-1 medium:ml-[6vw] xlarge:flex ">
           {cryptoNews.map((article, index) => (
             <li
               key={index}
-              className="flex-shrink-0 w-[85vw] medium:w-[50vw] large:w-[38vw] xlarge:w-[30vw] 2xlarge:w-[23vw] sm:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.667rem)] xl:w-[calc(20%-0.8rem)] bg-gray-800 rounded-lg overflow-hidden transition-transform duration-300 hover:bg-gray-900"
+              className="flex-shrink-0 small:mt-5 w-[80vw] xsmall:w-[80vw] small:w-[80vw] medium:w-[70vw] large:w-[75vw] xlarge:w-[40vw] 2xlarge:w-[23vw]  xlarge:-ml-[10vw] rounded-lg overflow-hidden transition-transform duration-300"
             >
               <img
-                className="w-[85vw] max-w-[384px] h-[28vh] border-2 border-purple-600 rounded-t-lg object-center"
+                className="w-full h-[28vh]  small:w-[75vw]   small:h-[35vh] small:ml-[5vw] medium:w-[65vw] medium:h-[40vh] large:w-[70vw] large:h-[50vh] xlarge:w-[30vw] xlarge:h-[30vh] border-2 border-purple-600 rounded-t-lg object-cover"
                 src={article.imageurl}
                 alt="https://salonlfc.com/wp-content/uploads/2018/01/image-not-found-1-scaled.png"
               />
-              <div className="py-4 px-2 flex flex-col flex-grow">
-                <h2 className="text-white font-semibold mb-2 line-clamp-2 medium:w-[50vw] large:w-[30vw] xlarge:w-[26vw] 2xlarge:w-[20vw] ">
+              <div className="py-4 px-2 flex flex-col flex-grow small:ml-[4vw]">
+                <h2 className="text-white font-semibold mb-2 line-clamp-2 text-sm xsmall:text-base small:text-lg">
                   {article.title}
                 </h2>
-                <p className="text-amber-400 font-semibold mb-4 line-clamp-3 medium:w-[50vw] large:w-[35vw] xlarge:w-[29vw] 2xlarge:w-[23vw]">
+                <p className="text-amber-400 font-semibold mb-4 line-clamp-3 text-xs xsmall:text-sm small:text-base">
                   {article.body.split(" ").slice(0, 20).join(" ")}...
                 </p>
                 <div className="mt-auto">
-                  <h3 className="text-green-400 font-semibold">
+                  <h3 className="text-green-400 font-semibold text-xs xsmall:text-sm">
                     {article?.source_info?.name}
                   </h3>
-                  <h3 className="text-green-400 font-semibold mb-2">
+                  <h3 className="text-green-400 font-semibold mb-2 text-xs xsmall:text-sm">
                     Published: {formatPublishDate(article?.published_on)}
                   </h3>
                   <a
                     href={article.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center text-blue-400 hover:text-blue-300 transition-colors duration-200"
+                    className="inline-flex items-center text-blue-400 hover:text-blue-300 transition-colors duration-200 text-xs xsmall:text-sm"
                   >
                     Read More <ExternalLink className="w-4 h-4 ml-1" />
                   </a>
+                  <div className=" w-[80vw] xlarge:border-0 border-[1px] mt-5" ></div>
                 </div>
               </div>
             </li>
           ))}
         </ul>
       </div>
-      <div className="mt-10 border-t-[1px] border-red-400 bg-red-200"></div>
+      <div className="mt-10 border-t-[1px] xlarge:-mt-[182vh] xlarge:ml-[2vw] xlarge:w-[95vw]  border-red-400"></div>
     </>
   );
 };
