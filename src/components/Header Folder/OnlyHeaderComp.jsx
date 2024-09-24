@@ -35,7 +35,7 @@ const OnlyHeaderComp = () => {
   const [isMoreDropdownOpen, setIsMoreDropdownOpen] = useState(false);
 
   const DropdownItem = ({ icon, label, isOpen, toggleOpen, subItems }) => (
-    <div className="relative mt-1 "> 
+    <div className="relative mt-1 ">
       <button
         onClick={toggleOpen}
         className="flex items-center w-full NavLinkBUtton   px-4 py-2 text-sm text-gray-700 hover:bg-gray-10 focus:outline-none"
@@ -126,7 +126,7 @@ const OnlyHeaderComp = () => {
             className="flex items-center space-x-3 rtl:space-x-reverse"
           >
             <img
-              src={logo}  
+              src={logo}
               className="h-8 relative top-1 2xlarge:h-10"
               alt="Logo"
             />
@@ -158,7 +158,7 @@ const OnlyHeaderComp = () => {
               <div className="relative z-99999 inline-block  text-left">
                 <button
                   onClick={toggleCryptocurrenciesDropdown}
-                  className="NavLinkBUtton medium:mt-2 flex items-center justify-between w-full py-2 px-3 rounded medium:w-auto text-gray-900 hover:bg-gray-100 medium:hover:bg-transparent medium:border-0 medium:hover:text-blue-700 dark:text-white medium:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white medium:dark:hover:bg-transparent"
+                  className="NavLinkBUtton medium:mt-2 2xlarge:-mt-  flex items-center justify-between w-full py-2 px-3 rounded medium:w-auto text-gray-900 hover:bg-gray-100 medium:hover:bg-transparent medium:border-0 medium:hover:text-blue-700 dark:text-white medium:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white medium:dark:hover:bg-transparent"
                 >
                   Cryptocurrencies
                   <svg
@@ -178,37 +178,37 @@ const OnlyHeaderComp = () => {
                   </svg>
                 </button>
                 {isCryptocurrenciesOpen && (
-                  <div className="absolute z-20 right-0 w-[86vw] medium:w-[35vw] mt-2 w-  bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600">
+                  <div className="absolute z-20 right-0 w-[86vw] medium:w-[35vw] mt-2  2xlarge:w-[14vw] 2xlarge:-left-[vw]  bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600">
                     <ul className="py-2 text-sm text-gray-700 dark:text-gray-400">
                       <li className=" ">
                         <a
                           href="#"
-                          className=" w-[86vw] text-[4vw] medium:text-[2.5vw] inline-flex gap-2   block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                          className=" w-[86vw] 2xlarge:w-[14vw] text-[4vw] medium:text-[2.5vw] inline-flex gap-2   block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                         >
-                          <PiRankingFill className=" text-[6vw] medium:text-[3vw] text-white" />
-                          <span className=" text-green-400">By Market Cap</span>
+                          <PiRankingFill className=" text-[6vw] medium:text-[3vw] 2xlarge:text-[1vw] text-white" />
+                          <span className=" text-green-400 2xlarge:text-[1vw]">By Market Cap</span>
                         </a>
                       </li>
                       <li>
                         <a
                           href="#"
-                          className=" w-[86vw] text-[4vw] medium:text-[2.5vw] inline-flex gap-2 block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                          className=" w-[86vw]  2xlarge:w-[14vw] text-[4vw] medium:text-[2.5vw] inline-flex gap-2 block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                         >
-                          <BiSolidCategory className=" text-[6vw] text-white medium:text-[3vw]" />
-                          <span className=" text-green-400">Categories</span>
+                          <BiSolidCategory className=" text-[6vw] text-white medium:text-[3vw] 2xlarge:text-[1vw]" />
+                          <span className=" text-green-400 2xlarge:text-[1vw]">Categories</span>
                         </a>
                       </li>
                       <li className=" ml-5 mt-2 mb-3 inline-flex">
                         Popular
-                        <div className=" w-[65vw] medium:w-[40vw] border-b-[1px] border-gray-500 relative -top-2 left-1"></div>
+                        <div className=" w-[65vw] medium:w-[40vw] 2xlarge:w-[9vw] border-b-[1px] border-gray-500 relative -top-2 left-1"></div>
                       </li>
                       <li>
                         <a
                           href="#"
-                          className=" w-[86vw] text-[4vw] medium:text-[2  vw] inline-flex gap-2 block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                          className=" w-[86vw] 2xlarge:w-[14vw] text-[4vw] medium:text-[2  vw] inline-flex gap-2 block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                         >
-                          <span className=" text-green-400 inline-flex gap-2 text-[4vw] medium:text-[2.5vw]">
-                            <FaRectangleList className=" text-white text-[6vw] medium:text-[3vw] " />
+                          <span className=" text-green-400 inline-flex gap-2 text-[4vw] medium:text-[2.5vw] 2xlarge:text-[1vw]">
+                            <FaRectangleList className=" text-white text-[6vw] medium:text-[3vw] 2xlarge:text-[1vw] " />
                             Highlights
                           </span>
                         </a>
@@ -216,11 +216,11 @@ const OnlyHeaderComp = () => {
                       <li>
                         <a
                           href="#"
-                          className=" w-[86vw] text-[4vw] medium:text-[2.5vw] inline-flex gap-2 block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                          className=" w-[86vw] 2xlarge:w-[14vw] text-[4vw] medium:text-[2.5vw] inline-flex gap-2 block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                         >
-                          <span className=" text-green-400 truncate inline-flex gap-2 text-[4vw] medium:text-[2.5vw]">
-                            <PiSparkleFill className=" text-white text-[6vw] medium:text-[3vw]" />
-                            <span className=" truncate">
+                          <span className=" text-green-400 truncate inline-flex gap-2 text-[4vw] medium:text-[2.5vw] 2xlarge:text-[1vw]">
+                            <PiSparkleFill className=" text-white text-[6vw] medium:text-[3vw] 2xlarge:text-[1vw]" />
+                            <span className=" truncate 2xlarge:text-[1vw]">
                               New Cryptocurrencies
                             </span>
                           </span>
@@ -229,24 +229,24 @@ const OnlyHeaderComp = () => {
                       <li>
                         <a
                           href="#"
-                          className=" w-[86vw] text-[4vw] inline-flex gap-2 block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                          className=" w-[86vw] 2xlarge:w-[14vw] text-[4vw] inline-flex gap-2 block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                         >
-                          <span className=" text-green-400 inline-flex gap-2 text-[4vw] medium:text-[2.5vw]">
-                            <GiTrophy className="  text-white text-[6vw] medium:text-[3vw]" />
+                          <span className=" text-green-400 inline-flex gap-2 text-[4vw] medium:text-[2.5vw] 2xlarge:text-[1vw]">
+                            <GiTrophy className="  text-white text-[6vw] medium:text-[3vw] 2xlarge:text-[1vw]" />
                             Gainers & Losers
                           </span>
                         </a>
                       </li>
-                      <li className=" ml-5 mt-2 mb-3 inline-flex">
+                      <li className=" ml-5 mt-2 mb-3 inline-flex 2xlarge:text-[1vw]">
                         Tools
-                        <div className=" w-[70vw]  border-b-[1px] border-gray-500 relative -top-2 left-1"></div>
+                        <div className=" w-[70vw] 2xlarge:w-[9vw]  border-b-[1px] border-gray-500 relative -top-2 left-1"></div>
                       </li>
                       <li>
                         <a
                           href="#"
-                          className=" w-[86vw] text-[4vw] inline-flex gap-2 block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                          className=" w-[86vw] 2xlarge:w-[14vw] 2xlarge:w-[9vw] text-[4vw] inline-flex gap-2 block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                         >
-                          <span className=" text-green-400 inline-flex ml-1 text-[4vw] medium:text-[2.5vw]">
+                          <span className=" text-green-400 inline-flex ml-1 text-[4vw] medium:text-[2.5vw] 2xlarge:text-[1vw]">
                             All Coins
                           </span>
                         </a>
@@ -254,9 +254,9 @@ const OnlyHeaderComp = () => {
                       <li>
                         <a
                           href="#"
-                          className=" w-[86vw] text-[4vw] inline-flex gap-2 block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                          className=" w-[86vw] 2xlarge:w-[14vw] text-[4vw] inline-flex gap-2 block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                         >
-                          <span className=" text-green-400 inline-flex ml-1 text-[4vw] medium:text-[2.5vw]">
+                          <span className=" text-green-400 inline-flex ml-1 text-[4vw] medium:text-[2.5vw] 2xlarge:text-[1vw]">
                             Comapare Coins
                           </span>
                         </a>
@@ -264,9 +264,9 @@ const OnlyHeaderComp = () => {
                       <li>
                         <a
                           href="#"
-                          className=" w-[86vw] text-[4vw] inline-flex gap-2 block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                          className=" w-[86vw] 2xlarge:w-[14vw] text-[4vw] inline-flex gap-2 block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                         >
-                          <span className=" text-green-400 inline-flex ml-1 text-[4vw] medium:text-[2.5vw]">
+                          <span className=" text-green-400 inline-flex ml-1 text-[4vw] medium:text-[2.5vw] 2xlarge:text-[1vw]">
                             Converter
                           </span>
                         </a>
@@ -278,7 +278,7 @@ const OnlyHeaderComp = () => {
               <div className="relative z-99998 inline-block top-2 2xlarge:top-0 text-left">
                 <button
                   onClick={toggleExchangesDropdown}
-                  className=" NavLinkBUtton  flex items-center justify-between w-full py-2 px-3 rounded medium:w-auto text-gray-900 hover:bg-gray-100 medium:hover:bg-transparent medium:border-0 medium:hover:text-blue-700 dark:text-white medium:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white medium:dark:hover:bg-transparent"
+                  className=" NavLinkBUtton 2xlarge:mt-2  flex items-center justify-between w-full py-2 px-3 rounded medium:w-auto text-gray-900 hover:bg-gray-100 medium:hover:bg-transparent medium:border-0 medium:hover:text-blue-700 dark:text-white medium:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white medium:dark:hover:bg-transparent"
                 >
                   Exchanges
                   <svg
@@ -298,15 +298,15 @@ const OnlyHeaderComp = () => {
                   </svg>
                 </button>
                 {isExchangesOpen && (
-                  <div className="absolute z-9999 right-0 w-[86vw] medium:w-[35vw] mt-2 bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600">
+                  <div className="absolute z-9999 right-0 w-[86vw] medium:w-[35vw] 2xlarge:w-[8vw] mt-2 bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600">
                     <ul className="py-2 text-sm text-gray-700 dark:text-gray-400">
                       <li>
                         <a
                           href="#"
                           className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                         >
-                          <span className=" inline-flex relative gap-2 text-[4vw] medium:text-[3vw]  text-green-400">
-                            <BsBank className=" text-[6vw] text-white" />
+                          <span className=" inline-flex relative gap-2 text-[4vw] 2xlarge:text-[1vw] medium:text-[3vw]  text-green-400">
+                            <BsBank className=" text-[6vw] 2xlarge:text-[1vw] text-white" />
                             Crypto Exchanges
                           </span>
                         </a>
@@ -316,8 +316,8 @@ const OnlyHeaderComp = () => {
                           href="#"
                           className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                         >
-                          <span className="inline-flex relative gap-2 text-[4vw] text-green-400">
-                            <IoCubeSharp className=" text-[6vw] text-white" />
+                          <span className="inline-flex relative gap-2 text-[4vw] 2xlarge:text-[1vw] text-green-400">
+                            <IoCubeSharp className=" text-[6vw] 2xlarge:text-[1vw] text-white" />
                             Derivatives
                           </span>
                         </a>
@@ -337,7 +337,7 @@ const OnlyHeaderComp = () => {
                 </button>
                 {isMoreDropdownOpen && (
                   <div className="absolute right-[9vw] xlarge:right-[20vw]  mt-2 w-56 bg-whit rounded-md shadow-lg z-20">
-                    <div className="py-1">
+                    <div className="py-1 2xlarge:relative  2xlarge:top-10">
                       <DropdownItem
                         icon={<RiNftLine className="w-5 h-5" />}
                         label="NFT"
@@ -348,7 +348,6 @@ const OnlyHeaderComp = () => {
                           { icon: <FaCoins />, label: "NFT Related Coins" },
                           { icon: <TiStarburst />, label: "NFT Watchlist" },
                         ]}
-                      
                       />
                       <DropdownItem
                         icon={<FaBookOpen className="w-5 h-5" />}
@@ -382,10 +381,10 @@ const OnlyHeaderComp = () => {
               {/* For Screens lower than medium */}
 
               <>
-                <div className="relative block medium:hidden xlarge:block   inline-block text-left top-4 2xlarge:top-0 ">
+                <div className="relative block medium:hidden xlarge:block 2xlarge:block   inline-block text-left top-4 2xlarge:top-0 ">
                   <a
                     onClick={() => toggleNFTDropdown()}
-                    className="NavLinkBUtton medium:-mt-2 flex items-center justify-between w-full py-2 px-3 rounded medium:w-auto text-white hover:text-white hover:bg-opacity-20 medium:hover:bg-transparent medium:border-0 dark:text-white medium:dark:hover:text-white dark:hover:bg-opacity-20 dark:hover:text-white medium:dark:hover:bg-transparent"
+                    className="NavLinkBUtton medium:-mt-2 2xlarge:mt-2 flex items-center justify-between w-full py-2 px-3 rounded medium:w-auto text-white hover:text-white hover:bg-opacity-20 medium:hover:bg-transparent medium:border-0 dark:text-white medium:dark:hover:text-white dark:hover:bg-opacity-20 dark:hover:text-white medium:dark:hover:bg-transparent"
                   >
                     NFT
                     <svg
@@ -405,15 +404,15 @@ const OnlyHeaderComp = () => {
                     </svg>
                   </a>
                   {isNFTDropdownOpen && (
-                    <div className="absolute z-99999 right-0 w-[86vw] mt-2 bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600">
+                    <div className="absolute z-99999 right-0 w-[86vw] 2xlarge:w-[10vw] mt-2 bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600">
                       <ul>
                         <li>
                           <a
                             href="#"
                             className="block py-4 px-3 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
                           >
-                            <span className="inline-flex relative gap-2 text-[4vw] text-green-400">
-                              <RiNftLine className=" text-[6vw] text-white" />
+                            <span className="inline-flex relative gap-2 text-[4vw] 2xlarge:text-[1vw] text-green-400">
+                              <RiNftLine className=" text-[6vw] 2xlarge:text-[1vw] text-white" />
                               NFT Floor Price
                             </span>
                           </a>
@@ -423,8 +422,8 @@ const OnlyHeaderComp = () => {
                             href="#"
                             className="block py-2 px-3 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
                           >
-                            <span className="inline-flex relative gap-2 text-[4vw] text-green-400">
-                              <FaCoins className="text-[6vw] text-white" />
+                            <span className="inline-flex relative gap-2 text-[4vw] 2xlarge:text-[1vw] text-green-400">
+                              <FaCoins className="text-[6vw] 2xlarge:text-[1vw] text-white" />
                               NFT Related Coins
                             </span>
                           </a>
@@ -434,8 +433,8 @@ const OnlyHeaderComp = () => {
                             href="#"
                             className="block py-2 px-3 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
                           >
-                            <span className="inline-flex relative gap-2 text-[4vw] text-green-400">
-                              <TiStarburst className="text-[6vw] text-white" />
+                            <span className="inline-flex relative gap-2 text-[4vw] 2xlarge:text-[1vw] text-green-400">
+                              <TiStarburst className="text-[6vw] 2xlarge:text-[1vw] text-white" />
                               NFT Watchlist
                             </span>
                           </a>
@@ -448,7 +447,7 @@ const OnlyHeaderComp = () => {
                   <a
                     href="#"
                     onClick={() => toggleLearnDropdown()}
-                    className="NavLinkBUtton medium:-mt-4 flex items-center justify-between w-full py-2 px-3 rounded medium:w-auto text-white hover:text-white hover:bg-opacity-20 medium:hover:bg-transparent medium:border-0 medium:hover:text-white dark:text-white medium:dark:hover:text-white dark:hover:bg-opacity-20 dark:hover:text-white medium:dark:hover:bg-transparent"
+                    className="NavLinkBUtton medium:-mt-4 2xlarge:mt-2 flex items-center justify-between w-full py-2 px-3 rounded medium:w-auto text-white hover:text-white hover:bg-opacity-20 medium:hover:bg-transparent medium:border-0 medium:hover:text-white dark:text-white medium:dark:hover:text-white dark:hover:bg-opacity-20 dark:hover:text-white medium:dark:hover:bg-transparent"
                   >
                     Learn
                     <svg
@@ -468,15 +467,15 @@ const OnlyHeaderComp = () => {
                     </svg>
                   </a>
                   {isLearnDropdownOpen && (
-                    <div className="absolute z-99999 right-0 w-[86vw] mt-2  bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600">
+                    <div className="absolute z-99999 right-0 w-[86vw] 2xlarge:w-[11vw] 2xlarge:-left-[2vw] mt-2  bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600">
                       <ul>
                         <li>
                           <a
                             href="#"
                             className="block py-2 px-3 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
                           >
-                            <span className="inline-flex relative gap-2 text-[4vw] text-green-400">
-                              <FaBookOpen className="text-[6vw] text-white" />
+                            <span className="inline-flex relative gap-2 text-[4vw] 2xlarge:text-[1vw] text-green-400">
+                              <FaBookOpen className="text-[6vw] 2xlarge:text-[1vw] text-white" />
                               Research Insights
                             </span>
                           </a>
@@ -486,8 +485,8 @@ const OnlyHeaderComp = () => {
                             href="#"
                             className="block py-2 px-3 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
                           >
-                            <span className="inline-flex relative gap-2 text-[4vw] text-green-400">
-                              <ImNewspaper className=" text-[6vw] text-white" />
+                            <span className="inline-flex relative gap-2 text-[4vw] 2xlarge:text-[1vw] text-green-400">
+                              <ImNewspaper className=" text-[6vw] 2xlarge:text-[1vw] text-white" />
                               Crypto News
                             </span>
                           </a>
@@ -499,7 +498,7 @@ const OnlyHeaderComp = () => {
                 <div className="relative block medium:hidden xlarge:block z-99998 inline-block top-8 2xlarge:top-0 text-left">
                   <button
                     onClick={toggleMyPortfolioDropdown}
-                    className=" NavLinkBUtton medium:-mt-7 flex items-center justify-between w-full medium:py-[1.5vh]  py-2 px-3 rounded medium:w-[21vw] xlarge:w-[13vw] text-gray-900 hover:bg-gray-100 medium:hover:bg-transparent medium:border-0 medium:hover:text-blue-700 dark:text-white medium:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white medium:dark:hover:bg-transparent"
+                    className=" NavLinkBUtton medium:-mt-7 2xlarge:mt-2  2xlarge:py-2 flex items-center justify-between w-full medium:py-[1.5vh]  py-2 px-3 rounded medium:w-[21vw] xlarge:w-[13vw] 2xlarge:w-[10vw]  text-gray-900 hover:bg-gray-100 medium:hover:bg-transparent medium:border-0 medium:hover:text-blue-700 dark:text-white medium:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white medium:dark:hover:bg-transparent"
                   >
                     My Portfolio
                     <svg
@@ -519,14 +518,14 @@ const OnlyHeaderComp = () => {
                     </svg>
                   </button>
                   {isMyPortfolio && (
-                    <div className="absolute z-30 right-0 w-[86vw] mt-2 bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600">
+                    <div className="absolute z-30 right-0 w-[86vw] 2xlarge:w-[9vw] mt-2 bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600">
                       <ul className="py-2 text-sm text-gray-700 dark:text-gray-400">
                         <li>
                           <a
                             href="#"
                             className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                           >
-                            <span className=" inline-flex relative gap-2 text-[4vw] text-green-400">
+                            <span className=" inline-flex relative gap-2 text-[4vw] 2xlarge:text-[1vw] text-green-400">
                               My Coins
                             </span>
                           </a>
@@ -536,7 +535,7 @@ const OnlyHeaderComp = () => {
                             href="#"
                             className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                           >
-                            <span className="inline-flex relative gap-2 text-[4vw] text-green-400">
+                            <span className="inline-flex relative gap-2 text-[4vw] 2xlarge:text-[1vw] text-green-400">
                               My NFTs
                             </span>
                           </a>
@@ -548,16 +547,15 @@ const OnlyHeaderComp = () => {
                 <div className="relative block medium:hidden xlarge:block z-20 inline-block top-10 2xlarge:top-0 text-left">
                   <button
                     onClick={toggleMyAccountDropdown}
-                    className=" NavLinkBUtton medium:-mt-9 flex items-center justify-between w-full py-3 px-3 rounded medium:w-[22vw] xlarge:w-[14vw] text-gray-900 hover:bg-gray-100 medium:hover:bg-transparent medium:border-0 medium:hover:text-blue-700 dark:text-white medium:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white medium:dark:hover:bg-transparent"
+                    className=" NavLinkBUtton medium:-mt-9 2xlarge:mt-2 2xlarge:px-2  2xlarge:py-2 flex items-center justify-between w-full py-3 px-3 rounded medium:w-[22vw] xlarge:w-[14vw] 2xlarge:w-[10vw] text-gray-900 hover:bg-gray-100 medium:hover:bg-transparent medium:border-0 medium:hover:text-blue-700 dark:text-white medium:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white medium:dark:hover:bg-transparent"
                   >
-                    <span className=" inline-flex relative gap-2  text-green-400">
-                      <BiSolidUserAccount className="text-[7.5vw] xlarge:text-[1.5vw] xlarge:mt-1 text-white" />
+                    <span className=" inline-flex relative gap-2 2xlarge:py-0 2xlarge:px-0 2xlarge:text-[1vw]  text-green-400">
+                      <BiSolidUserAccount className="text-[7.5vw] xlarge:text-[1.5vw]  2xlarge:text-[1vw] 2xlarge:mt-2 text-white" />
                       My Account
                     </span>
                     <svg
                       className="w-2.5 h-2.5 ms-2.5"
                       aria-hidden="true"
-                      xmlns="http://www.w3.org/2000/svg"
                       fill="none"
                       viewBox="0 0 10 6"
                     >
@@ -571,14 +569,14 @@ const OnlyHeaderComp = () => {
                     </svg>
                   </button>
                   {isMyAccountOpen && (
-                    <div className="absolute z-9999 right-0 w-[86vw] mt-2 bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600">
+                    <div className="absolute z-9999 2xlarge:w-[10vw] right-0 w-[86vw] mt-2 bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600">
                       <ul className="py-2 text-sm text-gray-700 dark:text-gray-400">
                         <li>
                           <a
                             href="#"
                             className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                           >
-                            <span className=" inline-flex relative gap-2 text-[4vw] text-green-400">
+                            <span className=" inline-flex relative gap-2 text-[4vw] 2xlarge:text-[1vw] text-green-400">
                               Sign Up
                             </span>
                           </a>
@@ -609,7 +607,7 @@ const OnlyHeaderComp = () => {
                       placeholder=" Search Coins,Nfts ..."
                       className="w-[20vw] xlarge:w-[25vw] p-2 pl-10 xlarge:py-3 text-sm text-gray-900 border-none rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white dark:focus:ring-blue-500"
                     />
-                    <span className="absolute left-0 top-2 xlarge:top-3 text-gray-600 dark:text-white">
+                    <span className="absolute left-0 top-2 xlarge:top-3  text-gray-600 dark:text-white">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 24 24"
@@ -720,19 +718,19 @@ const OnlyHeaderComp = () => {
         </div>
       </nav>
 
-      <div className="hidden 2xlarge:block w-full max-w-[100vw] 2xlarge:max-w-[100vw] mx-auto 2xlarge:w-full relative overflow-hidden z-0">
+      <div className="hidden 2xlarge:block w-full  2xlarge:max-w-[100vw] mx-auto 2xlarge:w-full relative overflow-hidden z-0">
         <video
           className="w-full h-auto 2xlarge:h-[60vh] mx-auto object-cover"
           autoPlay
           playsInline
           muted
           loop
-          src="src/Videos/221356_large.mp4"
+          src="https://cdn.pixabay.com/video/2023/10/14/184941-874460311_large.mp4"
         >
           Your browser does not support the video tag.
         </video>
-        <div className="absolute inset-0 bg-black bg-opacity-80"></div>
-        <div className="hidden 2xlarge:block absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[50vw] h-[45vh] backdrop-filter backdrop-blur-md bg-zinc-500 bg-opacity-15 rounded-lg">
+        <div className="absolute inset-0 bg-black bg-opacity-70"></div>
+        <div className="hidden 2xlarge:block absolute  top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[50vw] h-[45vh] backdrop-filter backdrop-blur-md bg-zinc-500 bg-opacity-15 rounded-lg">
           <div className="card">
             <div className="content">
               <p className="heading relative bottom-[10vh]">
@@ -818,7 +816,7 @@ const OnlyHeaderComp = () => {
         </div>
       </div>
 
-      <div className="2xlarge:hidden mt-0 w-[100vw] border-b-[3px] border-red-600"></div>
+      <div className=" mt-0 w-[99.4vw] border-b-[3px] border-red-600"></div>
     </>
   );
 };

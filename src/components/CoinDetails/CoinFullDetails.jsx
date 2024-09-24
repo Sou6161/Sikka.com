@@ -527,7 +527,7 @@ const CoinFullDetails = ({ contractAddress, marketsData }) => {
         <OnlyHeaderComp />
         <MainPageMarquee />
       </div>
-      <div className="w-[100vw] text-white bg-black overflow-x-hidden">
+      <div className="w-[100vw]   text-white bg-black overflow-x-hidden 2xlarge:overflow-x-hidden hide-scrollbar 2xlarge:w-[99.4vw]">
         <h1 className="text-[6vw] xsmall:text-[4vw] small:text-[3.5vw] medium:text-[3vw] medium:ml-[15vw] large:ml-[20vw] xlarge:ml-[7vw]  large:text-[2.5vw] xlarge:text-[2vw] 2xlarge:text-[1.5vw] font-semibold text-red-600 ml-[8vw] mt-[7vh]">
           Overview
         </h1>
@@ -540,7 +540,7 @@ const CoinFullDetails = ({ contractAddress, marketsData }) => {
           />
 
           <div className="ml-4 flex flex-wrap items-center">
-            <h1 className="text-[5.2vw] xsmall:text-[4vw] small:text-[3vw] medium:text-[2.2vw] medium:ml-[1vw] large:text-[2.2vw] large:ml-[vw] xlarge:text-[1.5vw]   2xlarge:text-[1.5vw] text-white font-semibold">
+            <h1 className="text-[5.2vw] xsmall:text-[4vw] small:text-[3vw] medium:text-[2.2vw] medium:ml-[1vw] large:text-[2.2vw] large:ml-[vw] xlarge:text-[1.5vw] 2xlarge:text-[1.2vw] text-white font-semibold">
               {CoinDetails?.name}
             </h1>
 
@@ -623,11 +623,11 @@ const CoinFullDetails = ({ contractAddress, marketsData }) => {
             </span>
           </h1>
 
-          <span className="text-green-400 text-[5vw] xsmall:text-[3.5vw] small:text-[2.5vw] medium:text-[2.2vw] large:text-[1.6vw] xlarge:text-[1.5vw] 2xlarge:text-[2vw] font-semibold ml-[22vw] xsmall:ml-[24vw] medium:ml-[15vw] -mt-[11vh] xsmall:-mt-[10vh]  medium:-mt-[11vh] large:-mt-[13vh] xlarge:-mt-[12vh] ">
+          <span className="text-green-400 text-[5vw] xsmall:text-[3.5vw] small:text-[2.5vw] medium:text-[2.2vw] large:text-[1.6vw] xlarge:text-[1.5vw] 2xlarge:text-[1.2vw] font-semibold ml-[22vw] xsmall:ml-[24vw] medium:ml-[15vw] -mt-[11vh] xsmall:-mt-[10vh]  medium:-mt-[11vh] large:-mt-[13vh] xlarge:-mt-[12vh] 2xlarge:-mt-[13vh] ">
             {CoinDetails?.market_data?.price_change_percentage_24h >= 0 ? (
-              <FaCaretUp className="inline-flex blink-green text-[5.5vw] xsmall:text-[4vw] small:text-[3vw] medium:text-[2.3vw] large:text-[1.5vw] xlarge:text-[1.5vw] 2xlarge:text-[2.5vw] relative -top-1 xlarge:-top-1 large:top-0" />
+              <FaCaretUp className="inline-flex blink-green text-[5.5vw] xsmall:text-[4vw] small:text-[3vw] medium:text-[2.3vw] large:text-[1.5vw] xlarge:text-[1.5vw] 2xlarge:text-[1.2vw] relative -top-1 xlarge:-top-1  large:top-0" />
             ) : (
-              <FaCaretDown className="inline-flex blink-red text-[5.5vw] xsmall:text-[4vw] small:text-[3vw] medium:text-[2.3vw] large:text-[1.8vw] xlarge:text-[1.5vw] 2xlarge:text-[2.5vw] relative -top-1" />
+              <FaCaretDown className="inline-flex blink-red text-[5.5vw] xsmall:text-[4vw] small:text-[3vw] medium:text-[2.3vw] large:text-[1.8vw] xlarge:text-[1.5vw] 2xlarge:text-[1.2vw] relative -top-1" />
             )}
             <span
               className={`${
@@ -683,7 +683,7 @@ const CoinFullDetails = ({ contractAddress, marketsData }) => {
         </span>
         <svg
           viewBox="0 0 300 50"
-          className="w-full  xsmall:w-[80vw]  xsmall:mx-auto medium:w-[70vw] large:w-[60vw] large:ml-[20vw] xlarge:ml-[5vw] xlarge:w-[35vw] h-auto"
+          className="w-full  xsmall:w-[80vw]  xsmall:mx-auto medium:w-[70vw] large:w-[60vw] large:ml-[20vw] xlarge:ml-[5vw] xlarge:w-[35vw]  2xlarge:w-[35vw] h-auto"
         >
           <defs>
             <linearGradient
@@ -704,16 +704,32 @@ const CoinFullDetails = ({ contractAddress, marketsData }) => {
             x="10"
             y="10"
             width="280"
-            height={window.innerWidth < 480 || window.innerWidth > 1536 ? 7 : 3}
+            height={
+              window.innerWidth === 1536
+                ? 1
+                : window.innerWidth < 480
+                ? 7
+                : window.innerWidth > 1536
+                ? 3
+                : 3
+            }
             fill="url(#priceGradient)"
-            rx="5"
-            ry="5"
+            rx={window.innerWidth === 1536 ? 2 : 5}
+            ry={window.innerWidth === 1536 ? 2 : 5}
           />
           <text
             x="10"
-            y={window.innerWidth >= 640 && window.innerWidth <= 768 ? 27 : 27}
+            y={
+              window.innerWidth >= 640 && window.innerWidth <= 768
+                ? 27
+                : window.innerWidth >= 1289 && window.innerWidth <= 1536
+                ? 30
+                : window.innerWidth > 1536
+                ? 27
+                : 27
+            }
             fontFamily="Arial"
-            className="text-[3vw] xsmall:text-[2vw]  small:text-[1.5vw] medium:text-[1vw] large:text-[0.8vw] xlarge:text-[0.6vw] 2xlarge:text-[1vw]"
+            className="text-[3vw] xsmall:text-[2vw]  small:text-[1.5vw] medium:text-[1vw] large:text-[0.8vw] xlarge:text-[0.6vw] 2xlarge:text-[0.5vw]"
             fill="red"
           >
             $
@@ -734,6 +750,8 @@ const CoinFullDetails = ({ contractAddress, marketsData }) => {
                 ? 240
                 : window.innerWidth >= 1289 && window.innerWidth <= 1536
                 ? 245
+                : window.innerWidth > 1536
+                ? 245
                 : 250
             }
             y={
@@ -741,10 +759,12 @@ const CoinFullDetails = ({ contractAddress, marketsData }) => {
                 ? 27
                 : window.innerWidth >= 1289 && window.innerWidth <= 1536
                 ? 30
+                : window.innerWidth > 1536
+                ? 27
                 : 27
             }
             fontFamily="Arial"
-            className="text-[3vw] xsmall:text-[2vw] small:text-[1.5vw] medium:text-[1vw] large:text-[0.8vw] xlarge:text-[0.7vw] 2xlarge:text-[1vw]"
+            className="text-[3vw] xsmall:text-[2vw] small:text-[1.5vw] medium:text-[1vw] large:text-[0.8vw] xlarge:text-[0.7vw] 2xlarge:text-[0.5vw]"
             fill="green"
           >
             $
@@ -760,12 +780,12 @@ const CoinFullDetails = ({ contractAddress, marketsData }) => {
             )}
           </text>
         </svg>
-        <span className=" text-white relative -top-[6vh] xsmall:-top-[7vh] small:-top-[9vh] left-[40vw] text-[3vw] xsmall:text-[2.5vw] medium:text-[2vw] medium:left-[44vw]  medium:-top-[8vh] large:text-[1.5vw] large:-top-[11vh] xlarge:text-[1vw] xlarge:-top-[8vh] xlarge:left-[18vw]">
+        <span className=" text-white relative -top-[6vh] xsmall:-top-[7vh] small:-top-[9vh] left-[40vw] text-[3vw] xsmall:text-[2.5vw] medium:text-[2vw] medium:left-[44vw]  medium:-top-[8vh] large:text-[1.5vw] large:-top-[11vh] xlarge:text-[1vw] xlarge:-top-[8vh] xlarge:left-[18vw] 2xlarge:text-[0.8vw]">
           24 Hour Range
         </span>
 
         <div className=" relative left-5 xsmall:left-[10vw] medium:left-[14vw] large:ml-[5vw] xlarge:left-[42vw] xlarge:bottom-[45vh]">
-          <h1 className=" text-[6vw] xsmall:text-[4vw] small:text-[3vw] medium:text-[2vw] xlarge:grid xlarge:grid-cols-4 ">
+          <h1 className=" text-[6vw] xsmall:text-[4vw] small:text-[3vw] medium:text-[2vw] xlarge:text-[1.5vw] xlarge:grid xlarge:grid-cols-4 2xlarge:text-[1.3vw] ">
             {CoinDetails?.name} Price Chart{" "}
             {`(${CoinDetails?.symbol?.toUpperCase()})`}
           </h1>
@@ -1017,11 +1037,11 @@ const CoinFullDetails = ({ contractAddress, marketsData }) => {
             ))}
           </div>
         </div>
-        <div className=" relative top-[18vh] left-5 small:left-[8vw] medium:left-[12vw] large:left-[17vw] xlarge:left-[6vw] xlarge:-top-[90vh] ">
-          <h1 className=" text-[6vw] xsmall:text-[4vw] small:text-[3.5vw] medium:text-[2.5vw] large:text-[1.5vw] ">
+        <div className=" relative top-[18vh] left-5 small:left-[8vw] medium:left-[12vw] large:left-[17vw] xlarge:left-[6vw] xlarge:-top-[90vh] 2xlarge:-top-[80vh] ">
+          <h1 className=" text-[6vw] xsmall:text-[4vw] small:text-[3.5vw] medium:text-[2.5vw] large:text-[1.5vw] 2xlarge:text-[1.2vw] ">
             {CoinDetails?.name} Converter
           </h1>
-          <div className="bg-white shadow-md rounded-lg p-4 w-[90vw] small:w-[80vw] medium:w-[60vw] large:w-[55vw] xlarge:w-[37vw] mt-5">
+          <div className="bg-white shadow-md rounded-lg p-4 w-[90vw] small:w-[80vw] medium:w-[60vw] large:w-[55vw] xlarge:w-[37vw] 2xlarge:w-[35vw] mt-5">
             <div className="flex items-center justify-between mb-4">
               <div className="font-bold text-xl text-black">
                 {CoinDetails?.symbol?.toUpperCase()}
@@ -1057,18 +1077,18 @@ const CoinFullDetails = ({ contractAddress, marketsData }) => {
               className="w-full px-3 py-2 text-lg text-black border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4"
               placeholder="Enter amount"
             />
-            <div className="text-[5vw] xsmall:text-[3vw] medium:text-[2vw] large:text-[1.6vw] font-bold text-red-600">
+            <div className="text-[5vw] xsmall:text-[3vw] medium:text-[2vw] large:text-[1.6vw] 2xlarge:text-[1.3vw] font-bold text-red-600">
               {!isNaN(convertedAmount) ? convertedAmount.toFixed(2) : "0.00"}{" "}
               {selectedCurrency.toUpperCase()}
             </div>
           </div>
         </div>
-        <div className=" relative top-[24vh] left-5 small:left-[8vw] medium:left-[12vw] large:left-[17vw] xlarge:left-[6vw] xlarge:-top-[80vh]">
-          <h1 className=" text-[6vw] xsmall:text-[4vw] small:text-[3.5vw] medium:text-[2.7vw] large:text-[2vw]">
+        <div className=" relative top-[24vh] left-5 small:left-[8vw] medium:left-[12vw] large:left-[17vw] xlarge:left-[6vw] xlarge:-top-[80vh] 2xlarge:-top-[75vh]">
+          <h1 className=" text-[6vw] xsmall:text-[4vw] small:text-[3.5vw] medium:text-[2.7vw] large:text-[2vw] 2xlarge:text-[1.3vw]">
             {CoinDetails?.name} Figures
           </h1>
           <div className=" inline-flex mt-5 ">
-            <h1 className="mr-[25vw]  xsmall:mr-[45vw] large:text-[1.5vw] xlarge:mr-[25vw]">
+            <h1 className="mr-[25vw]  xsmall:mr-[45vw] large:text-[1.5vw] xlarge:mr-[25vw] 2xlarge:text-[1vw] 2xlarge:mr-[28vw]">
               Market cap
             </h1>
             <h1 className=" font-bold small:ml-[3vw] medium:-ml-[10vw] large:-ml-[9vw]">
@@ -1077,7 +1097,7 @@ const CoinFullDetails = ({ contractAddress, marketsData }) => {
           </div>
           <div className=" border-b-[1px] mt-4  w-[90vw] small:w-[80vw] medium:w-[60vw] xlarge:w-[35vw]"></div>
           <div className=" inline-flex mt-3">
-            <h1 className=" mr-[40vw] xsmall:mr-[50vw] medium:mr-[34vw] large:text-[1.5vw] xlarge:mr-[13vw]">
+            <h1 className=" mr-[40vw] xsmall:mr-[50vw] medium:mr-[34vw] large:text-[1.5vw] xlarge:mr-[13vw] 2xlarge:text-[1vw] 2xlarge:mr-[17vw]">
               Market Cap/FDV
             </h1>
             <h1 className="font-bold small:ml-[3vw] ">
@@ -1086,7 +1106,7 @@ const CoinFullDetails = ({ contractAddress, marketsData }) => {
           </div>
           <div className=" border-b-[1px] mt-4  w-[90vw] small:w-[80vw] medium:w-[60vw] xlarge:w-[35vw]"></div>
           <div className=" inline-flex mt-3">
-            <h1 className=" mr-[5vw] xsmall:mr-[30vw] medium:mr-[22vw] large:mr-[25vw] large:text-[1.5vw] xlarge:mr-[5vw]">
+            <h1 className=" mr-[5vw] xsmall:mr-[30vw] medium:mr-[22vw] large:mr-[25vw] large:text-[1.5vw] xlarge:mr-[5vw] 2xlarge:text-[1vw] 2xlarge:mr-[10vw]">
               Fully Diluted Valuation
             </h1>
             <h1 className=" font-bold small:ml-[3vw]">
@@ -1096,7 +1116,7 @@ const CoinFullDetails = ({ contractAddress, marketsData }) => {
           </div>
           <div className=" border-b-[1px] mt-4  w-[90vw] small:w-[80vw] medium:w-[60vw] xlarge:w-[35vw]"></div>
           <div className=" inline-flex mt-3">
-            <h1 className=" mr-[20vw] xsmall:mr-[40vw] large:text-[1.5vw] xlarge:mr-[19vw]">
+            <h1 className=" mr-[20vw] xsmall:mr-[40vw] large:text-[1.5vw] xlarge:mr-[19vw] 2xlarge:text-[1vw] 2xlarge:mr-[22vw]">
               Circulating Supply
             </h1>
             <h1 className="font-bold small:ml-[5vw] medium:-ml-[8vw] large:-ml-[6vw] ">
@@ -1105,7 +1125,7 @@ const CoinFullDetails = ({ contractAddress, marketsData }) => {
           </div>
           <div className=" border-b-[1px] mt-4  w-[90vw] small:w-[80vw] medium:w-[60vw] xlarge:w-[35vw]"></div>
           <div className=" inline-flex mt-3">
-            <h1 className=" mr-[35vw] xsmall:mr-[45vw] large:text-[1.5vw] xlarge:mr-[24vw]">
+            <h1 className=" mr-[35vw] xsmall:mr-[45vw] large:text-[1.5vw] xlarge:mr-[24vw] 2xlarge:text-[1vw] 2xlarge:mr-[26vw]">
               Total Supply
             </h1>
             <h1 className="font-bold small:ml-[5vw] medium:-ml-[10vw] large:-ml-[7vw]">
@@ -1114,16 +1134,16 @@ const CoinFullDetails = ({ contractAddress, marketsData }) => {
           </div>
           <div className=" border-b-[1px] mt-4  w-[90vw] small:w-[80vw] medium:w-[60vw] xlarge:w-[35vw]"></div>
           <div className=" inline-flex mt-3">
-            <h1 className=" mr-[35vw] xsmall:mr-[45vw] large:text-[1.5vw] xlarge:mr-[24vw]">
+            <h1 className=" mr-[35vw] xsmall:mr-[45vw] large:text-[1.5vw] xlarge:mr-[24vw] 2xlarge:text-[1vw] 2xlarge:mr-[26vw]">
               Max Supply
             </h1>
             <h1 className="font-bold small:ml-[5vw] medium:-ml-[10vw] large:-ml-[7vw]">
               {CoinDetails?.market_data?.total_supply.toFixed(0)}
-            </h1>
+            </h1> 
           </div>
           <div className=" border-b-[1px] mt-4  w-[90vw] small:w-[80vw] medium:w-[60vw] xlarge:w-[35vw]"></div>
           <div className=" inline-flex mt-3">
-            <h1 className=" mr-[30vw] xsmall:mr-[40vw] large:text-[1.5vw] xlarge:mr-[19vw]">
+            <h1 className=" mr-[30vw] xsmall:mr-[40vw] large:text-[1.5vw] xlarge:mr-[19vw] 2xlarge:text-[1vw] 2xlarge:mr-[22vw]">
               Total Volume
             </h1>
             <h1 className="font-bold small:ml-[5vw] medium:-ml-[7vw] large:-ml-[4vw]">
@@ -1132,15 +1152,15 @@ const CoinFullDetails = ({ contractAddress, marketsData }) => {
           </div>
           <div className=" border-b-[1px] mt-4  w-[90vw] small:w-[80vw] medium:w-[60vw] xlarge:w-[35vw]"></div>
         </div>
-        <div className="relative top-[30vh] left-5 xsmall:left-3 small:left-4 medium:left-[6vw] large:left-[11vw] xlarge:-top-[70vh] xlarge:left-[6vw] xlarge:max-w-[35vw]  ">
-          <h1 className="text-[6vw] xsmall:text-[4vw] small:text-[3.5vw] small:ml-[6vw] medium:text-[2.7vw] large:text-[2vw] xlarge:ml-0">
+        <div className="relative top-[30vh] left-5 xsmall:left-3 small:left-4 medium:left-[6vw] large:left-[11vw] xlarge:-top-[70vh] xlarge:left-[6vw] xlarge:max-w-[35vw] 2xlarge:-top-[70vh]  ">
+          <h1 className="text-[6vw] xsmall:text-[4vw] small:text-[3.5vw] small:ml-[6vw] medium:text-[2.7vw] large:text-[2vw] xlarge:ml-0 2xlarge:text-[1.5vw] ">
             Info
           </h1>
 
           {CoinDetails?.detail_platforms?.ethereum?.contract_address && (
             <div className="flex flex-col">
               <div className="small:ml-[6vw] flex flex-row xsmall:flex-row items-start xsmall:items-center space-y-2 xsmall:space-y-0 xsmall:space-x-2 text-gray-600 mt-5 xlarge:ml-0">
-                <span className="text-white text-[4.5vw] xsmall:text-[3.5vw] small:text-[3vw] medium:text-[2.2vw] large:text-[1.8vw] xlarge:text-[1.3vw]">
+                <span className="text-white text-[4.5vw] xsmall:text-[3.5vw] small:text-[3vw] medium:text-[2.2vw] large:text-[1.8vw] xlarge:text-[1.3vw] 2xlarge:text-[1vw]">
                   Contract
                 </span>
                 <div className="flex items-center relative -top-2 xsmall:top-0 xsmall:left-[34vw] left-[10vw] medium:left-[25vw] large:left-[27vw] xlarge:left-[15vw] space-x-2 bg-gray-100 rounded-full px-3 py-1 mt-1 xsmall:mt-0">
@@ -1172,10 +1192,10 @@ const CoinFullDetails = ({ contractAddress, marketsData }) => {
           {(CoinDetails?.links?.homepage[0] ||
             CoinDetails?.links?.announcement_url[0]) && (
             <div className="flex flex-row xsmall:flex-row mt-5 gap-2">
-              <h1 className="text-white text-[4.5vw] xsmall:text-[3.5vw] small:text-[3vw] small:ml-[6vw] medium:text-[2.2vw] large:text-[1.8vw] medium:-mt-2 xlarge:text-[1.3vw] xlarge:ml-0">
+              <h1 className="text-white text-[4.5vw] xsmall:text-[3.5vw] small:text-[3vw] small:ml-[6vw] medium:text-[2.2vw] large:text-[1.8vw] medium:-mt-2 xlarge:text-[1.3vw] xlarge:ml-0 2xlarge:text-[1vw] ">
                 Website
               </h1>
-              <div className="flex flex-wrap gap-2 relative left-[15vh] xsmall:left-[35vh] small:left-[45vw] medium:left-[30vw] xlarge:left-[15vw]">
+              <div className="flex flex-wrap gap-2 relative left-[15vh] xsmall:left-[35vh] small:left-[45vw] medium:left-[30vw] xlarge:left-[15vw] 2xlarge:left-[18vw]">
                 {CoinDetails?.links?.homepage[0] && (
                   <Link to={CoinDetails?.links?.homepage[0]}>
                     <h1 className="bg-white px-3 py-1 xsmall:px-3 xsmall:py-2 rounded-xl font-bold text-xs medium:-mt-1">
@@ -1210,10 +1230,10 @@ const CoinFullDetails = ({ contractAddress, marketsData }) => {
           <div className="border-b-[1px] mt-2 w-[90vw] small:w-[80vw] small:ml-[6vw] medium:w-[60vw] xlarge:w-[35vw] xlarge:ml-0 medium:mt-1"></div>
 
           <div className="flex flex-row xsmall:flex-row items-start xsmall:items-center mt-5 gap-2 medium:mt-2">
-            <h1 className="text-white text-[4.5vw] xsmall:text-[3.5vw] small:text-[3vw] small:ml-[6vw] medium:text-[2.2vw] large:text-[1.8vw] xlarge:text-[1.3vw] xlarge:ml-0">
+            <h1 className="text-white text-[4.5vw] xsmall:text-[3.5vw] small:text-[3vw] small:ml-[6vw] medium:text-[2.2vw] large:text-[1.8vw] xlarge:text-[1.3vw] xlarge:ml-0 2xlarge:text-[1vw]">
               Explorers
             </h1>
-            <div className="relative left-[12vh] xsmall:left-[35vh] small:left-[40vh] medium:left-[30vw] xlarge:left-[15vw]">
+            <div className="relative left-[12vh] xsmall:left-[35vh] small:left-[40vh] medium:left-[30vw] xlarge:left-[15vw] 2xlarge:left-[18vw]">
               <button
                 onClick={toggleDropdown}
                 className="bg-white px-2 py-1 rounded-xl font-bold text-black flex items-center"
@@ -1254,10 +1274,10 @@ const CoinFullDetails = ({ contractAddress, marketsData }) => {
           <div className="border-b-[1px] mt-2 w-[90vw] small:w-[80vw] small:ml-[6vw] medium:w-[60vw] xlarge:ml-0 xlarge:w-[35vw]"></div>
 
           <div className="flex flex-row xsmall:flex-row items-start xsmall:items-center mt-5 gap-2 medium:mt-2">
-            <h1 className="text-white text-[4.5vw] xsmall:text-[3.5vw] small:text-[3vw] small:ml-[6vw] medium:text-[2.2vw] large:text-[1.8vw] xlarge:text-[1.3vw] xlarge:ml-0">
+            <h1 className="text-white text-[4.5vw] xsmall:text-[3.5vw] small:text-[3vw] small:ml-[6vw] medium:text-[2.2vw] large:text-[1.8vw] xlarge:text-[1.3vw] xlarge:ml-0 2xlarge:text-[1vw]">
               Community
             </h1>
-            <div className="flex flex-wrap gap-2 relative left-[8vh] xsmall:left-[30vh] xlarge:left-[12vw]">
+            <div className="flex flex-wrap gap-2 relative left-[8vh] xsmall:left-[30vh] xlarge:left-[12vw] 2xlarge:left-[16vw]">
               <Link
                 to={`https://x.com/${CoinDetails?.links?.twitter_screen_name}`}
                 className=""
@@ -1286,15 +1306,15 @@ const CoinFullDetails = ({ contractAddress, marketsData }) => {
 
           <div className="border-b-[1px] mt-2 w-[90vw] small:w-[80vw] small:ml-[6vw] medium:w-[60vw] xlarge:ml-0 xlarge:w-[35vw]"></div>
 
-          <div className="flex flex-row xsmall:flex-row items-start xsmall:items-center mt-4 gap-2 medium:mt-2">
-            <h1 className="text-white text-[4.5vw] xsmall:text-[3.5vw] small:text-[3vw] small:ml-[6vw] medium:text-[2.2vw] large:text-[1.8vw] xlarge:text-[1.3vw] xlarge:ml-0">
+          <div className="flex flex-row xsmall:flex-row items-start xsmall:items-center mt-4 gap-2 medium:mt-2  ">
+            <h1 className="text-white text-[4.5vw] xsmall:text-[3.5vw] small:text-[3vw] small:ml-[6vw] medium:text-[2.2vw] large:text-[1.8vw] xlarge:text-[1.3vw] xlarge:ml-0 2xlarge:text-[1vw]">
               Search on
             </h1>
             <Link
               to="https://x.com/?lang=en"
-              className="relative left-[19vh] xsmall:left-[40vh] xlarge:left-[15vw] -top-1"
+              className="relative left-[19vh] xsmall:left-[40vh] xlarge:left-[15vw] 2xlarge:left-[18vw] -top-1"
             >
-              <h1 className="bg-white px-3 py-1 xsmall:px-3 xsmall:py-2 rounded-xl inline-flex items-center font-bold text-[3.5vw]  xsmall:text-[2.2vw] small:text-[2.5vw] medium:text-[1.3vw] medium:py-1">
+              <h1 className="bg-white px-3 py-1 xsmall:px-3 xsmall:py-2 rounded-xl inline-flex items-center font-bold text-[3.5vw]  xsmall:text-[2.2vw] small:text-[2.5vw] medium:text-[1.3vw] 2xlarge:text-[1vw] medium:py-1">
                 <Search className="mr-1 " /> Twitter
               </h1>
             </Link>
@@ -1303,12 +1323,12 @@ const CoinFullDetails = ({ contractAddress, marketsData }) => {
           <div className="border-b-[1px]  w-[90vw] small:w-[80vw] small:ml-[6vw] medium:w-[60vw] xlarge:ml-0 xlarge:w-[35vw]"></div>
 
           <div className="flex flex-row xsmall:flex-row items-start xsmall:items-center mt-5 small:mt-3 gap-2 medium:mt-1">
-            <h1 className="text-white text-[4.5vw] xsmall:text-[3.5vw] small:text-[3vw] small:ml-[6vw] medium:text-[2.2vw] large:text-[1.8vw] xlarge:text-[1.3vw] xlarge:ml-0">
+            <h1 className="text-white text-[4.5vw] xsmall:text-[3.5vw] small:text-[3vw] small:ml-[6vw] medium:text-[2.2vw] large:text-[1.8vw] xlarge:text-[1.3vw] xlarge:ml-0 2xlarge:text-[1vw]">
               Source Code
             </h1>
             <Link
               to={CoinDetails?.links?.repos_url?.github[0]}
-              className="relative left-[16vh] xsmall:left-[38vh] xlarge:left-[15vw]"
+              className="relative left-[16vh] xsmall:left-[38vh] xlarge:left-[15vw] 2xlarge:left-[18vw]"
             >
               <h1 className="bg-white px-2 py-1 xsmall:px-3 xsmall:py-2 rounded-xl gap-2 inline-flex items-center font-bold text-[3.5vw] xsmall:text-xs small:text-sm medium:py-2">
                 <img
@@ -1324,10 +1344,10 @@ const CoinFullDetails = ({ contractAddress, marketsData }) => {
           <div className="border-b-[1px] mt-4 w-[90vw] small:mt-2 small:w-[80vw] small:ml-[6vw] medium:w-[60vw] xlarge:ml-0 xlarge:w-[35vw]"></div>
 
           <div className="flex flex-row xsmall:flex-row items-start xsmall:items-center mt-5 small:mt-2 gap-2 medium:mt-2">
-            <h1 className="text-white text-[4.5vw] xsmall:text-[3.5vw] small:text-[3vw] small:ml-[6vw] medium:text-[2.2vw] large:text-[1.8vw] xlarge:text-[1.3vw] xlarge:ml-0 ">
+            <h1 className="text-white text-[4.5vw] xsmall:text-[3.5vw] small:text-[3vw] small:ml-[6vw] medium:text-[2.2vw] large:text-[1.8vw] xlarge:text-[1.3vw] xlarge:ml-0 2xlarge:text-[1vw] ">
               API ID
             </h1>
-            <div className="flex items-center relative left-[35vw] xsmall:left-[45vh] xlarge:left-[18vw]">
+            <div className="flex items-center relative left-[35vw] xsmall:left-[45vh] xlarge:left-[18vw] 2xlarge:left-[20vw]">
               <h1 className="bg-white text-black px-2 py-1 xsmall:px-2 xsmall:py-2 rounded-xl font-bold text-[3.5vw] xsmall:text-[2.4vw] small:text-sm">
                 {CoinDetails?.id}
               </h1>
@@ -1343,10 +1363,10 @@ const CoinFullDetails = ({ contractAddress, marketsData }) => {
           <div className="border-b-[1px] mt-4 w-[90vw] small:mt-2 small:w-[80vw] small:ml-[6vw] medium:w-[60vw] xlarge:ml-0 xlarge:w-[35vw]"></div>
 
           <div className="flex flex-row xsmall:flex-row items-start xsmall:items-center mt-5 small:mt-2 gap-2 medium:mt-2">
-            <h1 className="text-white text-[4.5vw] xsmall:text-[3.5vw] small:text-[3vw] small:ml-[6vw] medium:text-[2.2vw] large:text-[1.8vw] xlarge:text-[1.3vw] xlarge:ml-0">
+            <h1 className="text-white text-[4.5vw] xsmall:text-[3.5vw] small:text-[3vw] small:ml-[6vw] medium:text-[2.2vw] large:text-[1.8vw] xlarge:text-[1.3vw] xlarge:ml-0 2xlarge:text-[1vw]">
               Chains
             </h1>
-            <div className="relative left-[28vw] xsmall:left-[46vw] small:left-[40vw] medium:left-[30vw] xlarge:left-[15vw]">
+            <div className="relative left-[28vw] xsmall:left-[46vw] small:left-[40vw] medium:left-[30vw] xlarge:left-[15vw] 2xlarge:left-[18vw]">
               <h1
                 className="bg-white text-black px-2 py-1 xsmall:px-3 xsmall:py-2 rounded-xl font-bold text-[3.5vw] xsmall:text-[2.4vw] small:text-sm flex items-center cursor-pointer"
                 onClick={toggleDropdownChains}
@@ -1380,10 +1400,10 @@ const CoinFullDetails = ({ contractAddress, marketsData }) => {
           <div className="border-b-[1px] mt-4 w-[90vw] small:mt-2 small:w-[80vw] small:ml-[6vw] medium:w-[60vw] xlarge:ml-0 xlarge:w-[35vw]"></div>
 
           <div className="flex flex-row xsmall:flex-row items-start xsmall:items-center mt-5 small:mt-2 gap-2 medium:mt-2">
-            <h1 className="text-white text-[4.5vw] xsmall:text-[3.5vw] small:text-[3vw] small:ml-[6vw] medium:text-[2.2vw] large:text-[1.8vw] xlarge:text-[1.3vw] xlarge:ml-0">
+            <h1 className="text-white text-[4.5vw] xsmall:text-[3.5vw] small:text-[3vw] small:ml-[6vw] medium:text-[2.2vw] large:text-[1.8vw] xlarge:text-[1.3vw] xlarge:ml-0 2xlarge:text-[1vw]">
               Categories
             </h1>
-            <div className="relative left-[25vw] xsmall:left-[35vw] small:left-[30vw] medium:left-[20vw] xlarge:left-[9vw]">
+            <div className="relative left-[25vw] xsmall:left-[35vw] small:left-[30vw] medium:left-[20vw] xlarge:left-[9vw] 2xlarge:left-[14vw]">
               <h1
                 className="bg-white text-black px-2 py-1 xsmall:px-3 xsmall:py-2 rounded-xl font-bold text-[3.5vw] xsmall:text-xs small:text-sm flex items-center cursor-pointer"
                 onClick={() =>
@@ -1425,10 +1445,10 @@ const CoinFullDetails = ({ contractAddress, marketsData }) => {
           <div className="border-b-[1px] mt-4 w-[90vw] small:mt-2 small:w-[80vw] small:ml-[6vw] medium:w-[60vw] xlarge:ml-0 xlarge:w-[35vw]"></div>
         </div>
 
-        <div className="relative top-[35vh] left-5 xsmall:left-4 small:left-[8vw]  medium:left-[12vw] large:left-[50vw] large:-top-[100vh]">
-          <h1 className="font-semibold text-[4vw] xsmall:text-lg small:text-[2.5vw] medium:text-[2.2vw] large:text-[2.3vw] xlarge:text-[1.5vw] ">
+        <div className="relative top-[35vh] left-5 xsmall:left-4 small:left-[8vw]  medium:left-[12vw] large:left-[50vw] large:-top-[100vh] xlarge:-top-[60vh] xlarge:left-[6vw] 2xlarge:-top-[65vh] xlarge:ml-0">
+          <h1 className="font-semibold text-[4vw] xsmall:text-lg small:text-[2.5vw] medium:text-[2.2vw] large:text-[2.3vw] xlarge:text-[1.5vw] 2xlarge:text-[1.2vw]   ">
             How Do You Feel About{" "}
-            <span className="text-[5vw] xsmall:text-xl small:text-[2.5vw] medium:text-[2.2vw] large:text-[2.2vw] xlarge:text-[1.5vw] font-bold text-lime-400">
+            <span className="text-[5vw] xsmall:text-xl small:text-[2.5vw] medium:text-[2.2vw] large:text-[2.2vw] xlarge:text-[1.5vw] 2xlarge:text-[1.2vw] font-bold text-lime-400">
               {CoinDetails?.name}
             </span>{" "}
             Today?
@@ -1463,21 +1483,22 @@ const CoinFullDetails = ({ contractAddress, marketsData }) => {
           </div>
         </div>
 
-        <div className="relative top-[42vh] left-5 small:left-[8vw] medium:left-[12vw] large:left-[17vw]  xlarge:left-[48vw] xlarge:-top-[195vh] xlarge:ml-0 xlarge:mb-0 xlarge:mt-0 xlarge:mr-0">
-          <h1 className="text-[6vw] xsmall:text-[4vw] small:text-[3vw] medium:text-[2.5vw] large:text-[2.2vw] font-semibold">
+        <div className="relative top-[42vh] left-5 small:left-[8vw] medium:left-[12vw] large:left-[17vw]  xlarge:left-[6vw] xlarge:-top-[50vh] xlarge:ml-0 xlarge:mb-0 xlarge:mt-0 xlarge:mr-0 2xlarge:-top-[57vh] 2xlarge:ml-0 2xlarge:mb-0 2xlarge:mr-0 2xlarge:mr-0">
+          <h1 className="text-[6vw] xsmall:text-[4vw] small:text-[3vw] medium:text-[2.5vw] large:text-[2.2vw] 2xlarge:text-[1.5vw] font-semibold">
             About
           </h1>
           <p
-            className="leading-10 w-[90vw] mt-5 small:w-[80vw] large:w-[70vw] large:text-[1.5vw] xlarge:w-[50vw] xlarge:text-[1.2vw]"
+            className="leading-10 w-[90vw] mt-5 small:w-[80vw] large:w-[70vw] large:text-[1.5vw] xlarge:w-[90vw] xlarge:text-[1.2vw] 2xlarge:text-[1vw]"
             dangerouslySetInnerHTML={{ __html: description }}
           />
         </div>
-        <div className=" relative top-[45vh] left-5 xsmall:left-2 small:left-[8vw] medium:left-[12vw] large:left-[17vw] xlarge:-top-[180vh] xlarge:left-[6vw] xlarge:ml-0 xlarge:mb-0 xlarge:mt-0 xlarge:mr-0">
+
+        <div className=" relative top-[45vh] left-5 xsmall:left-2 small:left-[8vw] medium:left-[12vw] large:left-[17vw]  xlarge:-top-[40vh]  xlarge:left-[6vw] 2xlarge:-top-[50vh]">
           <h1 className=" text-[6vw] xsmall:text-[4vw] medium:text-[2.5vw] xlarge:text-[1.8vw] font-semibold">
             {CoinDetails?.name} Markets
           </h1>
 
-          <div className="mt-5 overflow-x-auto w-[90vw] xsmall:w-[90vw] small:w-[85vw] medium:w-[80vw] xlarge:w-[95vw]">
+          <div className="mt-5 overflow-x-auto w-[90vw] xsmall:w-[90vw] small:w-[85vw] medium:w-[80vw] xlarge:w-[92vw]">
             <table className="w-full border-collapse">
               <thead>
                 <tr className="bg-gray-700 rounded-2xl">
@@ -1490,7 +1511,7 @@ const CoinFullDetails = ({ contractAddress, marketsData }) => {
                   <th className="p-2 text-left text-sm font-semibold text-white">
                     Pair
                   </th>
-                  <th className="p-2 text-left mt-[2vh] text-sm font-semibold text-white flex items-center">
+                  <th className="p-2 text-left mt-[2vh] xlarge:mt-0 text-sm font-semibold text-white flex items-center">
                     Price
                     <button
                       className="ml-2 bg-transparent text-white"
@@ -1632,16 +1653,16 @@ const CoinFullDetails = ({ contractAddress, marketsData }) => {
             </button>
           </div>
         </div>
-        <div className=" relative w-[90vw] top-[46vh] xlarge:top-[15vh] left-5">
+        <div className=" relative w-[90vw] top-[46vh] xlarge:top-[150vh] left-5">
           <div className="mt-10">
             <CoinNewsInDetails />
           </div>
         </div>
-        <div className="p-4 relative xsmall:-left-5  top-[50vh] w-full xsmall:max-w-[90%] small:max-w-[80%] medium:max-w-2xl medium:-left-2 large:max-w-3xl xlarge:max-w-4x 2xlarge:max-w-5xl mx-auto">
-          <h1 className="text-xl xsmall:text-[4vw] small:text-[4vw] medium:text-[2.5vw] font-semibold mb-4">
+        <div className="p-4 relative xsmall:-left-5  top-[50vh] w-full xsmall:max-w-[90%] small:max-w-[80%] medium:max-w-2xl medium:-left-2 large:max-w-3xl xlarge:max-w-[40vw] xlarge:top-[70vh] xlarge:-left-[25vw] 2xlarge:max-w-[40vw] 2xlarge:top-[60vh] mx-auto">
+          <h1 className="text-xl xsmall:text-[4vw] small:text-[4vw] medium:text-[2.5vw] xlarge:text-[1.7vw] font-semibold mb-4">
             Trending Coins
           </h1>
-          <div className="space-y-2 xlarge:grid ">
+          <div className="space-y-2 xlarge:space-y-0 xlarge:grid xlarge:grid-cols-2 xlarge:w-[60vw] xlarge:gap-8 ">
             {TrendingCoins &&
               TrendingCoins.map((coin, index) => (
                 <div
@@ -1696,12 +1717,12 @@ const CoinFullDetails = ({ contractAddress, marketsData }) => {
               ))}
           </div>
         </div>
-        <div className="relative top-[53vh] left-5 xsmall:top-[53vh] small:top-[53vh] small:left-[9vw] medium:top-[53vh] medium:left-[14vw] large:left-[16vw]">
-          <h1 className="text-[4.5vw] xsmall:text-[3.5vw] small:text-[3vw] medium:text-[2.5vw] large:text-[2vw] text-blue-700 font-semibold">
+        <div className="relative top-[53vh] left-5 xsmall:top-[53vh] small:top-[53vh] small:left-[9vw] medium:top-[53vh] medium:left-[14vw] large:left-[16vw] xlarge:left-[6vw] xlarge:top-[75vh] 2xlarge:top-[65vh]">
+          <h1 className="text-[4.5vw] xsmall:text-[3.5vw] small:text-[3vw] medium:text-[2.5vw] large:text-[2vw] xlarge:text-[1.5vw] 2xlarge:text-[1.2vw] text-blue-700 font-semibold">
             {CoinDetails?.name} ({CoinDetails?.symbol.toUpperCase()}) price has
             increased today.
           </h1>
-          <p className="w-[90vw] xsmall:w-[90vw] small:w-[85vw] medium:w-[70vw] leading-7 mt-5 text-gray-500">
+          <p className="w-[90vw] xsmall:w-[90vw] small:w-[85vw] medium:w-[70vw]  2xlarge:w-[80vw] 2xlarge:text-[1vw] leading-7 mt-5 text-gray-500">
             The price of {CoinDetails?.name} (
             {CoinDetails?.symbol.toUpperCase()}) is{" "}
             <span className="text-amber-200">
@@ -1766,7 +1787,7 @@ const CoinFullDetails = ({ contractAddress, marketsData }) => {
             .
           </p>
         </div>
-        <div className=" relative top-[60vh] small:w-[100vw] ">
+        <div className=" relative  top-[60vh] xlarge:top-[80vh] xlarge:ml-0  xlarge:mb-0 xlarge:mr-0 small:w-[100vw] ">
           <Footer />
         </div>
       </div>

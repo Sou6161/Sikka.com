@@ -60,15 +60,15 @@ const CoinNewsInDetails = () => {
           </strong>
         </button>
       </div>
-      <div className="mt-10 p-2  xsmall:p-3  rounded-lg backdrop-blur-md backdrop-filter  outline-offset-2 overflow-x-auto hide-scrollbar xlarge:ml-[5vw] xlarge:w-[90vw] xlarge:border-l-2 xlarge:border-r-2 xlarge:relative xlarge:-top-[190vh]  ">
+      <div className="mt-10 p-2  xsmall:p-3  rounded-lg backdrop-blur-md backdrop-filter  outline-offset-2 overflow-x-auto hide-scrollbar xlarge:ml-[5vw] xlarge:w-[90vw]  xlarge:border-l-2 xlarge:border-r-2 xlarge:relative xlarge:-top-[190vh]  ">
         <ul className="pb-4 mt-2 flex-nowrap space-x-1  xsmall:space-x-1 medium:ml-[6vw] xlarge:flex ">
           {cryptoNews.map((article, index) => (
             <li
               key={index}
-              className="flex-shrink-0 small:mt-5 w-[80vw] xsmall:w-[80vw] small:w-[80vw] medium:w-[70vw] large:w-[75vw] xlarge:w-[40vw] 2xlarge:w-[23vw]  xlarge:-ml-[10vw] rounded-lg overflow-hidden transition-transform duration-300"
+              className="flex-shrink-0 small:mt-5 w-[80vw] xsmall:w-[80vw] small:w-[80vw] medium:w-[70vw] large:w-[75vw] xlarge:w-[40vw] 2xlarge:w-[30vw]  xlarge:-ml-[10vw] rounded-lg overflow-hidden transition-transform duration-300"
             >
               <img
-                className="w-full h-[28vh]  small:w-[75vw]   small:h-[35vh] small:ml-[5vw] medium:w-[65vw] medium:h-[40vh] large:w-[70vw] large:h-[50vh] xlarge:w-[30vw] xlarge:h-[30vh] border-2 border-purple-600 rounded-t-lg object-cover"
+                className="w-full h-[28vh]  small:w-[75vw]   small:h-[35vh] small:ml-[5vw] medium:w-[65vw] medium:h-[40vh] large:w-[70vw] large:h-[50vh] xlarge:w-[30vw] xlarge:h-[30vh] 2xlarge:w-[25vw] border-2 border-purple-600 rounded-t-lg object-cover"
                 src={article.imageurl}
                 alt="https://salonlfc.com/wp-content/uploads/2018/01/image-not-found-1-scaled.png"
               />
