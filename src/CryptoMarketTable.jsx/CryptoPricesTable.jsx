@@ -103,6 +103,8 @@ const CryptoPricesTable = () => {
     }
     setIsLoading(false);
   };
+
+  
   useEffect(() => {
     fetchCoins(currentPage);
   }, [currentPage]);
@@ -181,7 +183,7 @@ const CryptoPricesTable = () => {
                     <Link to={`/en/coins/${coin.id}`}>
                       <span className="text-[4vw] xsmall:text-sm 2xlarge:text-[1vw] font-medium w-[20vw] h-[6vh]  whitespace-normal xsmall:w-[33vw] text-gray-900 truncate ">
                         {coin.name}
-                        <h1 className="flex flex-col text-gray-600 text-[3vw] xsmall:text-[2vw] 2xlarge:text-[0.8vw]">
+                        <h1 className="flex flex-col text-gray-600 text-[3vw] xsmall:text-[2vw] xlarge:text-[1vw] 2xlarge:text-[0.8vw]">
                           {coin?.symbol?.toUpperCase()}
                         </h1>
                       </span>

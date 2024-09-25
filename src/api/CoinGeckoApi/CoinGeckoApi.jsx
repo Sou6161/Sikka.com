@@ -22,4 +22,12 @@ export const CoinGeckoRixerApi = {
   },
 };
 
+export const CoinGeckoChaloApi = {
+  method: "GET",
+  headers: {
+    accept: "application/json",
+    "x-cg-demo-api-key": "CG-DqWbYSVCpeXqW2u5FVrX8dxb",
+  },
+};
+
 

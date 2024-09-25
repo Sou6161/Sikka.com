@@ -15,6 +15,7 @@ import { FaBookOpen } from "react-icons/fa";
 import { ImNewspaper } from "react-icons/im";
 import { BiSolidUserAccount } from "react-icons/bi";
 import { IoBagSharp } from "react-icons/io5";
+import { Link } from "react-router-dom";
 
 const OnlyHeaderComp = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -186,7 +187,9 @@ const OnlyHeaderComp = () => {
                           className=" w-[86vw] 2xlarge:w-[14vw] text-[4vw] medium:text-[2.5vw] inline-flex gap-2   block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                         >
                           <PiRankingFill className=" text-[6vw] medium:text-[3vw] 2xlarge:text-[1vw] text-white" />
-                          <span className=" text-green-400 2xlarge:text-[1vw]">By Market Cap</span>
+                          <span className=" text-green-400 2xlarge:text-[1vw]">
+                            By Market Cap
+                          </span>
                         </a>
                       </li>
                       <li>
@@ -195,7 +198,9 @@ const OnlyHeaderComp = () => {
                           className=" w-[86vw]  2xlarge:w-[14vw] text-[4vw] medium:text-[2.5vw] inline-flex gap-2 block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                         >
                           <BiSolidCategory className=" text-[6vw] text-white medium:text-[3vw] 2xlarge:text-[1vw]" />
-                          <span className=" text-green-400 2xlarge:text-[1vw]">Categories</span>
+                          <span className=" text-green-400 2xlarge:text-[1vw]">
+                            Categories
+                          </span>
                         </a>
                       </li>
                       <li className=" ml-5 mt-2 mb-3 inline-flex">
@@ -203,15 +208,15 @@ const OnlyHeaderComp = () => {
                         <div className=" w-[65vw] medium:w-[40vw] 2xlarge:w-[9vw] border-b-[1px] border-gray-500 relative -top-2 left-1"></div>
                       </li>
                       <li>
-                        <a
-                          href="#"
+                        <Link
+                          to="/en/highlights"
                           className=" w-[86vw] 2xlarge:w-[14vw] text-[4vw] medium:text-[2  vw] inline-flex gap-2 block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                         >
                           <span className=" text-green-400 inline-flex gap-2 text-[4vw] medium:text-[2.5vw] 2xlarge:text-[1vw]">
                             <FaRectangleList className=" text-white text-[6vw] medium:text-[3vw] 2xlarge:text-[1vw] " />
                             Highlights
                           </span>
-                        </a>
+                        </Link>
                       </li>
                       <li>
                         <a

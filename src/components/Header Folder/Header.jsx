@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import { Link } from "react-router-dom";
 import MainPageMarquee from "../MarqueeComponent/MainPageMarquee";
 import HomePageData from "/Sourabh Web dev Projects/Sikka.com/src/HomePage/HomePageData";
 import logo from "/Sourabh Web dev Projects/Sikka.com/src/Images Folder/HeaderLogo.png";
@@ -126,7 +127,7 @@ const Header = () => {
               } w-full medium:block large:block medium:max-w-[62vw] medium:relative medium:mr-[19vw] large:mr-[22vw] `}
               id="navbar-dropdown"
             >
-              <ul className="2xlarge:ml-[0vw] h-[50vh] 2xlarge:h-[10vh] relative flex flex-col font-medium p-4 medium:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 medium:space-x-2 rtl:space-x-reverse medium:flex-row medium:mt-0 medium:border-0 medium:bg-white dark:bg-gray-800 medium:dark:bg-gray-900 dark:border-gray-700">
+              <ul className="2xlarge:ml-[0vw] h-[50vh] 2xlarge:h-[6vh] relative flex flex-col font-medium p-4 medium:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 medium:space-x-2 rtl:space-x-reverse medium:flex-row medium:mt-0 medium:border-0 medium:bg-white dark:bg-gray-800 medium:dark:bg-gray-900 dark:border-gray-700">
                 <div className="relative z-99999 inline-block  text-left">
                   <button
                     onClick={toggleCryptocurrenciesDropdown}
@@ -141,7 +142,7 @@ const Header = () => {
                       viewBox="0 0 10 6"
                     >
                       <path
-                        stroke="black"
+                        stroke="currentcolor"
                         strokeLinecap="round"
                         strokeLinejoin="round"
                         strokeWidth="2"
@@ -154,7 +155,7 @@ const Header = () => {
                       <ul className="py-2 text-sm text-gray-700 dark:text-gray-400">
                         <li className=" ">
                           <a
-                            href="#"
+                            href="/"
                             className=" w-[86vw] 2xlarge:w-[15vw] text-[4vw] inline-flex gap-2   block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                           >
                             <PiRankingFill className=" text-[6vw] 2xlarge:text-[1vw] text-white" />
@@ -164,13 +165,13 @@ const Header = () => {
                           </a>
                         </li>
                         <li>
-                          <a
-                            href="#"
+                          <Link
+                            to="/en/categories"
                             className=" w-[86vw] 2xlarge:w-[15vw]  text-[4vw] inline-flex gap-2 block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                           >
                             <BiSolidCategory className=" text-[6vw] 2xlarge:text-[1vw] text-white" />
                             <span className=" text-green-400 2xlarge:text-[1vw]">Categories</span>
-                          </a>
+                          </Link>
                         </li>
                         <li className=" ml-5 mt-2 mb-3 inline-flex">
                           Popular
@@ -510,7 +511,7 @@ const Header = () => {
                 </div>
 
                 <li
-                  className="hidden large:block absolute top-0 left-[50vw] medium:left-[45vw] large:left-[57vw] xlarge:left-[52vw] 2xlarge:left-[55vw]"
+                  className="hidden 2xlarge:hidden large:block absolute top-0 left-[50vw] medium:left-[45vw] large:left-[57vw] xlarge:left-[52vw] 2xlarge:left-[55vw]"
                   ref={searchRef}
                 >
                   <button
@@ -652,7 +653,7 @@ const Header = () => {
             Your browser does not support the video tag.
           </video>
           <div className="absolute inset-0 bg-black bg-opacity-80"></div>
-          <div className="hidden 2xlarge:block absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[50vw] h-[45vh] backdrop-filter backdrop-blur-md bg-zinc-500 bg-opacity-15 rounded-lg">
+          <div className="hidden 2xlarge:block  absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[50vw] h-[45vh] backdrop-filter backdrop-blur-md bg-zinc-500 bg-opacity-15 rounded-lg">
             <div className="card">
               <div className="content">
                 <p className="heading relative bottom-[10vh]">
@@ -723,8 +724,8 @@ const Header = () => {
           </div>
         </div>
 
-        <div className="bg-black py-1 large:hidden">
-          <div className="group mt-1 mx-auto w-[95vw] 2xlarge:hidden">
+        <div className="bg-black py-1 large:hidden 2xlarge:hidden">
+          <div className="group mt-1 mx-auto w-[95vw]  ">
             <svg viewBox="0 0 24 24" aria-hidden="true" className="icon">
               <g>
                 <path d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z"></path>
