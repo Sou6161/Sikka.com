@@ -193,15 +193,15 @@ const OnlyHeaderComp = () => {
                         </a>
                       </li>
                       <li>
-                        <a
-                          href="#"
+                        <Link
+                          to="/en/categories"
                           className=" w-[86vw]  2xlarge:w-[14vw] text-[4vw] medium:text-[2.5vw] inline-flex gap-2 block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                         >
                           <BiSolidCategory className=" text-[6vw] text-white medium:text-[3vw] 2xlarge:text-[1vw]" />
                           <span className=" text-green-400 2xlarge:text-[1vw]">
                             Categories
                           </span>
-                        </a>
+                        </Link>
                       </li>
                       <li className=" ml-5 mt-2 mb-3 inline-flex">
                         Popular
@@ -220,7 +220,7 @@ const OnlyHeaderComp = () => {
                       </li>
                       <li>
                         <a
-                          href="#"
+                          href="/en/new-cryptocurrencies"
                           className=" w-[86vw] 2xlarge:w-[14vw] text-[4vw] medium:text-[2.5vw] inline-flex gap-2 block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                         >
                           <span className=" text-green-400 truncate inline-flex gap-2 text-[4vw] medium:text-[2.5vw] 2xlarge:text-[1vw]">
@@ -233,7 +233,7 @@ const OnlyHeaderComp = () => {
                       </li>
                       <li>
                         <a
-                          href="#"
+                          href="/en/crypto-Top-gainers-losers"
                           className=" w-[86vw] 2xlarge:w-[14vw] text-[4vw] inline-flex gap-2 block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                         >
                           <span className=" text-green-400 inline-flex gap-2 text-[4vw] medium:text-[2.5vw] 2xlarge:text-[1vw]">
@@ -248,7 +248,7 @@ const OnlyHeaderComp = () => {
                       </li>
                       <li>
                         <a
-                          href="#"
+                          href="/en/all-cryptocurrencies"
                           className=" w-[86vw] 2xlarge:w-[14vw] 2xlarge:w-[9vw] text-[4vw] inline-flex gap-2 block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                         >
                           <span className=" text-green-400 inline-flex ml-1 text-[4vw] medium:text-[2.5vw] 2xlarge:text-[1vw]">
@@ -258,7 +258,7 @@ const OnlyHeaderComp = () => {
                       </li>
                       <li>
                         <a
-                          href="#"
+                          href="/en/compare-cryptocurrencies"
                           className=" w-[86vw] 2xlarge:w-[14vw] text-[4vw] inline-flex gap-2 block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                         >
                           <span className=" text-green-400 inline-flex ml-1 text-[4vw] medium:text-[2.5vw] 2xlarge:text-[1vw]">
@@ -268,7 +268,7 @@ const OnlyHeaderComp = () => {
                       </li>
                       <li>
                         <a
-                          href="#"
+                          href="/en/coin-converter"
                           className=" w-[86vw] 2xlarge:w-[14vw] text-[4vw] inline-flex gap-2 block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                         >
                           <span className=" text-green-400 inline-flex ml-1 text-[4vw] medium:text-[2.5vw] 2xlarge:text-[1vw]">
