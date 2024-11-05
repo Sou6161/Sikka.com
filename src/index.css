@@ -614,34 +614,34 @@
 }
 
 .blink-green {
-  animation: blink-green 2s infinite;
+  animation: blink-green 1s infinite;
 }
 
 .blink-red {
-  animation: blink-red 2s infinite;
+  animation: blink-red 1s infinite;
 }
 
 @keyframes blink-green {
   0% {
-    color: #64f86e; /* green-600 */
+    opacity: 1;
   }
   50% {
-    color: #2e865f; /* green-400 */
+    opacity: 0.5;
   }
   100% {
-    color: #64f86e; /* green-600 */
+    opacity: 1;
   }
 }
 
 @keyframes blink-red {
   0% {
-    color: #fc6060; /* light red */
+    opacity: 1;
   }
   50% {
-    color: #ff001e; /* dark red */
+    opacity: 0.5;
   }
   100% {
-    color: #fa5d5d; /* light red */
+    opacity: 1;
   }
 }
 

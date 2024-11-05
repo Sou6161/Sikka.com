@@ -9,6 +9,7 @@ import CompareCoins from "../components/CryptoTools/CompareCoins.jsx";
 import CoinConverter from "../components/CryptoTools/CoinConverter.jsx";
 import NewCryptocurrenciesPage from "../components/NewCryptos/NewCryptocurrenciesPage.jsx";
 import TopGainersLosers from "../components/Gainers&Losers/TopGainers&Losers.jsx";
+import AllCategoriesCoins from "../components/CategoriesList/AllCategoriesCoins.jsx";
 
 const RoutesConfig = () => {
   return (
@@ -20,6 +21,7 @@ const RoutesConfig = () => {
       />
       <Route path="/en/coins/:id" element={<CoinFullDetails />} />
       <Route path="/en/categories" element={<CryptoCategoriesByMC />} />
+      <Route path="/en/categories/:id" element={<AllCategoriesCoins/>}/>
       <Route path="/en/highlights" element={<CryptoHighlightsData/>}/>
       <Route path="/en/all-cryptocurrencies" element={<AllCoins/>}/>
       <Route path="/en/compare-cryptocurrencies" element={<CompareCoins/>}/>

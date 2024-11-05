@@ -21,6 +21,7 @@ const Footer = () => {
                 href="#"
                 className="text-gray-400 hover:text-white transition-colors"
               >
+              
                 <Twitter size={20} />
               </a>
               <a
@@ -72,7 +73,8 @@ const Footer = () => {
               <li className="flex items-center">
                 <Mail size={16} className="mr-2 medium:mr-0" />
                 <a
-                  href="mailto:info@cryptoconnect.com"
+                  href="#"
+                  onClick={() => window.location = "mailto:info@coinfam.com"}
                   className="hover:text-white transition-colors xlarge:text-[1.vw]"
                 >
                   info@coinfam.com
@@ -89,7 +91,7 @@ const Footer = () => {
           <p>&copy; 2024 CoinFam. All rights reserved.</p>
         </div>
       </div>
-      <style jsx>{`
+      <style jsx="true">{`
         @keyframes gradient {
           0% {
             background-position: 0% 50%;

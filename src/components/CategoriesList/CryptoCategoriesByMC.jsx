@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import OnlyHeaderComp from "../Header Folder/OnlyHeaderComp";
 import MainPageMarquee from "../MarqueeComponent/MainPageMarquee";
-import { CoinGeckoChaloApi } from "../../api/CoinGeckoApi/CoinGeckoApi";
+import {
+  CoinGeckoChaloApi,
+} from "../../api/CoinGeckoApi/CoinGeckoApi";
 import { Link } from "react-router-dom";
 import Footer from "../../Footer/Footer";
 
@@ -10,7 +12,6 @@ const CryptoCategoriesByMC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [hasNextPage, setHasNextPage] = useState(true);
   const [coinsPerPage] = useState(100);
-
   const [isLoading, setIsLoading] = useState(true);
 
   const renderPercentageChange = (value) => {
@@ -19,9 +20,14 @@ const CryptoCategoriesByMC = () => {
     }
     const formattedValue = value.toFixed(2);
     const colorClass =
-      value >= 0 ? "text-green-600 blink-green" : "text-red-600 blink-red ";
+      value >= 0 ? "text-green-600 blink-green" : "text-red-600 blink-red";
     return (
-      <span className={`font-semibold ${colorClass}`}>{formattedValue}%</span>
+      <span className={`font-semibold ${colorClass}`}>
+        <span style={{ color: value < 0 ? "red" : "" }}>
+          {value < 0 ? "" : "+"}
+          {formattedValue}%
+        </span>
+      </span>
     );
   };
 
@@ -101,7 +107,7 @@ const CryptoCategoriesByMC = () => {
           within the category and their price performance. Note: Some
           cryptocurrencies may overlap across multiple categories.
         </p>
-        <div className=" bg-black mt-[10vh] ">
+        <div className=" bg-black mt-[10vh] px-2 ">
           <div className="overflow-x-auto   w-full border-2 border-purple-500 rounded-lg">
             <table className="min-w-full bg-white rounded-lg">
               <thead className="bg-gray-100">
@@ -135,7 +141,7 @@ const CryptoCategoriesByMC = () => {
                       </td>
                       <td className="sticky left-8 xsmall:left-9 z-10 bg-zinc-300/50 backdrop-blur-sm px-2 py-2 xsmall:px-3 xsmall:py-4 max-w-[150px] xsmall:max-w-[200px]">
                         <div className="flex items-center">
-                          <Link to={`/en/coins/${coin.id}`}>
+                          <Link to={`/en/categories/${coin.id}`}>
                             <span className="text-[3.5vw] xsmall:text-sm 2xlarge:text-[1vw] font-medium w-[20vw] h-[6vh]  whitespace-normal  xsmall:w-[33vw] text-gray-900 truncate ">
                               {coin.name}
                             </span>
@@ -151,7 +157,7 @@ const CryptoCategoriesByMC = () => {
                           : "N/A"}
                       </td>
 
-                      <td className="px-3 py-2 xsmall:px-6 xsmall:py-4 whitespace-nowrap text-xs xsmall:text-sm">
+                      <td className="px-3 py-2 xsmall:px-6 xsmall:py-4  whitespace-nowrap text-xs xsmall:text-sm">
                         {renderPercentageChange(coin.market_cap_change_24h)}
                       </td>
 
@@ -179,6 +185,7 @@ const CryptoCategoriesByMC = () => {
             </table>
           </div>
         </div>
+        
         <div className="flex justify-between bg-black items-center mt-5  px-3 xsmall:px-6">
           <button
             onClick={handlePrevPage}

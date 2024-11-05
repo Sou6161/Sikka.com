@@ -17,6 +17,7 @@ import {
 import {
   CoinGeckoApi,
   CoinGeckoRixerApi,
+  CoinGeckoSanderApi,
   CoinGeckoYogeshApi,
 } from "../../api/CoinGeckoApi/CoinGeckoApi";
 import { MdSwapVert } from "react-icons/md";
@@ -88,6 +89,7 @@ const CoinFullDetails = ({ contractAddress, marketsData }) => {
   const [renderedNews, setRenderedNews] = useState([]);
   const [TrendingCoins, setTrendingCoins] = useState(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
 
   useEffect(() => {
     const handleResize = () => {
@@ -521,6 +523,7 @@ const CoinFullDetails = ({ contractAddress, marketsData }) => {
     TrendingCoins && console.log(TrendingCoins, "Trending Coins");
   }, [TrendingCoins]);
 
+  
   return (
     <>
       <div>
@@ -1139,7 +1142,7 @@ const CoinFullDetails = ({ contractAddress, marketsData }) => {
             </h1>
             <h1 className="font-bold small:ml-[5vw] medium:-ml-[10vw] large:-ml-[7vw]">
               {CoinDetails?.market_data?.total_supply.toFixed(0)}
-            </h1> 
+            </h1>
           </div>
           <div className=" border-b-[1px] mt-4  w-[90vw] small:w-[80vw] medium:w-[60vw] xlarge:w-[35vw]"></div>
           <div className=" inline-flex mt-3">

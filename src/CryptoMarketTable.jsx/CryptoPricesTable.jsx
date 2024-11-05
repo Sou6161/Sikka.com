@@ -9,7 +9,7 @@ import {
 import { Sparklines, SparklinesLine } from "react-sparklines";
 import { Link } from "react-router-dom";
 
-const CoinSparkline = ({ coinData }) => {
+ const CoinSparkline = ({ coinData }) => {
   const trend =
     coinData[coinData.length - 1] > coinData[0] ? "#00FF00" : "#FF0000";
   const [blink, setBlink] = useState(false);

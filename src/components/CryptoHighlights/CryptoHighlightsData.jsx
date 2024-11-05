@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import OnlyHeaderComp from "../Header Folder/OnlyHeaderComp";
 import MainPageMarquee from "../MarqueeComponent/MainPageMarquee";
 import { CoinGeckoChaloApi } from "../../api/CoinGeckoApi/CoinGeckoApi";
+import TrendingCoins from "./TrendingCoins";
+import TopGainers from "./TopGainers";
+import TopLosers from "./TopLosers";
 
 const CryptoHighlightsData = () => {
   const [TrendingCoinsHL, setTrendingCoinsHL] = useState(null);
@@ -27,7 +30,7 @@ const CryptoHighlightsData = () => {
   }, []);
 
   useEffect(() => {
-    TrendingCoinsHL && console.log(TrendingCoinsHL, "Trending Coins ");
+    // TrendingCoinsHL && console.log(TrendingCoinsHL, "Trending Coins ");
   }, [TrendingCoinsHL]);
 
   useEffect(() => {
@@ -58,7 +61,7 @@ const CryptoHighlightsData = () => {
   }, []);
 
   useEffect(() => {
-    TopCryptoGainers && console.log(TopCryptoLosers, " Top Crypto Gainers");
+    TopCryptoGainers && console.log(TopCryptoGainers, " Top Crypto Gainers");
     TopCryptoLosers && console.log(TopCryptoLosers, "Top Crypto Losers ");
   }, [TopCryptoGainers, TopCryptoLosers]);
 
@@ -171,8 +174,14 @@ const CryptoHighlightsData = () => {
         <p className="text-gray-500 ml-5 relative top-10 mt-2 text-[4vw]">
           Which cryptocurrencies are people more interested in? Track and
           discover the most interesting cryptocurrencies based on market and
-          CoinGecko activity.
+          CoinFam activity.
         </p>
+
+        <div className="">
+          <TrendingCoins TrendingCoinsHL={TrendingCoinsHL} />
+          <TopGainers TopCryptoGainers={TopCryptoGainers}/>
+          <TopLosers TopCryptoLosers={TopCryptoLosers}/>
+        </div>
       </div>
     </>
   );

@@ -17,6 +17,7 @@ import { TiStarburst } from "react-icons/ti";
 import { FaBookOpen } from "react-icons/fa";
 import { ImNewspaper } from "react-icons/im";
 import { BiSolidUserAccount } from "react-icons/bi";
+import { PiSuitcaseFill } from "react-icons/pi";
 
 const Header = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -33,11 +34,211 @@ const Header = () => {
   const [isNFTDropdownOpen, setIsNFTDropdownOpen] = useState(false);
   const [isLearnDropdownOpen, setIsLearnDropdownOpen] = useState(false);
   const [isMyPortfolio, setisMyPortfolio] = useState(false);
-  const [isMyAccountOpen, setisMyAccountOpen] = useState(false)
+  const [isMyAccountOpen, setisMyAccountOpen] = useState(false);
+  const [isMediumScreen, setIsMediumScreen] = useState(false);
+  const [isMoreDropdownOpen, setIsMoreDropdownOpen] = useState(false);
+  const [shouldShowMoreDropdown, setShouldShowMoreDropdown] = useState(false);
 
-  const toggleMyAccountDropdown =()=>{
-    setisMyAccountOpen(!isMyAccountOpen)
-  }
+  useEffect(() => {
+    const checkScreenSize = () => {
+      // Show More dropdown for all screens >= 768px (medium and above)
+      setShouldShowMoreDropdown(
+        window.innerWidth >= 768 && window.innerWidth <= 1536
+      );
+    };
+
+    checkScreenSize();
+    window.addEventListener("resize", checkScreenSize);
+    return () => window.removeEventListener("resize", checkScreenSize);
+  }, []);
+
+  const closeAllDropdowns = () => {
+    setIsMoreDropdownOpen(false);
+    setIsNFTDropdownOpen(false);
+    setIsLearnDropdownOpen(false);
+    setisMyPortfolio(false);
+    setisMyAccountOpen(false);
+  };
+
+  const MenuItems = () => (
+    <div className=" 2xlarge:flex mt-4 w-full">
+      {/* NFT Menu */}
+      <div className="w-full 2xlarge:h-[6vh]  2xlarge:mt-2">
+        <a
+          onClick={() => setIsNFTDropdownOpen(!isNFTDropdownOpen)}
+          className="block w-full px-4 NavLinkBUtton py-2 2xlarge:py-[0.7vh] text-white hover:bg-gray-600"
+        >
+          <span className="flex items-center gap-2 ">
+            <RiNftLine className="text-white" />
+            NFT
+            <svg
+              className="w-2.5 h-2.5 ml-auto 2xlarge:ml-0 "
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 10 6"
+            >
+              <path
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="m1 1 4 4 4-4"
+              />
+            </svg>
+          </span>
+        </a>
+        {isNFTDropdownOpen && (
+          <div className="pl-4 mt-2 rounded- 2xlarge:pl-0  2xlarge:w-[10vw]">
+            <a
+              href="#"
+              className="block px-2 py-2 text-white hover:bg-gray-600"
+            >
+              NFT Floor Price
+            </a>
+            <a
+              href="#"
+              className="block px-2 py-2 text-white hover:bg-gray-600"
+            >
+              NFT Related Coins
+            </a>
+            <a
+              href="#"
+              className="block px-2 py-2 text-white hover:bg-gray-600"
+            >
+              NFT Watchlist
+            </a>
+          </div>
+        )}
+      </div>
+
+      {/* Learn Menu */}
+      <div className="w-full mt-2  2xlarge:mt-2 2xlarge:ml-2">
+        <a
+          onClick={() => setIsLearnDropdownOpen(!isLearnDropdownOpen)}
+          className="block w-full px-4 py-2 2xlarge:py-[0.7vh] NavLinkBUtton text-white hover:bg-gray-600"
+        >
+          <span className="flex items-center gap-2">
+            <FaBookOpen className="text-white" />
+            Learn
+            <svg
+              className="w-2.5 h-2.5 ml-auto"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 10 6"
+            >
+              <path
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="m1 1 4 4 4-4"
+              />
+            </svg>
+          </span>
+        </a>
+        {isLearnDropdownOpen && (
+          <div className="pl-4">
+            <a
+              href="#"
+              className="block px-4 py-2 text-white hover:bg-gray-600"
+            >
+              Research Insights
+            </a>
+            <a
+              href="#"
+              className="block px-4 py-2 text-white hover:bg-gray-600"
+            >
+              Crypto News
+            </a>
+          </div>
+        )}
+      </div>
+
+      {/* My Portfolio Menu */}
+      <div className="w-full mt-2 2xlarge:mt-2 ">
+        <a
+          onClick={() => setisMyPortfolio(!isMyPortfolio)}
+          className="block w-full px-4 py-2 2xlarge:py-[0.7vh] 2xlarge:ml-2 NavLinkBUtton  text-white hover:bg-gray-600"
+        >
+          <span className="flex items-center gap-2 2xlarge:w-[10vw] 2xlarge:flex">
+          <PiSuitcaseFill className="text-white" />
+            My Portfolio
+            <svg
+              className="w-2.5 h-2.5 ml-auto"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 10 6"
+            >
+              <path
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="m1 1 4 4 4-4"
+              />
+            </svg>
+          </span>
+        </a>
+        {isMyPortfolio && (
+          <div className="pl-4">
+            <a
+              href="#"
+              className="block px-4 py-2 text-white hover:bg-gray-600"
+            >
+              My Coins
+            </a>
+            <a
+              href="#"
+              className="block px-4 py-2 text-white hover:bg-gray-600"
+            >
+              My NFTs
+            </a>
+          </div>
+        )}
+      </div>
+
+      {/* My Account Menu */}
+      <div className="w-full mt-2 2xlarge:mt-2">
+        <a
+          onClick={() => setisMyAccountOpen(!isMyAccountOpen)}
+          className="block w-full px-4 py-2 2xlarge:py-[0.7vh] 2xlarge:ml-4 NavLinkBUtton text-white hover:bg-gray-600"
+        >
+          <span className="flex items-center gap-2 2xlarge:w-[9vw] 2xlarge:flex">
+            <BiSolidUserAccount className="text-white" />
+            My Account
+            <svg
+              className="w-2.5 h-2.5 ml-auto"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 10 6"
+            >
+              <path
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="m1 1 4 4 4-4"
+              />
+            </svg>
+          </span>
+        </a>
+        {isMyAccountOpen && (
+          <div className="pl-4">
+            <a
+              href="#"
+              className="block px-4 py-2 text-white hover:bg-gray-600"
+            >
+              Sign Up
+            </a>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+
+  const toggleMyAccountDropdown = () => {
+    setisMyAccountOpen(!isMyAccountOpen);
+  };
 
   const toggleMyPortfolioDropdown = () => {
     setisMyPortfolio(!isMyPortfolio);
@@ -92,7 +293,7 @@ const Header = () => {
   return (
     <>
       <>
-        <nav className="relative z-10 bg-white border-gray-200 dark:bg-gray-900 dark:border-gray-700">
+        <nav className="relative z-10 bg-white medium:bg-red-600 border-gray-200 dark:bg-gray-900 dark:border-gray-700">
           <div className="max-w-screen-xl  flex flex-wrap items-center justify-between mx-auto p-2 2xlarge:p-[1.7vh]">
             <a
               href="/"
@@ -124,16 +325,18 @@ const Header = () => {
             <div
               className={`${
                 isDropdownOpen ? "block" : "hidden"
-              } w-full medium:block large:block medium:max-w-[62vw] medium:relative medium:mr-[19vw] large:mr-[22vw] `}
+              } w-full medium:block large:block medium:max-w-[62vw]  medium:relative medium:mr-[19vw] large:mr-[22vw] `}
               id="navbar-dropdown"
             >
-              <ul className="2xlarge:ml-[0vw] h-[50vh] 2xlarge:h-[6vh] relative flex flex-col font-medium p-4 medium:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 medium:space-x-2 rtl:space-x-reverse medium:flex-row medium:mt-0 medium:border-0 medium:bg-white dark:bg-gray-800 medium:dark:bg-gray-900 dark:border-gray-700">
+              <ul className="2xlarge:-ml-[2vw] h-[50vh] medium:h-[7vh]  2xlarge:h-[6vh] relative flex flex-col font-medium p-4 medium:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 medium:space-x-2 rtl:space-x-reverse medium:flex-row medium:mt-0 medium:border-0 medium:bg-white dark:bg-gray-800 medium:dark:bg-gray-900 dark:border-gray-700">
                 <div className="relative z-99999 inline-block  text-left">
                   <button
                     onClick={toggleCryptocurrenciesDropdown}
                     className="NavLinkBUtton medium:mt-2 flex items-center justify-between w-full py-2 px-3 rounded medium:w-auto text-gray-900 hover:bg-gray-100 medium:hover:bg-transparent medium:border-0 medium:hover:text-blue-700 dark:text-white medium:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white medium:dark:hover:bg-transparent"
                   >
-                    <span className="NavSpanSecondButton">Cryptocurrencies</span>
+                    <span className="NavSpanSecondButton">
+                      Cryptocurrencies
+                    </span>
                     <svg
                       className="w-2.5 h-2.5 ms-2.5"
                       aria-hidden="true"
@@ -151,15 +354,15 @@ const Header = () => {
                     </svg>
                   </button>
                   {isCryptocurrenciesOpen && (
-                    <div className="absolute z-20 right-0 w-[86vw] mt-2 2xlarge:w-[15vw]  bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600">
+                    <div className="absolute z-20 right-0 w-[86vw] large:w-[22vw] large:-left-10 mt-2 medium:-left-[2vw] medium:w-[28vw]    bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 medium:dark:bg-gray-700 dark:divide-gray-600">
                       <ul className="py-2 text-sm text-gray-700 dark:text-gray-400">
                         <li className=" ">
                           <a
                             href="/"
                             className=" w-[86vw] 2xlarge:w-[15vw] text-[4vw] inline-flex gap-2   block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                           >
-                            <PiRankingFill className=" text-[6vw] 2xlarge:text-[1vw] text-white" />
-                            <span className=" text-green-400 2xlarge:text-[1vw]">
+                            <PiRankingFill className=" text-[6vw] medium:text-[3vw] large:text-[2vw] 2xlarge:text-[1vw]  text-white" />
+                            <span className=" text-green-400 medium:text-[2vw] large:text-[1.7vw] 2xlarge:text-[1vw]">
                               By Market Cap
                             </span>
                           </a>
@@ -169,8 +372,10 @@ const Header = () => {
                             to="/en/categories"
                             className=" w-[86vw] 2xlarge:w-[15vw]  text-[4vw] inline-flex gap-2 block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                           >
-                            <BiSolidCategory className=" text-[6vw] 2xlarge:text-[1vw] text-white" />
-                            <span className=" text-green-400 2xlarge:text-[1vw]">Categories</span>
+                            <BiSolidCategory className=" text-[6vw] medium:text-[3vw] large:text-[2vw] 2xlarge:text-[1vw] text-white" />
+                            <span className=" text-green-400 medium:text-[2vw] large:text-[1.7vw] 2xlarge:text-[1vw]">
+                              Categories
+                            </span>
                           </Link>
                         </li>
                         <li className=" ml-5 mt-2 mb-3 inline-flex">
@@ -182,8 +387,8 @@ const Header = () => {
                             href="#"
                             className=" w-[86vw] 2xlarge:w-[15vw] text-[4vw] inline-flex gap-2 block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                           >
-                            <span className=" text-green-400 inline-flex gap-2 text-[4vw] 2xlarge:text-[1vw]">
-                              <FaRectangleList className=" text-white text-[6vw] 2xlarge:text-[1vw]" />
+                            <span className=" text-green-400 inline-flex gap-2 text-[4vw] large:text-[2vw] medium:text-[2vw] 2xlarge:text-[1vw]">
+                              <FaRectangleList className=" text-white text-[6vw] large:text-[1.7vw] medium:text-[3vw] 2xlarge:text-[1vw]" />
                               Highlights
                             </span>
                           </a>
@@ -193,9 +398,9 @@ const Header = () => {
                             href="#"
                             className=" w-[86vw] 2xlarge:w-[15vw] text-[4vw] inline-flex gap-2 block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                           >
-                            <span className=" text-green-400 truncate inline-flex gap-2 text-[4vw] 2xlarge:text-[1vw]">
-                              <PiSparkleFill className=" text-white text-[6vw] 2xlarge:text-[1vw]" />
-                              <span className=" truncate">
+                            <span className=" text-green-400 truncate inline-flex gap-2 text-[4vw]  2xlarge:text-[1vw]">
+                              <PiSparkleFill className=" text-white text-[6vw] medium:text-[3vw] large:text-[2vw] 2xlarge:text-[1vw]" />
+                              <span className=" truncate medium:text-[2vw] large:text-[1.7vw]">
                                 New Cryptocurrencies
                               </span>
                             </span>
@@ -206,8 +411,8 @@ const Header = () => {
                             href="#"
                             className=" w-[86vw] 2xlarge:w-[15vw] text-[4vw] inline-flex gap-2 block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                           >
-                            <span className=" text-green-400 inline-flex gap-2 text-[4vw] 2xlarge:text-[1vw]">
-                              <GiTrophy className="  text-white text-[6vw] 2xlarge:text-[1vw]" />
+                            <span className=" text-green-400 inline-flex gap-2 text-[4vw] medium:text-[2vw] large:text-[1.7vw] 2xlarge:text-[1vw]">
+                              <GiTrophy className="  text-white text-[6vw] medium:text-[3vw] large:text-[2vw] 2xlarge:text-[1vw]" />
                               Gainers & Losers
                             </span>
                           </a>
@@ -221,7 +426,7 @@ const Header = () => {
                             href="#"
                             className=" w-[86vw] 2xlarge:w-[15vw] text-[4vw] inline-flex gap-2 block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                           >
-                            <span className=" text-green-400 inline-flex ml-1 text-[4vw] 2xlarge:text-[1vw]">
+                            <span className=" text-green-400 inline-flex ml-1 text-[4vw] medium:text-[2vw] large:text-[1.7vw] 2xlarge:text-[1vw]">
                               All Coins
                             </span>
                           </a>
@@ -231,7 +436,7 @@ const Header = () => {
                             href="#"
                             className=" w-[86vw] 2xlarge:w-[15vw] text-[4vw] inline-flex gap-2 block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                           >
-                            <span className=" text-green-400 inline-flex ml-1 text-[4vw] 2xlarge:text-[1vw]">
+                            <span className=" text-green-400 inline-flex ml-1 text-[4vw] medium:text-[2vw] large:text-[1.7vw] 2xlarge:text-[1vw]">
                               Comapare Coins
                             </span>
                           </a>
@@ -241,7 +446,7 @@ const Header = () => {
                             href="#"
                             className=" w-[86vw] 2xlarge:w-[15vw] text-[4vw] inline-flex gap-2 block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                           >
-                            <span className=" text-green-400  inline-flex ml-1 text-[4vw] 2xlarge:text-[1vw]">
+                            <span className=" text-green-400  inline-flex ml-1 text-[4vw] medium:text-[2vw] large:text-[1.7vw] 2xlarge:text-[1vw]">
                               Converter
                             </span>
                           </a>
@@ -250,10 +455,10 @@ const Header = () => {
                     </div>
                   )}
                 </div>
-                <div className="relative z-99998 inline-block top-2 2xlarge:top-0 text-left">
+                <div className="relative z-99998 inline-block top-2 2xlarge:top-2 text-left">
                   <button
                     onClick={toggleExchangesDropdown}
-                    className=" NavLinkBUtton medium:mt-2 flex items-center justify-between w-full py-2 px-3 rounded medium:w-auto text-gray-900 hover:bg-gray-100 medium:hover:bg-transparent medium:border-0 medium:hover:text-blue-700 dark:text-white medium:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white medium:dark:hover:bg-transparent"
+                    className=" NavLinkBUtton medium:mt- flex items-center justify-between w-full py-2 px-3 rounded medium:w-auto text-gray-900 hover:bg-gray-100 medium:hover:bg-transparent medium:border-0 medium:hover:text-blue-700 dark:text-white medium:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white medium:dark:hover:bg-transparent"
                   >
                     Exchanges
                     <svg
@@ -273,15 +478,15 @@ const Header = () => {
                     </svg>
                   </button>
                   {isExchangesOpen && (
-                    <div className="absolute z-9999 right-0 w-[86vw] 2xlarge:w-[8vw] mt-2 bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600">
+                    <div className="absolute z-9999 right-0 w-[86vw]  large:w-[20vw] medium:w-[30vw] medium:-left-[0vw]  2xlarge:w-[8vw] mt-2 bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600">
                       <ul className="py-2 text-sm text-gray-700 dark:text-gray-400">
                         <li>
                           <a
                             href="#"
                             className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                           >
-                            <span className=" inline-flex relative gap-2 text-[4vw] 2xlarge:text-[1vw] text-green-400">
-                              <BsBank className=" text-[6vw] 2xlarge:text-[1vw] text-white" />
+                            <span className=" inline-flex relative gap-2 text-[4vw] medium:text-[2vw] large:text-[1.7vw] 2xlarge:text-[1vw] text-green-400">
+                              <BsBank className=" text-[6vw] medium:text-[3vw] large:text-[1.7vw] 2xlarge:text-[1vw] text-white" />
                               Crypto Exchanges
                             </span>
                           </a>
@@ -291,8 +496,8 @@ const Header = () => {
                             href="#"
                             className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                           >
-                            <span className="inline-flex relative gap-2 text-[4vw] 2xlarge:text-[1vw] text-green-400">
-                              <IoCubeSharp className=" text-[6vw] 2xlarge:text-[1vw] text-white" />
+                            <span className="inline-flex relative gap-2 text-[4vw] medium:text-[2vw] large:text-[1.7vw] 2xlarge:text-[1vw] text-green-400">
+                              <IoCubeSharp className=" text-[6vw] medium:text-[3vw] large:text-[1.7vw] 2xlarge:text-[1vw] text-white" />
                               Derivatives
                             </span>
                           </a>
@@ -301,236 +506,70 @@ const Header = () => {
                     </div>
                   )}
                 </div>
-                <div className="relative inline-block text-left top-4 2xlarge:top-0 ">
-                  <a
-                    onClick={() => toggleNFTDropdown()}
-                    className="NavLinkBUtton medium:mt-2 flex items-center justify-between w-full py-2 px-3 rounded medium:w-auto text-white hover:text-white hover:bg-opacity-20 medium:hover:bg-transparent medium:border-0 dark:text-white medium:dark:hover:text-white dark:hover:bg-opacity-20 dark:hover:text-white medium:dark:hover:bg-transparent"
-                  >
-                    NFT
-                    <svg
-                      className="w-2.5 h-2.5 ms-2.5 text-white"
-                      aria-hidden="true"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 10 6"
-                    >
-                      <path
-                        stroke="currentColor"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="m1 1 4 4 4-4"
-                      />
-                    </svg>
-                  </a>
-                  {isNFTDropdownOpen && (
-                    <div className="absolute z-99999 right-0 w-[86vw] 2xlarge:w-[10vw] mt-2 bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600">
-                      <ul>
-                        <li>
-                          <a
-                            href="#"
-                            className="block py-4 px-3 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-                          >
-                            <span className="inline-flex relative gap-2 text-[4vw] 2xlarge:text-[1vw] text-green-400">
-                              <RiNftLine className=" text-[6vw] 2xlarge:text-[1vw] text-white" />
-                              NFT Floor Price
-                            </span>
-                          </a>
-                        </li>
-                        <li>
-                          <a
-                            href="#"
-                            className="block py-2 px-3 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-                          >
-                            <span className="inline-flex relative gap-2 text-[4vw] 2xlarge:text-[1vw] text-green-400">
-                              <FaCoins className="text-[6vw] 2xlarge:text-[1vw] text-white" />
-                              NFT Related Coins
-                            </span>
-                          </a>
-                        </li>
-                        <li>
-                          <a
-                            href="#"
-                            className="block py-2 px-3 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-                          >
-                            <span className="inline-flex relative gap-2 text-[4vw] 2xlarge:text-[1vw] text-green-400">
-                              <TiStarburst className="text-[6vw] 2xlarge:text-[1vw] text-white" />
-                              NFT Watchlist
-                            </span>
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                  )}
-                </div>
+                <nav className="bg-gray-900">
+                  <div className="max-w-screen-xl mx-auto">
+                    <div className="flex flex-wrap items-center justify-end">
+                      {/* Show regular menu items only for 2XL screens and above (>1536px) */}
+                      {!shouldShowMoreDropdown && <MenuItems />}
 
-                <div className="relative inline-block text-left top-6 2xlarge:top-0">
-                  <a
-                    href="#"
-                    onClick={() => toggleLearnDropdown()}
-                    className="NavLinkBUtton medium:mt-2 flex items-center justify-between w-full py-2 px-3 rounded medium:w-auto text-white hover:text-white hover:bg-opacity-20 medium:hover:bg-transparent medium:border-0 medium:hover:text-white dark:text-white medium:dark:hover:text-white dark:hover:bg-opacity-20 dark:hover:text-white medium:dark:hover:bg-transparent"
-                  >
-                    Learn
-                    <svg
-                      className="w-2.5 h-2.5 ms-2.5 text-white"
-                      aria-hidden="true"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 10 6"
-                    >
-                      <path
-                        stroke="currentColor"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="m1 1 4 4 4-4"
-                      />
-                    </svg>
-                  </a>
-                  {isLearnDropdownOpen && (
-                    <div className="absolute z-99999 right-0 w-[86vw] 2xlarge:w-[9vw] 2xlarge:left-[1vw] mt-2  bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600">
-                      <ul>
-                        <li>
-                          <a
-                            href="#"
-                            className="block py-2 px-3 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                      {/* More dropdown for medium through XL screens (768px-1536px) */}
+                      {shouldShowMoreDropdown && (
+                        <div className="relative NavLinkBUtton mt-2 left-2">
+                          <button
+                            onClick={() =>
+                              setIsMoreDropdownOpen(!isMoreDropdownOpen)
+                            }
+                            className="flex rounded-xl items-center gap-2 px-3 py-[0.9vh] text-white hover:bg-gray-600"
                           >
-                            <span className="inline-flex relative gap-2 text-[4vw] 2xlarge:text-[1vw] text-green-400">
-                              <FaBookOpen className="text-[6vw] 2xlarge:text-[1vw] text-white" />
-                              Research Insights
-                            </span>
-                          </a>
-                        </li>
-                        <li>
-                          <a
-                            href="#"
-                            className="block py-2 px-3 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-                          >
-                            <span className="inline-flex relative gap-2 text-[4vw] 2xlarge:text-[1vw] text-green-400">
-                              <ImNewspaper className=" text-[6vw] 2xlarge:text-[1vw] text-white" />
-                              Crypto News
-                            </span>
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                  )}
-                </div>
-                <div className="relative z-30 inline-block top-8 2xlarge:top-0 text-left">
-                  <button
-                    onClick={toggleMyPortfolioDropdown}
-                    className=" NavLinkBUtton medium:mt-2 2xlarge:w-[10vw] flex items-center justify-between w-full py-2 px-3 rounded medium:w-auto text-gray-900 hover:bg-gray-100 medium:hover:bg-transparent medium:border-0 medium:hover:text-blue-700 dark:text-white medium:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white medium:dark:hover:bg-transparent"
-                  >
-                    My Portfolio
-                    <svg
-                      className="w-2.5 h-2.5 ms-2.5"
-                      aria-hidden="true"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 10 6"
-                    >
-                      <path
-                        stroke="currentColor"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="m1 1 4 4 4-4"
-                      />
-                    </svg>
-                  </button>
-                  {isMyPortfolio && (
-                    <div className="absolute z-9999 right-0 w-[86vw] 2xlarge:w-[7vw] 2xlarge:left-[vw] mt-2 bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600">
-                      <ul className="py-2 text-sm text-gray-700 dark:text-gray-400">
-                        <li>
-                          <a
-                            href="#"
-                            className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                          >
-                            <span className=" inline-flex relative gap-2 text-[4vw]  2xlarge:text-[1vw] text-green-400">
-                              My Coins
-                            </span>
-                          </a>
-                        </li>
-                        <li>
-                          <a
-                            href="#"
-                            className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                          >
-                            <span className="inline-flex relative gap-2 text-[4vw] 2xlarge:text-[1vw] text-green-400">
-                              My NFTs
-                            </span>
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                  )}
-                </div>
+                            More
+                            <svg
+                              className="w-2.5 h-2.5"
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 10 6"
+                            >
+                              <path
+                                stroke="currentColor"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="2"
+                                d="m1 1 4 4 4-4"
+                              />
+                            </svg>
+                          </button>
 
-                <div className="relative z-20 inline-block top-10 2xlarge:top-0 text-left">
-                  <button
-                    onClick={toggleMyAccountDropdown}
-                    className=" NavLinkBUtton medium:mt-2 2xlarge:w-[10vw] 2xlarge:mt-2 2xlarge:py-2 flex items-center justify-between w-full py-3 px-3 rounded medium:w-auto text-gray-900 hover:bg-gray-100 medium:hover:bg-transparent medium:border-0 medium:hover:text-blue-700 dark:text-white medium:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white medium:dark:hover:bg-transparent"
-                  >
-                    <span className=" inline-flex relative gap-2 text-[4vw] 2xlarge:text-[1vw]  text-green-400">
-                      <BiSolidUserAccount className="text-[6vw] 2xlarge:text-[1vw] 2xlarge:mt-1 text-white" />
-                      My Account
-                    </span>
-                    <svg
-                      className="w-2.5 h-2.5 ms-2.5"
-                      aria-hidden="true"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 10 6"
-                    >
-                      <path
-                        stroke="currentColor"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="m1 1 4 4 4-4"
-                      />
-                    </svg>
-                  </button>
-                  {isMyAccountOpen && (
-                    <div className="absolute z-9999 right-0 w-[86vw] mt-2 2xlarge:w-[8vw] 2xlarge:l  bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600">
-                      <ul className="py-2 text-sm text-gray-700 dark:text-gray-400">
-                        <li>
-                          <a
-                            href="#"
-                            className="block px-4 py-2  hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                          >
-                            <span className=" inline-flex relative gap-2 text-[4vw] 2xlarge:text-[1vw] text-green-400">
-                              Sign Up
-                            </span>
-                          </a>
-                        </li>
-                        
-                      </ul>
+                          {isMoreDropdownOpen && (
+                            <div className="absolute right-0 mt-2 w-64 bg-gray-700 rounded-lg shadow-lg">
+                              <MenuItems />
+                            </div>
+                          )}
+                        </div>
+                      )}
                     </div>
-                  )}
-                </div>
+                  </div>
+                </nav>
 
                 <li
-                  className="hidden 2xlarge:hidden large:block absolute top-0 left-[50vw] medium:left-[45vw] large:left-[57vw] xlarge:left-[52vw] 2xlarge:left-[55vw]"
+                  className="hidden  large:block absolute top-0 left-[50vw] medium:left-[45vw] large:left-[57vw] xlarge:left-[52vw] 2xlarge:left-[58vw]"
                   ref={searchRef}
                 >
                   <button
                     onClick={toggleSearch}
-                    className="block py-2 px-3  text-gray-900 rounded hover:bg-gray-100 medium:hover:bg-transparent medium:border-0 medium:hover:text-blue-700 medium:p-2 dark:text-white medium:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white medium:dark:hover:bg-transparent"
+                    className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 medium:hover:bg-transparent medium:border-0 medium:hover:text-blue-700 medium:p-2 dark:text-white medium:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white medium:dark:hover:bg-transparent"
                   >
                     <Search
                       size={30}
-                      className=" text-red-600 relative large:left-[9vw] large:top-1 xlarge:left-[17vw]  "
+                      className=" text-red-600 relative large:left-[9vw] large:top-1 xlarge:left-[17vw] 2xlarge:top-2  "
                     />
                   </button>
                   {isSearchExpanded && (
-                    <div className="absolute right-0 -mt-[5vh] w-[20vw] xlarge:w-[25vw] large:-mt-[5vh] large:-right-[5vw] xlarge:-right-[14vw]  bg-white border border-gray-200 rounded-lg shadow-lg dark:bg-gray-800 dark:border-gray-700">
+                    <div className="absolute right-0 -mt-[5vh] w-[20vw] xlarge:w-[25vw] 2xlarge:w-[13vw] 2xlarge:-mt-[4vh]  large:-mt-[5vh] large:-right-[5vw] xlarge:-right-[14vw]  bg-white border border-gray-200 rounded-lg shadow-lg dark:bg-gray-800 dark:border-gray-700">
                       <input
                         type="text"
                         placeholder=" Search Coins,Nfts ..."
-                        className="w-[20vw] xlarge:w-[25vw] p-2 pl-10 text-sm text-gray-900 border-none rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white dark:focus:ring-blue-500"
+                        className="w-[20vw] xlarge:w-[25vw] 2xlarge:w-[13vw] p-2 pl-10 text-sm text-gray-900 border-none rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white dark:focus:ring-blue-500"
                       />
-                      <span className="absolute left-0 top-2 text-gray-600 dark:text-white">
+                      <span className="absolute left-0 top-2 2xlarge:-left-3   text-gray-600 dark:text-white">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           viewBox="0 0 24 24"

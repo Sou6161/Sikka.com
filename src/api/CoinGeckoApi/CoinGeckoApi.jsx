@@ -30,4 +30,10 @@ export const CoinGeckoChaloApi = {
   },
 };
 
-
+export const CoinGeckoSanderApi = {
+  method: "GET",
+  headers: {
+    accept: "application/json",
+    "x-cg-demo-api-key": "CG-P5J6trgDvd5J9xovbMoUBucp",
+  },
+};

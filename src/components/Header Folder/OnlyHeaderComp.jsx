@@ -254,7 +254,7 @@ const OnlyHeaderComp = () => {
                           <span className=" text-green-400 inline-flex ml-1 text-[4vw] medium:text-[2.5vw] 2xlarge:text-[1vw]">
                             All Coins
                           </span>
-                        </a>
+                        </a>  
                       </li>
                       <li>
                         <a
