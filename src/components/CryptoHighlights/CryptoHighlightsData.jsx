@@ -5,6 +5,11 @@ import { CoinGeckoChaloApi } from "../../api/CoinGeckoApi/CoinGeckoApi";
 import TrendingCoins from "./TrendingCoins";
 import TopGainers from "./TopGainers";
 import TopLosers from "./TopLosers";
+import NewCoins from "./NewCoins";
+import HighestCoinVolume from "./HighestCoinVolume";
+import AllTimeHighPrice from "./AllTimeHIghPrice";
+import MostVotedCoins from "./MostVotedCoins";
+import Footer from "../../Footer/Footer"
 
 const CryptoHighlightsData = () => {
   const [TrendingCoinsHL, setTrendingCoinsHL] = useState(null);
@@ -13,6 +18,7 @@ const CryptoHighlightsData = () => {
   const [CoinsByTradingVol, setCoinsByTradingVol] = useState(null);
   const [AllTimeHighCoinPrice, setAllTimeHighCoinPrice] = useState(null);
   const [NewCryptoCoin, setNewCryptoCoin] = useState([]);
+  const [MostVoted, setMostVoted] = useState(null)
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -61,8 +67,8 @@ const CryptoHighlightsData = () => {
   }, []);
 
   useEffect(() => {
-    TopCryptoGainers && console.log(TopCryptoGainers, " Top Crypto Gainers");
-    TopCryptoLosers && console.log(TopCryptoLosers, "Top Crypto Losers ");
+    // TopCryptoGainers && console.log(TopCryptoGainers, " Top Crypto Gainers");
+    // TopCryptoLosers && console.log(TopCryptoLosers, "Top Crypto Losers ");
   }, [TopCryptoGainers, TopCryptoLosers]);
 
   useEffect(() => {
@@ -78,10 +84,10 @@ const CryptoHighlightsData = () => {
     FetchTopCoinsByVolume();
   }, []);
 
-  useEffect(() => {
-    CoinsByTradingVol &&
-      console.log(CoinsByTradingVol, "Top Coins By Trading Volume");
-  }, [CoinsByTradingVol]);
+  // useEffect(() => {
+  //   CoinsByTradingVol &&
+  //     console.log(CoinsByTradingVol, "Top Coins By Trading Volume");
+  // }, [CoinsByTradingVol]);
 
   useEffect(() => {
     const FetchAllTimeHighPrice = async () => {
@@ -96,10 +102,10 @@ const CryptoHighlightsData = () => {
     FetchAllTimeHighPrice();
   }, []);
 
-  useEffect(() => {
-    AllTimeHighCoinPrice &&
-      console.log(AllTimeHighCoinPrice, "All Time High Coin Price");
-  }, [AllTimeHighCoinPrice]);
+  // useEffect(() => {
+  //   AllTimeHighCoinPrice &&
+  //     console.log(AllTimeHighCoinPrice, "All Time High Coin Price");
+  // }, [AllTimeHighCoinPrice]);
 
   useEffect(() => {
     setIsLoading(true);
@@ -135,10 +141,31 @@ const CryptoHighlightsData = () => {
     fetchNewCryptos();
   }, []);
 
+  // useEffect(() => {
+  //   NewCryptoCoin?.length > 0 &&
+  //     console.log(NewCryptoCoin, "New Crytocurrencies");
+  // }, [NewCryptoCoin]);
+
+
+  useEffect(()=>{
+    const FetchMostVotedCoins = async () => {
+      const response = await fetch(
+        "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=gecko_desc&per_page=10&page=1&sparkline=false",
+        CoinGeckoChaloApi
+      );
+      const MostVotedData = await response.json();
+      // console.log(MostViewedData);
+      setMostVoted(MostVotedData);
+    };
+    FetchMostVotedCoins();
+  },[])
+
   useEffect(() => {
-    NewCryptoCoin?.length > 0 &&
-      console.log(NewCryptoCoin, "New Crytocurrencies");
-  }, [NewCryptoCoin]);
+    MostVoted?.length > 0 &&
+        console.log(MostVoted, "Most Voted Coins");
+    }, [MostVoted]);
+
+   
 
   if (isLoading) {
     return (
@@ -167,7 +194,7 @@ const CryptoHighlightsData = () => {
         <OnlyHeaderComp />
         <MainPageMarquee />
       </div>
-      <div className="bg-black h-screen text-white">
+      <div className="bg-black h-[490vh] text-white">
         <h1 className=" ml-5 relative top-10 text-[4.5vw]">
           Crypto Highlights
         </h1>
@@ -181,8 +208,13 @@ const CryptoHighlightsData = () => {
           <TrendingCoins TrendingCoinsHL={TrendingCoinsHL} />
           <TopGainers TopCryptoGainers={TopCryptoGainers}/>
           <TopLosers TopCryptoLosers={TopCryptoLosers}/>
+          <NewCoins NewCryptoCoin={NewCryptoCoin}/>
+          <HighestCoinVolume CoinsByTradingVol={CoinsByTradingVol}/>
+          <AllTimeHighPrice AllTimeHighCoinPrice={AllTimeHighCoinPrice}/>
+          <MostVotedCoins MostVotedCrytoCoins={MostVoted}/>
         </div>
       </div>
+      <Footer/>
     </>
   );
 };

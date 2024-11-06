@@ -85,7 +85,7 @@ const LatestArticlesData = () => {
         </div>
       </div>
       <Link to="/learn/see-more-articles">
-        <button type="button" className="btn mx-[15vw] 2xlarge:mx-[35vw] mt-5">
+        <button type="button" className="btn mx-[19vw] 2xlarge:mx-[35vw] mt-5">
           <strong className="strong2">See More Articles</strong>
           <div id="container-stars">
             <div id="stars"></div>

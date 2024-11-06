@@ -1,35 +1,37 @@
-import React, { useEffect, useState } from "react";
-import { BsGraphUp } from "react-icons/bs";
+import React, { useEffect, useState } from 'react'
+import { FaVoteYea } from "react-icons/fa";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { FaCaretUp, FaCaretDown } from "react-icons/fa";
 
-const TopGainers = ({TopCryptoGainers}) => {
 
-    const [FinalTopGainers, setFinalTopGainers] = useState(null)
+const MostVotedCoins = ({MostVotedCrytoCoins}) => {
+
+const [FinalMostVotedCoins, setFinalMostVotedCoins] = useState(null)
 
 
-    useEffect(() => {
-        if (TopCryptoGainers) {
-            setFinalTopGainers(TopCryptoGainers);
-        } else {
-          // console.log("TrendingCoinsHL or TrendingCoinsHL.coins is null/undefined");
-        }
-      }, [TopCryptoGainers]);
-    
-      useEffect(() => {
-        if (FinalTopGainers) {
-          console.log(FinalTopGainers, "Top Gainers Coins");
-        } else {
-          // console.log("FinalTrendingCoins is null/undefined");
-        }
-      }, [FinalTopGainers]);
+useEffect(() => {
+    if (MostVotedCrytoCoins) {
+        setFinalMostVotedCoins(MostVotedCrytoCoins);
+    } else {
+    //   console.log("MostVotedCrytoCoins or MostVotedCrytoCoins is null/undefined");
+    }
+  }, [MostVotedCrytoCoins]);
+
+  useEffect(() => {
+    if (FinalMostVotedCoins) {
+      console.log(FinalMostVotedCoins, " Most Voted Coins ");
+    } else {
+    //   console.log("FinalTrendingCoins is null/undefined");
+    }
+  }, [FinalMostVotedCoins]);
+
   return (
-    <div className=" max-w-[95vw] mx-auto relative top-[13vh]  bg-white rounded-xl shadow-lg p-2 ">
+    <div className=" max-w-[95vw] mx-auto relative top-[34vh]  bg-white rounded-xl shadow-lg p-2 ">
     {/* Header */}
     <div className="flex items-center justify-between mb-4 p-2">
       <div className="flex items-center gap-2">
-        <BsGraphUp className="text-orange-500 text-xl" />
-        <h2 className="text-lg font-semibold text-black">Top Gainers </h2>
+        <FaVoteYea className="text-orange-500 text-xl" />
+        <h2 className="text-lg font-semibold text-black"> Most Voted </h2>
       </div>
       <button className="flex items-center text-gray-600 hover:text-gray-900">
         more
@@ -47,11 +49,10 @@ const TopGainers = ({TopCryptoGainers}) => {
     </div>
     <div className=" border-t-gray-300 border-[1px]"></div>
 
-
     {/* Coin List */}
     <div className="flex flex-col">
-      {FinalTopGainers ? (
-        FinalTopGainers.slice(0,8).map((coin) => (
+      {FinalMostVotedCoins ? (
+        FinalMostVotedCoins.slice(0, 8).map((coin) => (
           <div
             key={coin?.id}
             className="flex items-center justify-between py-3 hover:bg-gray-50 rounded-lg px-2 cursor-pointer"
@@ -62,9 +63,7 @@ const TopGainers = ({TopCryptoGainers}) => {
                 alt={coin?.name}
                 className="w-6 h-6 rounded-full border-[1px] border-black"
               />
-              <span className="font-medium text-black">
-                {coin?.name}
-              </span>
+              <span className="font-medium text-black">{coin?.name}</span>
             </div>
 
             <div className="flex gap-8 items-center text-black font-semibold">
@@ -77,23 +76,18 @@ const TopGainers = ({TopCryptoGainers}) => {
               </span>
               <div
                 className={`w-16 flex items-center justify-end text-sm gap-1
-                  ${
-                    coin?.price_change_percentage_24h>= 0
-                      ? "text-green-500 blink-green"
-                      : "text-red-500 blink-red"
-                  }`}
+                ${
+                  coin?.price_change_percentage_24h >= 0
+                    ? "text-green-500 blink-green"
+                    : "text-red-500 blink-red"
+                }`}
               >
                 {coin?.price_change_percentage_24h >= 0 ? (
                   <FaCaretUp />
                 ) : (
                   <FaCaretDown />
                 )}
-                {Math.abs(
-                  coin?.price_change_percentage_24h?.toFixed(
-                    1
-                  )
-                )}
-                %
+                {Math.abs(coin?.price_change_percentage_24h?.toFixed(1))}%
               </div>
             </div>
           </div>
@@ -108,4 +102,4 @@ const TopGainers = ({TopCryptoGainers}) => {
   )
 }
 
-export default TopGainers
+export default MostVotedCoins

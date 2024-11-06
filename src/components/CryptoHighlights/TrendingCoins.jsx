@@ -10,7 +10,7 @@ const TrendingCoins = ({ TrendingCoinsHL }) => {
     if (TrendingCoinsHL && TrendingCoinsHL?.coins) {
       setFinalTrendingCoins(TrendingCoinsHL?.coins);
     } else {
-      console.log("TrendingCoinsHL or TrendingCoinsHL.coins is null/undefined");
+      // console.log("TrendingCoinsHL or TrendingCoinsHL.coins is null/undefined");
     }
   }, [TrendingCoinsHL]);
 
@@ -18,7 +18,7 @@ const TrendingCoins = ({ TrendingCoinsHL }) => {
     if (FinalTrendingCoins) {
       console.log(FinalTrendingCoins, "Trending Coins");
     } else {
-      console.log("FinalTrendingCoins is null/undefined");
+      // console.log("FinalTrendingCoins is null/undefined");
     }
   }, [FinalTrendingCoins]);
 

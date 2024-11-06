@@ -10,6 +10,8 @@ import CoinConverter from "../components/CryptoTools/CoinConverter.jsx";
 import NewCryptocurrenciesPage from "../components/NewCryptos/NewCryptocurrenciesPage.jsx";
 import TopGainersLosers from "../components/Gainers&Losers/TopGainers&Losers.jsx";
 import AllCategoriesCoins from "../components/CategoriesList/AllCategoriesCoins.jsx";
+import NewCryptocurrencies from "../components/CryptoCurrencies/NewCryptocurrencies.jsx";
+import TopGainerAndLosers from "../components/GainersandLosers/TopGainerAndLosers.jsx";
 
 const RoutesConfig = () => {
   return (
@@ -28,6 +30,8 @@ const RoutesConfig = () => {
       <Route path="/en/coin-converter" element={<CoinConverter/>}/>
       <Route path="/en/new-cryptocurrencies" element={<NewCryptocurrenciesPage/>}/>
       <Route path="/en/crypto-Top-gainers-losers" element={<TopGainersLosers/>}/>
+      <Route path="/en/newcryptocurrencies" element={<NewCryptocurrencies/>}/>
+      <Route path="/en/crypto-gainers-losers" element={<TopGainerAndLosers/>}/>
 
     </Routes>
   );

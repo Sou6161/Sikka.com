@@ -161,7 +161,7 @@ const Header = () => {
           className="block w-full px-4 py-2 2xlarge:py-[0.7vh] 2xlarge:ml-2 NavLinkBUtton  text-white hover:bg-gray-600"
         >
           <span className="flex items-center gap-2 2xlarge:w-[10vw] 2xlarge:flex">
-          <PiSuitcaseFill className="text-white" />
+            <PiSuitcaseFill className="text-white" />
             My Portfolio
             <svg
               className="w-2.5 h-2.5 ml-auto"
@@ -395,7 +395,7 @@ const Header = () => {
                         </li>
                         <li>
                           <a
-                            href="#"
+                            href="/en/newcryptocurrencies"
                             className=" w-[86vw] 2xlarge:w-[15vw] text-[4vw] inline-flex gap-2 block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                           >
                             <span className=" text-green-400 truncate inline-flex gap-2 text-[4vw]  2xlarge:text-[1vw]">
@@ -408,7 +408,7 @@ const Header = () => {
                         </li>
                         <li>
                           <a
-                            href="#"
+                            href="/en/crypto-gainers-losers"
                             className=" w-[86vw] 2xlarge:w-[15vw] text-[4vw] inline-flex gap-2 block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                           >
                             <span className=" text-green-400 inline-flex gap-2 text-[4vw] medium:text-[2vw] large:text-[1.7vw] 2xlarge:text-[1vw]">
@@ -423,7 +423,7 @@ const Header = () => {
                         </li>
                         <li>
                           <a
-                            href="#"
+                            href="/en/all-cryptocurrencies"
                             className=" w-[86vw] 2xlarge:w-[15vw] text-[4vw] inline-flex gap-2 block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                           >
                             <span className=" text-green-400 inline-flex ml-1 text-[4vw] medium:text-[2vw] large:text-[1.7vw] 2xlarge:text-[1vw]">

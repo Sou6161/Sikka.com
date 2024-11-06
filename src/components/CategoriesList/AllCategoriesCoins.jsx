@@ -226,6 +226,8 @@ const AllCategoriesCoins = () => {
             </table>
           </div>
         </div>
+
+        
         <div className="flex justify-between bg-black items-center mt-5  px-3 xsmall:px-6">
           <button
             onClick={handlePrevPage}

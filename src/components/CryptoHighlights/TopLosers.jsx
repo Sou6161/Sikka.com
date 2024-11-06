@@ -10,20 +10,20 @@ const TopLosers = ({ TopCryptoLosers }) => {
     if (TopCryptoLosers) {
       setFinalTopLosers(TopCryptoLosers);
     } else {
-      console.log("TrendingCoinsHL or TrendingCoinsHL.coins is null/undefined");
+      // console.log("TrendingCoinsHL or TrendingCoinsHL.coins is null/undefined");
     }
   }, [TopCryptoLosers]);
 
   useEffect(() => {
     if (FinalTopLosers) {
-      console.log(FinalTopLosers, "Trending Coins");
+      console.log(FinalTopLosers, "Top Losers Coins");
     } else {
-      console.log("FinalTrendingCoins is null/undefined");
+      // console.log("FinalTrendingCoins is null/undefined");
     }
   }, [FinalTopLosers]);
 
   return (
-    <div className=" max-w-[95vw] mx-auto relative top-[22vh]  bg-white rounded-xl shadow-lg p-2 ">
+    <div className=" max-w-[95vw] mx-auto relative top-[17vh]  bg-white rounded-xl shadow-lg p-2 ">
       {/* Header */}
       <div className="flex items-center justify-between mb-4 p-2">
         <div className="flex items-center gap-2">
@@ -51,7 +51,7 @@ const TopLosers = ({ TopCryptoLosers }) => {
         {FinalTopLosers ? (
           FinalTopLosers.slice(0, 8).map((coin) => (
             <div
-              key={coin?.item?.id}
+              key={coin?.id}
               className="flex items-center justify-between py-3 hover:bg-gray-50 rounded-lg px-2 cursor-pointer"
             >
               <div className="flex items-center gap-2">
