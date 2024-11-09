@@ -1,9 +1,14 @@
-import React from 'react'
+import React from "react";
+import OnlyHeaderComp from "../Header Folder/OnlyHeaderComp";
+import MainPageMarquee from "../MarqueeComponent/MainPageMarquee";
 
 const CompareCoins = () => {
   return (
-    <div className='h-screen bg-black'>CompareCoins</div>
-  )
-}
+    <div className=" bg-black ">
+      <OnlyHeaderComp />
+      <MainPageMarquee />
+    </div>
+  );
+};
 
-export default CompareCoins
+export default CompareCoins;

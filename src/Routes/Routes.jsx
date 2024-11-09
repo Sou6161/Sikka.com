@@ -8,10 +8,11 @@ import AllCoins from "../components/CryptoTools/AllCoins.jsx";
 import CompareCoins from "../components/CryptoTools/CompareCoins.jsx";
 import CoinConverter from "../components/CryptoTools/CoinConverter.jsx";
 import NewCryptocurrenciesPage from "../components/NewCryptos/NewCryptocurrenciesPage.jsx";
-import TopGainersLosers from "../components/Gainers&Losers/TopGainers&Losers.jsx";
 import AllCategoriesCoins from "../components/CategoriesList/AllCategoriesCoins.jsx";
 import NewCryptocurrencies from "../components/CryptoCurrencies/NewCryptocurrencies.jsx";
 import TopGainerAndLosers from "../components/GainersandLosers/TopGainerAndLosers.jsx";
+import CryptoExchanges from "../components/Exchanges/CryptoExchanges.jsx";
+import ExchangesTickers from "../components/Exchanges/ExchangesTickers.jsx";
 
 const RoutesConfig = () => {
   return (
@@ -23,16 +24,22 @@ const RoutesConfig = () => {
       />
       <Route path="/en/coins/:id" element={<CoinFullDetails />} />
       <Route path="/en/categories" element={<CryptoCategoriesByMC />} />
-      <Route path="/en/categories/:id" element={<AllCategoriesCoins/>}/>
-      <Route path="/en/highlights" element={<CryptoHighlightsData/>}/>
-      <Route path="/en/all-cryptocurrencies" element={<AllCoins/>}/>
-      <Route path="/en/compare-cryptocurrencies" element={<CompareCoins/>}/>
-      <Route path="/en/coin-converter" element={<CoinConverter/>}/>
-      <Route path="/en/new-cryptocurrencies" element={<NewCryptocurrenciesPage/>}/>
-      <Route path="/en/crypto-Top-gainers-losers" element={<TopGainersLosers/>}/>
-      <Route path="/en/newcryptocurrencies" element={<NewCryptocurrencies/>}/>
-      <Route path="/en/crypto-gainers-losers" element={<TopGainerAndLosers/>}/>
-
+      <Route path="/en/categories/:id" element={<AllCategoriesCoins />} />
+      <Route path="/en/highlights" element={<CryptoHighlightsData />} />
+      <Route path="/en/all-cryptocurrencies" element={<AllCoins />} />
+      <Route path="/en/compare-cryptocurrencies" element={<CompareCoins />} />
+      <Route path="/en/coin-converter" element={<CoinConverter />} />
+      <Route
+        path="/en/new-cryptocurrencies"
+        element={<NewCryptocurrenciesPage />}
+      />
+      <Route
+        path="/en/crypto-Top-gainers-losers"
+        element={<TopGainerAndLosers />}
+      />
+      <Route path="/en/newcryptocurrencies" element={<NewCryptocurrencies />} />
+      <Route path="/en/exchanges" element={<CryptoExchanges />} />
+      <Route path="/en/exchanges/:id" element={<ExchangesTickers />} />
     </Routes>
   );
 };

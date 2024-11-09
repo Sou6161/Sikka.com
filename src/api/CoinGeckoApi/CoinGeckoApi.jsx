@@ -37,3 +37,11 @@ export const CoinGeckoSanderApi = {
     "x-cg-demo-api-key": "CG-P5J6trgDvd5J9xovbMoUBucp",
   },
 };
+
+export const CoingeckoSanakApi ={
+  method: "GET",
+  headers: {
+    accept: "application/json",
+    "x-cg-demo-api-key": " CG-GugEYap1Gu6N1HhBo5e3j4mg",
+  },
+}
