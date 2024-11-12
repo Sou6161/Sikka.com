@@ -90,7 +90,6 @@ const CoinFullDetails = ({ contractAddress, marketsData }) => {
   const [TrendingCoins, setTrendingCoins] = useState(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-
   useEffect(() => {
     const handleResize = () => {
       setScreenSize(window.innerWidth);
@@ -338,7 +337,7 @@ const CoinFullDetails = ({ contractAddress, marketsData }) => {
     const FetchCoinChart = async () => {
       let days;
       switch (timeFrame) {
-        case "24h":
+        case "24h": 
           days = 1;
           break;
         case "7d":
@@ -523,7 +522,6 @@ const CoinFullDetails = ({ contractAddress, marketsData }) => {
     TrendingCoins && console.log(TrendingCoins, "Trending Coins");
   }, [TrendingCoins]);
 
-  
   return (
     <>
       <div>

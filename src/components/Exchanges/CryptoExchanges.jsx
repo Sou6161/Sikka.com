@@ -33,12 +33,14 @@ const CryptoExchanges = () => {
       </div>
       <div className="bg-black">
         <h1 className=" ml-5 relative top-10 text-[5vw] text-white font-semibold">
-          Top Crypto Gainers and Losers
+          Top Crypto Exchanges Ranked by Trust Score
         </h1>
         <p className="text-gray-500 ml-5 relative top-10 mt-2 text-[4vw]">
-          Discover the largest gainers and losers across all major
-          cryptocurrencies listed on CoinGecko, based on price movements in the
-          last 24 hours.
+          As of today, we track 216 crypto exchanges with a total 24h trading
+          volume of $418 Billion, a 35.63% change in the last 24 hours.
+          Currently, the 3 largest cryptocurrency exchanges are Binance, Bybit,
+          and OKX. Total tracked crypto exchange reserves currently stands at
+          $244 Billion.
         </p>
         <div className=" bg-black mt-[14vh] px-2 ">
           <div className="overflow-x-auto   w-full border-2 border-purple-500 rounded-lg">

@@ -13,6 +13,7 @@ import NewCryptocurrencies from "../components/CryptoCurrencies/NewCryptocurrenc
 import TopGainerAndLosers from "../components/GainersandLosers/TopGainerAndLosers.jsx";
 import CryptoExchanges from "../components/Exchanges/CryptoExchanges.jsx";
 import ExchangesTickers from "../components/Exchanges/ExchangesTickers.jsx";
+import ExchangeDerivatives from "../components/Derivatives/ExchangeDerivatives.jsx";
 
 const RoutesConfig = () => {
   return (
@@ -40,6 +41,10 @@ const RoutesConfig = () => {
       <Route path="/en/newcryptocurrencies" element={<NewCryptocurrencies />} />
       <Route path="/en/exchanges" element={<CryptoExchanges />} />
       <Route path="/en/exchanges/:id" element={<ExchangesTickers />} />
+      <Route
+        path="/en/exchanges/derivatives"
+        element={<ExchangeDerivatives/>}
+      />
     </Routes>
   );
 };
