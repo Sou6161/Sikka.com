@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import App from "../App.jsx";
-import LatestAllArticlesData from "../LatestArticles/LatestAllArticlesData.jsx";
+// import LatestAllArticlesData from "../LatestArticles/LatestAllArticlesData.jsx";
 import CoinFullDetails from "../components/CoinDetails/CoinFullDetails.jsx";
 import CryptoCategoriesByMC from "../components/CategoriesList/CryptoCategoriesByMC.jsx";
 import CryptoHighlightsData from "../components/CryptoHighlights/CryptoHighlightsData.jsx";
@@ -14,15 +14,18 @@ import TopGainerAndLosers from "../components/GainersandLosers/TopGainerAndLoser
 import CryptoExchanges from "../components/Exchanges/CryptoExchanges.jsx";
 import ExchangesTickers from "../components/Exchanges/ExchangesTickers.jsx";
 import ExchangeDerivatives from "../components/Derivatives/ExchangeDerivatives.jsx";
+import NftFloorPriceLIst from "../components/NftSection/NftFloorPriceLIst.jsx";
+import NFTsFullData from "../components/NftSection/NFTsFullData.jsx";
+import NFTsRelatedCoins from "../components/NftSection/NFTsRelatedCoins.jsx";
+import AllCryptoArticles from "../components/Learn/AllCryptoArticles.jsx";
+import AllResearchArticles from "../components/Learn/AllResearchArticles.jsx";
+import AllCryptoNews from "../components/Learn/AllCryptoNews.jsx";
 
 const RoutesConfig = () => {
   return (
     <Routes>
       <Route path="/" element={<App />} />
-      <Route
-        path="/learn/see-more-articles"
-        element={<LatestAllArticlesData />}
-      />
+      <Route path="/learn/crypto-articles" element={<AllCryptoArticles />} />
       <Route path="/en/coins/:id" element={<CoinFullDetails />} />
       <Route path="/en/categories" element={<CryptoCategoriesByMC />} />
       <Route path="/en/categories/:id" element={<AllCategoriesCoins />} />
@@ -43,8 +46,14 @@ const RoutesConfig = () => {
       <Route path="/en/exchanges/:id" element={<ExchangesTickers />} />
       <Route
         path="/en/exchanges/derivatives"
-        element={<ExchangeDerivatives/>}
+        element={<ExchangeDerivatives />}
       />
+      <Route path="/en/nft" element={<NftFloorPriceLIst />} />
+      <Route path="/en/nft/:id" element={<NFTsFullData />} />
+      <Route path="/en/nftcoins" element={<NFTsRelatedCoins />} />
+      <Route path="/learn/crypto-articles" element={<AllCryptoArticles />} />
+      <Route path="/learn/research" element={<AllResearchArticles />} />
+      <Route path="/en/news" element={<AllCryptoNews />} />
     </Routes>
   );
 };

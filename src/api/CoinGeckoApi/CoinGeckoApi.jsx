@@ -42,6 +42,17 @@ export const CoingeckoSanakApi ={
   method: "GET",
   headers: {
     accept: "application/json",
-    "x-cg-demo-api-key": " CG-GugEYap1Gu6N1HhBo5e3j4mg",
+    "x-cg-demo-api-key": "CG-GugEYap1Gu6N1HhBo5e3j4mg",
   },
 }
+
+
+export const CoingeckoStardasApi ={
+  method: "GET",
+  headers: {
+    accept: "application/json",
+    "x-cg-demo-api-key": "CG-iGgYApBixUvhb2mF9cwDtjjt",
+  },
+}
+
+

@@ -90,17 +90,17 @@ const Header = () => {
         {isNFTDropdownOpen && (
           <div className="pl-4 mt-2 rounded- 2xlarge:pl-0  2xlarge:w-[10vw]">
             <a
-              href="#"
+              href="/en/nft"
               className="block px-2 py-2 text-white hover:bg-gray-600"
             >
               NFT Floor Price
             </a>
-            <a
-              href="#"
+            {/* <a
+              href=""
               className="block px-2 py-2 text-white hover:bg-gray-600"
             >
               NFT Related Coins
-            </a>
+            </a> */}
             <a
               href="#"
               className="block px-2 py-2 text-white hover:bg-gray-600"
@@ -138,18 +138,24 @@ const Header = () => {
         </a>
         {isLearnDropdownOpen && (
           <div className="pl-4">
-            <a
-              href="#"
+            <Link
+              to="/learn/crypto-articles"
+              className="block px-4 py-2 text-white hover:bg-gray-600"
+            >
+              Crypto Articles
+            </Link>
+            <Link
+              to="/learn/research"
               className="block px-4 py-2 text-white hover:bg-gray-600"
             >
               Research Insights
-            </a>
-            <a
-              href="#"
+            </Link>
+            <Link
+              to="/en/news"
               className="block px-4 py-2 text-white hover:bg-gray-600"
             >
               Crypto News
-            </a>
+            </Link>
           </div>
         )}
       </div>

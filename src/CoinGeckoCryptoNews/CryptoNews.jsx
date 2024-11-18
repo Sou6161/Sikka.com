@@ -90,9 +90,10 @@ const CryptoNews = () => {
                     href={article.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center text-blue-400 hover:text-blue-300 transition-colors duration-200"
+                    className="inline-flex items-center text-white hover:text-yellow-400 transition-colors duration-200"
                   >
-                    Read More <ExternalLink className="w-4 h-4 ml-1" />
+                    <span className="text-white">Read More</span>
+                    <ExternalLink className="w-4 h-4 ml-1" />
                   </a>
                 </div>
               </div>
@@ -100,7 +101,6 @@ const CryptoNews = () => {
           ))}
         </ul>
       </div>
-      <div className="mt-10 border-t-[1px] border-red-400 bg-red-200"></div>
     </>
   );
 };
