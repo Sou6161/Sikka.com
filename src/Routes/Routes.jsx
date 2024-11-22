@@ -20,6 +20,8 @@ import NFTsRelatedCoins from "../components/NftSection/NFTsRelatedCoins.jsx";
 import AllCryptoArticles from "../components/Learn/AllCryptoArticles.jsx";
 import AllResearchArticles from "../components/Learn/AllResearchArticles.jsx";
 import AllCryptoNews from "../components/Learn/AllCryptoNews.jsx";
+import MyWatchListCoins from "../components/MyPortfolio/MyWatchListCoins.jsx";
+import MyWatchListNfts from "../components/MyPortfolio/MyWatchListNfts.jsx";
 
 const RoutesConfig = () => {
   return (
@@ -54,6 +56,8 @@ const RoutesConfig = () => {
       <Route path="/learn/crypto-articles" element={<AllCryptoArticles />} />
       <Route path="/learn/research" element={<AllResearchArticles />} />
       <Route path="/en/news" element={<AllCryptoNews />} />
+      <Route path="/en/coins-portfolio" element={<MyWatchListCoins/>}/>
+      <Route path="/en/nft-portfolio" element={<MyWatchListNfts/>}/>
     </Routes>
   );
 };

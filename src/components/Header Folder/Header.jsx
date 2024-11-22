@@ -18,6 +18,9 @@ import { FaBookOpen } from "react-icons/fa";
 import { ImNewspaper } from "react-icons/im";
 import { BiSolidUserAccount } from "react-icons/bi";
 import { PiSuitcaseFill } from "react-icons/pi";
+import SignUpDialog from "../../Auth/SignUpDialog";
+import { signOut, isAuthenticated } from "../../lib/auth";
+import SearchBarForMobile from "../SearchBarFeature/SearchBarForMobile";
 
 const Header = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -38,6 +41,54 @@ const Header = () => {
   const [isMediumScreen, setIsMediumScreen] = useState(false);
   const [isMoreDropdownOpen, setIsMoreDropdownOpen] = useState(false);
   const [shouldShowMoreDropdown, setShouldShowMoreDropdown] = useState(false);
+  const [isSignUpOpen, setIsSignUpOpen] = useState(false);
+  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+  const [isSignOutOpen, setIsSignOutOpen] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
+  const [isTrendingCoins, setIsTrendingCoins] = useState(true);
+  const [isTrendingNFTs, setIsTrendingNFTs] = useState(false);
+
+  // Check authentication status on component mount and when localStorage changes
+  useEffect(() => {
+    const checkAuthStatus = () => {
+      const isLoggedIn =
+        window.localStorage.getItem("isUserLoggedIn") === "true";
+      setIsSignedUp(isLoggedIn);
+    };
+
+    // Check initial auth status
+    checkAuthStatus();
+
+    // Listen for storage changes
+    window.addEventListener("storage", checkAuthStatus);
+
+    return () => {
+      window.removeEventListener("storage", checkAuthStatus);
+    };
+  }, []);
+
+  const handleSignOut = async () => {
+    await signOut();
+    setIsSignedUp(false);
+  };
+
+  const handleSignUp = async (email, password, name) => {
+    try {
+      await signUp(email, password, name);
+      setIsSignedUp(true); // Update the isSignedUp state
+      setIsUserLoggedIn(true);
+      window.localStorage.setItem("isUserLoggedIn", "true");
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    const storedLoginStatus = window.localStorage.getItem("isUserLoggedIn");
+    if (storedLoginStatus === "true") {
+      setIsUserLoggedIn(true);
+    }
+  }, []);
 
   useEffect(() => {
     const checkScreenSize = () => {
@@ -63,7 +114,7 @@ const Header = () => {
   const MenuItems = () => (
     <div className=" 2xlarge:flex mt-4 w-full">
       {/* NFT Menu */}
-      <div className="w-full 2xlarge:h-[6vh]  2xlarge:mt-2">
+      <div className="w-full 2xlarge:h-[6vh]  2xlarge:-mt-2 ">
         <a
           onClick={() => setIsNFTDropdownOpen(!isNFTDropdownOpen)}
           className="block w-full px-4 NavLinkBUtton py-2 2xlarge:py-[0.7vh] text-white hover:bg-gray-600"
@@ -112,7 +163,7 @@ const Header = () => {
       </div>
 
       {/* Learn Menu */}
-      <div className="w-full mt-2  2xlarge:mt-2 2xlarge:ml-2">
+      <div className="w-full mt-2  2xlarge:-mt-2   2xlarge:ml-2">
         <a
           onClick={() => setIsLearnDropdownOpen(!isLearnDropdownOpen)}
           className="block w-full px-4 py-2 2xlarge:py-[0.7vh] NavLinkBUtton text-white hover:bg-gray-600"
@@ -161,7 +212,7 @@ const Header = () => {
       </div>
 
       {/* My Portfolio Menu */}
-      <div className="w-full mt-2 2xlarge:mt-2 ">
+      <div className="w-full mt-2 2xlarge:-mt-2 ">
         <a
           onClick={() => setisMyPortfolio(!isMyPortfolio)}
           className="block w-full px-4 py-2 2xlarge:py-[0.7vh] 2xlarge:ml-2 NavLinkBUtton  text-white hover:bg-gray-600"
@@ -188,13 +239,13 @@ const Header = () => {
         {isMyPortfolio && (
           <div className="pl-4">
             <a
-              href="#"
+              href="/en/coins-portfolio"
               className="block px-4 py-2 text-white hover:bg-gray-600"
             >
               My Coins
             </a>
             <a
-              href="#"
+              href="/en/nft-portfolio"
               className="block px-4 py-2 text-white hover:bg-gray-600"
             >
               My NFTs
@@ -204,7 +255,7 @@ const Header = () => {
       </div>
 
       {/* My Account Menu */}
-      <div className="w-full mt-2 2xlarge:mt-2">
+      <div className="w-full mt-2 2xlarge:mt-2 large:hidden medium:hidden xlarge:hidden 2xlarge:hidden">
         <a
           onClick={() => setisMyAccountOpen(!isMyAccountOpen)}
           className="block w-full px-4 py-2 2xlarge:py-[0.7vh] 2xlarge:ml-4 NavLinkBUtton text-white hover:bg-gray-600"
@@ -230,12 +281,30 @@ const Header = () => {
         </a>
         {isMyAccountOpen && (
           <div className="pl-4">
-            <a
-              href="#"
-              className="block px-4 py-2 text-white hover:bg-gray-600"
-            >
-              Sign Up
-            </a>
+            {isUserLoggedIn ? (
+              <button
+                onClick={() => {
+                  signOut();
+                  setIsUserLoggedIn(false);
+                }}
+                className="block px-4 py-2 text-white hover:bg-gray-600"
+              >
+                Sign Out
+              </button>
+            ) : (
+              <button
+                onClick={() => setIsSignUpOpen(true)}
+                className="block px-4 py-2 text-white hover:bg-gray-600"
+              >
+                Sign Up
+              </button>
+            )}
+            {isSignUpOpen && (
+              <SignUpDialog
+                isOpen={true}
+                onClose={() => setIsSignUpOpen(false)}
+              />
+            )}
           </div>
         )}
       </div>
@@ -263,7 +332,7 @@ const Header = () => {
   };
 
   const toggleSignUp = () => {
-    setIsSignedUp(!isSignedUp);
+    setIsOpen(!isOpen);
   };
 
   useEffect(() => {
@@ -335,7 +404,7 @@ const Header = () => {
               id="navbar-dropdown"
             >
               <ul className="2xlarge:-ml-[2vw] h-[50vh] medium:h-[7vh]  2xlarge:h-[6vh] relative flex flex-col font-medium p-4 medium:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 medium:space-x-2 rtl:space-x-reverse medium:flex-row medium:mt-0 medium:border-0 medium:bg-white dark:bg-gray-800 medium:dark:bg-gray-900 dark:border-gray-700">
-                <div className="relative z-99999 inline-block  text-left">
+                <div className="relative z-99 inline-block  text-left">
                   <button
                     onClick={toggleCryptocurrenciesDropdown}
                     className="NavLinkBUtton medium:mt-2 flex items-center justify-between w-full py-2 px-3 rounded medium:w-auto text-gray-900 hover:bg-gray-100 medium:hover:bg-transparent medium:border-0 medium:hover:text-blue-700 dark:text-white medium:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white medium:dark:hover:bg-transparent"
@@ -461,7 +530,7 @@ const Header = () => {
                     </div>
                   )}
                 </div>
-                <div className="relative z-99998 inline-block top-2 2xlarge:top-2 text-left">
+                <div className="relative z-99 inline-block top-2 2xlarge:top-2 text-left">
                   <button
                     onClick={toggleExchangesDropdown}
                     className=" NavLinkBUtton medium:mt- flex items-center justify-between w-full py-2 px-3 rounded medium:w-auto text-gray-900 hover:bg-gray-100 medium:hover:bg-transparent medium:border-0 medium:hover:text-blue-700 dark:text-white medium:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white medium:dark:hover:bg-transparent"
@@ -556,7 +625,7 @@ const Header = () => {
                 </nav>
 
                 <li
-                  className="hidden  large:block absolute top-0 left-[50vw] medium:left-[45vw] large:left-[57vw] xlarge:left-[52vw] 2xlarge:left-[58vw]"
+                  className="hidden 2xlarge:hidden  large:block absolute top-0 left-[50vw] medium:left-[45vw] large:left-[57vw] xlarge:left-[52vw] 2xlarge:left-[58vw]"
                   ref={searchRef}
                 >
                   <button
@@ -588,99 +657,29 @@ const Header = () => {
                     </div>
                   )}
                 </li>
-                <button
-                  className="SignButton hidden medium:block large:block absolute medium:top-1 top-0 right-0 medium:-right-[18vw] large:-right-[22vw] xlarge:-right-[22vw] 2xlarge:-right-[22vw]
-                "
-                  onClick={toggleSignUp}
-                >
-                  {isSignedUp ? (
-                    <div className="  flex items-center medium:py-1 medium:w-[8vw] large:w-[6vw] 2xlarge:w-[4vw] large:py-1 ">
-                      <img
-                        src="https://t3.ftcdn.net/jpg/04/65/28/08/360_F_465280897_8nL6xlvBwUcLYIQBmyX0GO9fQjDwNYtV.jpg"
-                        alt="Profile"
-                        className="w-8 h-8 rounded-full"
-                      />
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        className="w-5 h-5 ms-2"
-                      >
-                        <path
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          d="M15 13l-3-3-3 3"
-                        />
-                      </svg>
-                    </div>
-                  ) : (
-                    <h1 className=" hidden medium:block min-w-[9vw] medium:py-2  xlarge:min-w-[7vw] 2xlarge:min-w-[5vw]">
-                      Sign Up
+                {/* Sign Up/Sign Out Button */}
+                <div>
+                  <button
+                    className="SignButton hidden medium:block large:block absolute medium:top-1 top-0 right-0 medium:-right-[18vw] large:-right-[22vw] xlarge:-right-[22vw] 2xlarge:-right-[22vw]"
+                    onClick={() => {
+                      if (isSignedUp) {
+                        handleSignOut();
+                      } else {
+                        setIsSignUpOpen(true);
+                      }
+                    }}
+                  >
+                    <h1 className="hidden medium:block min-w-[9vw] medium:py-2 xlarge:min-w-[7vw] 2xlarge:min-w-[5vw]">
+                      {isSignedUp ? "Sign Out" : "Sign Up"}
                     </h1>
-                  )}
-                </button>
-                {isSignedUp && (
-                  <div className=" z-99999 absolute top-0 hidden medium:block medium:top-2 large:top-2 right-[42vw] medium:-right-[15vw] large:-right-[18vw] xlarge:-right-[20vw] 2xlarge:-right-[20vw] mt-12 w-[20vw] large:w-[19vw] xlarge:w-[20vw] medium:w-[25vw]bg-white border border-gray-200 rounded-lg shadow-lg dark:bg-gray-800 dark:border-gray-700">
-                    <div className="flex items-center p-4">
-                      <img
-                        src="https://t3.ftcdn.net/jpg/04/65/28/08/360_F_465280897_8nL6xlvBwUcLYIQBmyX0GO9fQjDwNYtV.jpg"
-                        alt="Profile"
-                        className="w-6 h-6 rounded-full"
-                      />
-                      <span className="text-lg ml-2 text-gray-900 dark:text-white">
-                        Username
-                      </span>
-                    </div>
-                    <div className=" border-b  border-purple-500 dark:border-purple-500"></div>
-                    <ul>
-                      <li className="border-b border-purple-500 dark:border-purple-500">
-                        <a
-                          href="#"
-                          className="flex items-center p-4 hover:bg-gray-100 dark:hover:bg-gray-700"
-                        >
-                          <img
-                            src="https://img.freepik.com/premium-vector/crypto-portfolio-icon-icon_1076610-1132.jpg"
-                            alt="Portfolio"
-                            className="w-6 h-6 rounded-lg"
-                          />
-                          <span className="text-lg ml-2 text-gray-900 dark:text-white">
-                            Portfolio
-                          </span>
-                        </a>
-                      </li>
-                      <li className="border-b border-purple-500 dark:border-purple-500">
-                        <a
-                          href="#"
-                          className="flex items-center p-4 hover:bg-gray-100 dark:hover:bg-gray-700"
-                        >
-                          <img
-                            src="https://w7.pngwing.com/pngs/637/32/png-transparent-nft-nft-coin-nft-sign-non-fungible-token-nonfungible-token-crypto-token-3d-icon-thumbnail.png"
-                            alt="NFTs"
-                            className="w-6 h-6 rounded-full"
-                          />
-                          <span className="text-lg ml-2 text-gray-900 dark:text-white">
-                            My NFTs
-                          </span>
-                        </a>
-                      </li>
-                      <li>
-                        <a
-                          href="#"
-                          className="flex items-center p-4 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-b-lg"
-                        >
-                          <img
-                            src="https://w7.pngwing.com/pngs/669/141/png-transparent-white-and-green-signage-grass-brand-sign-apps-dialog-logout-logo-grass-sign-thumbnail.png"
-                            alt="Logout"
-                            className="w-6 h-6 rounded-full"
-                          />
-                          <span className="text-lg ml-2 text-gray-900 dark:text-white">
-                            Logout
-                          </span>
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                )}
+                  </button>
+
+                  {/* Sign Up Dialog */}
+                  <SignUpDialog
+                    isOpen={isSignUpOpen}
+                    onClose={() => setIsSignUpOpen(false)}
+                  />
+                </div>
               </ul>
             </div>
           </div>
@@ -769,20 +768,7 @@ const Header = () => {
           </div>
         </div>
 
-        <div className="bg-black py-1 large:hidden 2xlarge:hidden">
-          <div className="group mt-1 mx-auto w-[95vw]  ">
-            <svg viewBox="0 0 24 24" aria-hidden="true" className="icon">
-              <g>
-                <path d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z"></path>
-              </g>
-            </svg>
-            <input
-              className="inputbox"
-              type="search"
-              placeholder="Search Coins,NFTs and more..."
-            />
-          </div>
-        </div>
+        <SearchBarForMobile />
 
         <div className="2xlarge:hidden mt-0 w-[100vw] border-b-[3px] border-red-600"></div>
       </>

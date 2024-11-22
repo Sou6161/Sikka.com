@@ -3,13 +3,25 @@ import Marqueeslice from "../ReduxSlice/Marqueeslice";
 import CGCoinTableGraphSlice from "../ReduxSlice/CGCoinTableGraphSlice";
 import LatestAllArticlesSlice from "../ReduxSlice/LatestAllArticlesSlice";
 import HomePageMarketCapChart from "../ReduxSlice/HomePageMCapChart";
+import WatchlistCoinsSlice from "../ReduxSlice/WatchlistCoinsSlice";
+import { persistenceMiddleware } from "../ReduxSlice/persistenceMiddleware";
+import WatchlistNftsSlice from "../ReduxSlice/WatchlistNftsSlice";
+import { persistenceNftsMiddleware } from "../ReduxSlice/persistenceNftsMiddleware";
 
-export default configureStore({
+const store = configureStore({
   reducer: {
     Marquee: Marqueeslice,
     Marquee2: Marqueeslice,
     CGCoinGraph: CGCoinTableGraphSlice,
     AllArticles: LatestAllArticlesSlice,
     // HomePageMcapChart: HomePageMarketCapChart,
+    watchlist: WatchlistCoinsSlice,
+    watchlistNfts: WatchlistNftsSlice,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware()
+      .concat(persistenceMiddleware("watchlistState"))
+      .concat(persistenceNftsMiddleware),
 });
+
+export default store;

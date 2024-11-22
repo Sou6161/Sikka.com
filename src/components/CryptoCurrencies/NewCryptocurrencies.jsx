@@ -3,6 +3,11 @@ import { CoinGeckoSanderApi } from "../../api/CoinGeckoApi/CoinGeckoApi";
 import OnlyHeaderComp from "../Header Folder/OnlyHeaderComp";
 import MainPageMarquee from "../MarqueeComponent/MainPageMarquee";
 import { Link } from "react-router-dom";
+import Footer from "../../Footer/Footer";
+import { Plus, Star, Check, X } from "lucide-react";
+import { useDispatch, useSelector } from "react-redux";
+import { addToWatchlistCoins, removeFromWatchlistcoins } from "../../ReduxSlice/WatchlistCoinsSlice";
+
 
 const NewCryptocurrencies = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -12,6 +17,156 @@ const NewCryptocurrencies = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [coinsPerPage] = useState(50);
   const [hasNextPage, setHasNextPage] = useState(true);
+  const [activeDropdown, setActiveDropdown] = useState(null);
+  const [portfolios] = useState(["Add to My Portfolio"]);
+  const [watchlistCoins, setWatchlistCoins] = useState(new Set());
+  const [showRemoveDialog, setShowRemoveDialog] = useState(false);
+  const [selectedCoinToRemove, setSelectedCoinToRemove] = useState(null);
+  const watchlistCoinsredux = useSelector((state) => state.watchlist.coins);
+
+  const dispatch = useDispatch();
+
+  // Custom Dialog Component
+  const RemoveDialog = ({ isOpen, onClose, onConfirm }) => {
+    if (!isOpen) return null;
+
+    return (
+      <div className="fixed inset-0 bg-black bg-opacity-30 z-50 flex items-center justify-center">
+        <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4">
+          <div className="flex justify-between items-start mb-4">
+            <h2 className="text-xl font-semibold text-gray-900">
+              Remove coin from portfolio
+            </h2>
+            <button
+              onClick={onClose}
+              className="text-gray-400 hover:text-gray-500"
+            >
+              <X size={20} />
+            </button>
+          </div>
+
+          <p className="text-gray-600 mb-6">
+            Do you really want to remove this coin? This cannot be undone.
+          </p>
+
+          <div className="flex justify-end gap-3">
+            <button
+              onClick={onClose}
+              className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 font-medium"
+            >
+              No
+            </button>
+            <button
+              onClick={onConfirm}
+              className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 font-medium"
+            >
+              Yes
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  const handleRemoveConfirm = () => {
+    if (selectedCoinToRemove) {
+      dispatch(removeFromWatchlistcoins(selectedCoinToRemove));
+      setWatchlistCoins((prev) => {
+        const newSet = new Set(prev);
+        newSet.delete(selectedCoinToRemove);
+        return newSet;
+      });
+    }
+    setShowRemoveDialog(false);
+    setSelectedCoinToRemove(null);
+  };
+
+  // Add this useEffect hook
+  useEffect(() => {
+    localStorage.setItem(
+      "watchlistState",
+      JSON.stringify({ coins: Array.from(watchlistCoins) })
+    );
+  }, [watchlistCoins]);
+
+  const handleRemoveCancel = () => {
+    setShowRemoveDialog(false);
+    setSelectedCoinToRemove(null);
+  };
+
+  const renderWatchlistCell = (coin, index) => {
+    return (
+      <td className="sticky left-0 z-20 bg-zinc-300/50 backdrop-blur-sm px-2 py-2 xsmall:py-4 whitespace-nowrap text-xs xsmall:text-sm text-gray-500">
+        <div className="relative">
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              if (watchlistCoinsredux.includes(coin.id)) {
+                setSelectedCoinToRemove(coin.id);
+                setShowRemoveDialog(true);
+              } else {
+                handleStarClick(index, e);
+              }
+            }}
+            className="hover:text-yellow-500 focus:outline-none"
+          >
+            {watchlistCoinsredux.includes(coin.id) ? (
+              <Check size={16} className="text-green-500" />
+            ) : (
+              <Star
+                size={16}
+                className={`transition-colors ${
+                  activeDropdown === index
+                    ? "text-yellow-500 fill-yellow-500"
+                    : "text-gray-400"
+                }`}
+              />
+            )}
+          </button>
+          {activeDropdown === index &&
+            !watchlistCoinsredux.includes(coin.id) && (
+              <div
+                className="absolute ml-7 mb-2 -mt-5 left-0 w-44 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-30"
+                style={{ transform: "translateY(-8px)" }}
+              >
+                <div className="py-1">
+                  {portfolios.map((portfolio) => (
+                    <button
+                      key={portfolio}
+                      className="block w-full flex text-left px-4 py-1 font-semibold text-sm text-gray-700 hover:bg-gray-100"
+                      onClick={(e) =>
+                        handlePortfolioSelect(coin.id, portfolio, e)
+                      }
+                    >
+                      {portfolio} <Plus className="relative left-3" />
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+        </div>
+      </td>
+    );
+  };
+
+  const handleStarClick = (index, event) => {
+    event.stopPropagation();
+    setActiveDropdown(activeDropdown === index ? null : index);
+  };
+
+  const handlePortfolioSelect = (coinId, portfolio, event) => {
+    event.stopPropagation();
+    dispatch(addToWatchlistCoins(coinId)); // Dispatch action to add coin to watchlist
+    setWatchlistCoins((prev) => new Set([...prev, coinId]));
+    setActiveDropdown(null);
+  };
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = () => setActiveDropdown(null);
+    document.addEventListener("click", handleClickOutside);
+    return () => document.removeEventListener("click", handleClickOutside);
+  }, []);
 
   const handlePrevPage = () => {
     if (currentPage > 1) {
@@ -139,6 +294,9 @@ const NewCryptocurrencies = () => {
             <table className="min-w-full bg-white rounded-lg">
               <thead className="bg-gray-100">
                 <tr>
+                   <th className="sticky left-0 z-10 bg-gray-400 px-2 py-2 xsmall:px-3 xsmall:py-3 text-left text-xs font-medium text-black uppercase tracking-wider w-8">
+                    ★
+                  </th>
                   <th className="sticky left-0 z-10 bg-gray-400 px-2 py-2 xsmall:px-3 xsmall:py-3 text-left text-xs font-medium text-black uppercase tracking-wider">
                     #
                   </th>
@@ -172,6 +330,7 @@ const NewCryptocurrencies = () => {
                 {NewCryptocurrencies &&
                   NewCryptocurrencies.map((coin, index) => (
                     <tr key={coin.id} className="hover:bg-gray-50">
+                      {renderWatchlistCell(coin, index)}
                       <td className="sticky left-0 z-10 bg-zinc-300/50 backdrop-blur-sm px-2 py-2 xsmall:py-4 whitespace-nowrap text-xs xsmall:text-sm text-gray-500">
                         {(currentPage - 1) * coinsPerPage + index + 1}
                       </td>
@@ -257,7 +416,15 @@ const NewCryptocurrencies = () => {
             </button>
           </div>
         </div>
+        <div className="mt-10">
+          <Footer />
+        </div>
       </div>
+      <RemoveDialog
+        isOpen={showRemoveDialog}
+        onClose={handleRemoveCancel}
+        onConfirm={handleRemoveConfirm}
+      />
     </>
   );
 };
