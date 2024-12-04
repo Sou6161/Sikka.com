@@ -6,8 +6,8 @@ import TrendingCoins from "./TrendingCoins";
 import TopGainers from "./TopGainers";
 import TopLosers from "./TopLosers";
 import NewCoins from "./NewCoins";
+import AllTimeHighPrice from "../CryptoHighlights/AllTimeHighPrice"
 import HighestCoinVolume from "./HighestCoinVolume";
-import AllTimeHighPrice from "./AllTimeHighPrice";
 import MostVotedCoins from "./MostVotedCoins";
 import Footer from "../../Footer/Footer";
 
