@@ -24,7 +24,6 @@ import { MdAccountBalance } from "react-icons/md";
 import SearchBarForLargeScreen from "../SearchBarFeature/SearchBarForLargeScreen";
 import CosmicSearchInput from "../SearchBarFeature/CosmicSearchInput";
 import { TrendingUp, Shield } from "lucide-react";
-import MainContainer from "../../HomePage/HomePageData";
 
 const Header = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
