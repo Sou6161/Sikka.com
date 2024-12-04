@@ -658,12 +658,12 @@ const CoinFullDetails = ({ contractAddress, marketsData }) => {
 
             {/* Favorite Button */}
             <div className="relative">
-              <button
+              {/* <button
                 onClick={() => setShowDropdown(!showDropdown)}
                 className="group p-2 rounded-full bg-gradient-to-r from-blue-500/10 to-purple-500/10 hover:from-blue-500/20 hover:to-purple-500/20 transition-all duration-300"
               >
                 <FaStar className="w-5 h-5 text-yellow-400 group-hover:scale-110 transition-transform duration-300" />
-              </button>
+              </button> */}
 
               {showDropdown && (
                 <div className="absolute right-0 mt-2 w-64 rounded-xl bg-gray-800/90 backdrop-blur-lg border border-white/10 shadow-2xl p-4 z-10">
