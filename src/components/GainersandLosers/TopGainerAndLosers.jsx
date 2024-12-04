@@ -174,7 +174,7 @@ const TopGainerAndLosers = () => {
     }
     const formattedValue = value.toFixed(2);
     const colorClass =
-      value >= 0 ? "text-green-600 blink-green" : "text-red-600 blink-red";
+      value >= 0 ? "text-green-500 blink-green" : "text-red-500 blink-red";
     return (
       <span className={`font-semibold ${colorClass}`}>
         <span style={{ color: value < 0 ? "red" : "" }}>
@@ -219,69 +219,66 @@ const TopGainerAndLosers = () => {
 
   return (
     <>
-      <div className=" bg-black ">
+      <div className=" ">
         <OnlyHeaderComp />
         <MainPageMarquee />
       </div>
-      <div className=" bg-black ">
-        <h1 className=" ml-5 relative top-10 text-[5vw] text-white font-semibold">
+      <div className=" bg-gradient-to-r from-[#3f4c6b] to-[#606c88] ">
+        <h1 className="text-[6vw] xsmall:text-[5vw] small:text-[4.3vw] medium:text-[2.8vw] large:text-[2.8vw] xlarge:text-[2vw] 2xlarge:text-[1.7vw] text-cente text-yellow-400 ml-5 pt-10 pb-2 font-semibold">
           Top Crypto Gainers and Losers
         </h1>
-        <p className="text-gray-500 ml-5 relative top-10 mt-2 text-[4vw]">
+        <p className="text-sky-500  ml-5 relative top-3 mt-2 text-[4vw] xsmall:text-[3.5vw] small:text-[3vw] medium:text-[2vw] large:text-[2vw] xlarge:text-[1.7vw] 2xlarge:text-[1.3vw]">
           Discover the largest gainers and losers across all major
           cryptocurrencies listed on CoinGecko, based on price movements in the
           last 24 hours.
         </p>
 
-        <h1 className=" relative top-[10vh] ml-5 font-semibold text-[6vw] text-yellow-400">
+        <h1 className=" relative top-[10vh] ml-5 font-semibold text-[6vw] xsmall:text-[5vw] small:text-[4vw] medium:text-[3vw] large:text-[2.5vw] xlarge:text-[2vw] 2xlarge:text-[1.5vw] text-center text-yellow-400">
           🚀 Top Gainers
         </h1>
-        <div className=" bg-black mt-[14vh] px-2 ">
-          <div className="overflow-x-auto   w-full border-2 border-purple-500 rounded-lg">
-            <table className="min-w-full bg-white rounded-lg">
-              <thead className="bg-gray-100">
+        <div className=" bg-gradient-to-r from-[#3f4c6b] to-[#606c88] mt-[14vh] px-2 ">
+          <div className="overflow-x-auto w-[92vw] medium:w-[70vw] large:w-[65vw] xlarge:w-[70vw] 2xlarge:w-[80vw]  mx-auto border-2 border-yellow-400 rounded-lg">
+            <table className="min-w-full bg-gradient-to-br from-purple-100 to-indigo-100 rounded-lg">
+              <thead className="bg-gradient-to-r from-purple-900 to-indigo-900">
                 <tr>
-                  <th className="sticky left-0 z-10 bg-gray-400 px-2 py-2 xsmall:px-3 xsmall:py-3 text-left text-xs font-medium text-black uppercase tracking-wider w-8">
+                  {/* <th className="sticky left-0 z-10 bg-gray-400 px-2 py-2 xsmall:px-3 xsmall:py-3 text-left text-xs font-medium text-black uppercase tracking-wider w-8">
                     ★
-                  </th>
-                  <th className="sticky left-0 z-10 bg-gray-400 px-2 py-2 xsmall:px-3 xsmall:py-3 text-left text-xs font-medium text-black uppercase tracking-wider">
+                  </th> */}
+                  <th className="sticky left-0 z-10 bg-gradient-to-br from-purple-300 to-indigo-400 px-2 py-2 xsmall:px-3 xsmall:py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
                     #
                   </th>
-                  <th className="sticky left-7 xsmall:left-10 z-10 bg-gray-400 px-3 py-2 xsmall:px-6 xsmall:py-3 text-left text-xs font-medium text-black  uppercase tracking-wider max-w-[120px] xsmall:max-w-[200px]">
+                  <th className="sticky left-7 xsmall:left-8 z-10 bg-gradient-to-br from-purple-300 to-indigo-400 px-3 py-2 xsmall:px-6 xsmall:py-3 text-center text-xs font-medium text-white  uppercase tracking-wider max-w-[120px] xsmall:max-w-[200px]">
                     Coin
                   </th>
-                  <th className="px-3 py-2 xsmall:px-6 xsmall:py-3 max-w-[20vw] xsmall:max-w-[30vw] bg-purple-400/50 backdrop-blur-md text-left text-xs font-semibold text-black uppercase tracking-wider">
+                  <th className="px-3 py-2 xsmall:px-6 xsmall:py-3 max-w-[20vw] xsmall:max-w-[30vw] bg-gradient-to-br from-purple-300/50 to-indigo-400/50 backdrop-blur-md text-left text-xs font-semibold text-white uppercase tracking-wider">
                     Price
                   </th>
-
-                  <th className="px-3 py-2 xsmall:px-6 xsmall:py-3 max-w-[20vw] xsmall:max-w-[30vw] bg-purple-400/50 backdrop-blur-md text-left text-xs font-semibold text-black uppercase tracking-wider">
+                  <th className="px-3 py-2 xsmall:px-6 xsmall:py-3 max-w-[20vw] xsmall:max-w-[30vw] bg-gradient-to-br from-purple-300/50 to-indigo-400/50 backdrop-blur-md text-left text-xs font-semibold text-white uppercase tracking-wider">
                     24h
                   </th>
-
-                  <th className="px-4 py-2 xsmall:px-6 xsmall:py-3 max-w-[25vw] whitespace-nowrap xsmall:max-w-[30vw] bg-purple-400/50 backdrop-blur-md text-left text-xs font-semibold text-black uppercase tracking-wider">
+                  <th className="px-4 py-2 xsmall:px-6 xsmall:py-3 max-w-[25vw] whitespace-nowrap xsmall:max-w-[30vw] bg-gradient-to-br from-purple-300/50 to-indigo-400/50 backdrop-blur-md text-left text-xs font-semibold text-white uppercase tracking-wider">
                     Total Vol
                   </th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+              <tbody className="bg-gradient-to-l from-[#2c3e50] to-[#bdc3c7] divide-y divide-gray-200">
                 {TopCryptoGainers &&
                   TopCryptoGainers.map((coin, index) => (
                     <tr key={coin.id} className="hover:bg-gray-50">
-                      {renderWatchlistCell(coin, index)}
-
+                      {/* {renderWatchlistCell(coin, index)} */}
                       <td className="sticky left-0 z-10 bg-zinc-300/50 backdrop-blur-sm px-2 py-2 xsmall:py-4 whitespace-nowrap text-xs xsmall:text-sm text-gray-500">
                         {(currentPage - 1) * coinsPerPage + index + 1}
                       </td>
-                      <td className="sticky left-7 xsmall:left-9 z-10 bg-zinc-300/50 backdrop-blur-sm px-2 py-2 xsmall:px-3 xsmall:py-4 min-w-[150px] xsmall:max-w-[200px]">
-                        <div className="flex items-center">
+                      <td className="sticky left-7 xsmall:left-8 z-10 bg-zinc-300/50 backdrop-blur-sm px-2 py-2 xsmall:px-3 xsmall:py-4 min-w-[150px] xsmall:max-w-[200px]">
+                        <div className="flex items-center ">
                           <Link to={`/en/coins/${coin.id}`}>
-                            <div className="flex items-center space-x-2">
+                            <div className="flex items-center space-x-2 ">
                               <img
                                 className="w-6 h-6 rounded-full object-cover"
                                 src={coin?.image}
                                 alt={coin.name}
                               />
-                              <span className="text-sm font-medium text-wrap text-gray-900">
+                              <span className="text-sm font-medium text-wrap  text-gray-900">
                                 {coin.name}
                               </span>
                             </div>
@@ -302,7 +299,7 @@ const TopGainerAndLosers = () => {
                         )}
                       </td>
 
-                      <td className="px-2 py-2 xsmall:px-6 xsmall:py-4 whitespace-nowrap text-xs xsmall:text-sm font-semibold text-gray-500">
+                      <td className="px-2 py-2 xsmall:px-6 xsmall:py-4 whitespace-nowrap text-xs xsmall:text-sm font-semibold text-black">
                         <h1 className="inline-block px-1 xsmall:px-2 rounded-xl font-bold">
                           $
                           {coin.total_volume
@@ -317,45 +314,45 @@ const TopGainerAndLosers = () => {
           </div>
         </div>
 
-        <h1 className=" relative top-[10vh] ml-5 font-semibold text-[6vw] text-yellow-400">
+        <h1 className=" relative top-[10vh] ml-5 font-semibold text-[6vw] xsmall:text-[5vw] small:text-[4vw] medium:text-[3vw] large:text-[2.5vw] xlarge:text-[2vw] 2xlarge:text-[1.5vw] text-center text-yellow-400">
           📉 Top Losers
         </h1>
-        <div className=" bg-black mt-[14vh] px-2 ">
-          <div className="overflow-x-auto   w-full border-2 border-purple-500 rounded-lg">
-            <table className="min-w-full bg-white rounded-lg">
-              <thead className="bg-gray-100">
+        <div className=" bg-gradient-to-r from-[#3f4c6b] to-[#606c88] mt-[14vh] px-2 ">
+          <div className="overflow-x-auto mx-auto w-[92vw] medium:w-[70vw] large:w-[65vw] xlarge:w-[70vw] 2xlarge:w-[80vw] border-2 border-purple-500 rounded-lg">
+            <table className="min-w-full bg-gradient-to-br from-purple-100 to-indigo-100 rounded-lg">
+              <thead className="bg-gradient-to-r from-purple-900 to-indigo-900">
                 <tr>
-                  <th className="sticky left-0 z-10 bg-gray-400 px-2 py-2 xsmall:px-3 xsmall:py-3 text-left text-xs font-medium text-black uppercase tracking-wider w-8">
+                  {/* <th className="sticky left-0 z-10 bg-gray-400 px-2 py-2 xsmall:px-3 xsmall:py-3 text-left text-xs font-medium text-black uppercase tracking-wider w-8">
                     ★
-                  </th>
-                  <th className="sticky left-0 z-10 bg-gray-400 px-2 py-2 xsmall:px-3 xsmall:py-3 text-left text-xs font-medium text-black uppercase tracking-wider">
+                  </th> */}
+                  <th className="sticky left-0 z-10 bg-gradient-to-br from-purple-300 to-indigo-400 px-2 py-2 xsmall:px-3 xsmall:py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
                     #
                   </th>
-                  <th className="sticky left-7 xsmall:left-10 z-10 bg-gray-400 px-3 py-2 xsmall:px-6 xsmall:py-3 text-left text-xs font-medium text-black  uppercase tracking-wider max-w-[120px] xsmall:max-w-[200px]">
+                  <th className="sticky left-7 xsmall:left-8 z-10 bg-gradient-to-br from-purple-300 to-indigo-400 px-3 py-2 xsmall:px-6 xsmall:py-3 text-center text-xs font-medium text-white  uppercase tracking-wider max-w-[120px] xsmall:max-w-[200px]">
                     Coin
                   </th>
-                  <th className="px-3 py-2 xsmall:px-6 xsmall:py-3 max-w-[20vw] xsmall:max-w-[30vw] bg-purple-400/50 backdrop-blur-md text-left text-xs font-semibold text-black uppercase tracking-wider">
+                  <th className="px-3 py-2 xsmall:px-6 xsmall:py-3 max-w-[20vw] xsmall:max-w-[30vw] bg-gradient-to-br from-purple-300/50 to-indigo-400/50 backdrop-blur-md text-left text-xs font-semibold text-white uppercase tracking-wider">
                     Price
                   </th>
 
-                  <th className="px-3 py-2 xsmall:px-6 xsmall:py-3 max-w-[20vw] xsmall:max-w-[30vw] bg-purple-400/50 backdrop-blur-md text-left text-xs font-semibold text-black uppercase tracking-wider">
+                  <th className="px-3 py-2 xsmall:px-6 xsmall:py-3 max-w-[20vw] xsmall:max-w-[30vw] bg-gradient-to-br from-purple-300/50 to-indigo-400/50 backdrop-blur-md text-left text-xs font-semibold text-white uppercase tracking-wider">
                     24h
                   </th>
 
-                  <th className="px-4 py-2 xsmall:px-6 xsmall:py-3 max-w-[25vw] whitespace-nowrap xsmall:max-w-[30vw] bg-purple-400/50 backdrop-blur-md text-left text-xs font-semibold text-black uppercase tracking-wider">
+                  <th className="px-4 py-2 xsmall:px-6 xsmall:py-3 max-w-[25vw] whitespace-nowrap xsmall:max-w-[30vw] bg-gradient-to-br from-purple-300/50 to-indigo-400/50 backdrop-blur-md text-left text-xs font-semibold text-white uppercase tracking-wider">
                     Total Vol
                   </th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+              <tbody className="bg-gradient-to-l from-[#2c3e50] to-[#bdc3c7] divide-y divide-gray-200">
                 {TopCryptoLosers &&
                   TopCryptoLosers.map((coin, index) => (
                     <tr key={coin.id} className="hover:bg-gray-50">
-                      {renderWatchlistCell(coin, index)}
+                      {/* {renderWatchlistCell(coin, index)} */}
                       <td className="sticky left-0 z-10 bg-zinc-300/50 backdrop-blur-sm px-2 py-2 xsmall:py-4 whitespace-nowrap text-xs xsmall:text-sm text-gray-500">
                         {(currentPage - 1) * coinsPerPage + index + 1}
                       </td>
-                      <td className="sticky left-7 xsmall:left-9 z-10 bg-zinc-300/50 backdrop-blur-sm px-2 py-2 xsmall:px-3 xsmall:py-4 min-w-[150px] xsmall:max-w-[200px]">
+                      <td className="sticky left-7 xsmall:left-8 z-10 bg-zinc-300/50 backdrop-blur-sm px-2 py-2 xsmall:px-3 xsmall:py-4 min-w-[150px] xsmall:max-w-[200px]">
                         <div className="flex items-center">
                           <Link to={`/en/coins/${coin.id}`}>
                             <div className="flex items-center space-x-2">
@@ -385,7 +382,7 @@ const TopGainerAndLosers = () => {
                         )}
                       </td>
 
-                      <td className="px-2 py-2 xsmall:px-6 xsmall:py-4 whitespace-nowrap text-xs xsmall:text-sm font-semibold text-gray-500">
+                      <td className="px-2 py-2 xsmall:px-6 xsmall:py-4 whitespace-nowrap text-xs xsmall:text-sm font-semibold text-black">
                         <h1 className="inline-block px-1 xsmall:px-2 rounded-xl font-bold">
                           $
                           {coin.total_volume
@@ -399,8 +396,10 @@ const TopGainerAndLosers = () => {
             </table>
           </div>
         </div>
-        <LatestArticlesData />
-        <div className=" mt-5">
+        <div className="  medium:ml-12 xlarge:ml-20">
+          <LatestArticlesData />
+        </div>
+        <div className=" mt-5 ml-4 xlarge:ml-20 2xlarge:ml-24">
           <Footer />
         </div>
       </div>

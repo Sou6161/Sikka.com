@@ -521,7 +521,7 @@ const CoinConverter = () => {
         <OnlyHeaderComp />
         <MainPageMarquee />
       </div>
-      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-white p-5">
+      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-white p-5 2xlarge:-mt-20  ">
         <div className="w-full max-w-2xl bg-gray-800 rounded-xl p-6 shadow-lg">
           <h1 className="text-2xl font-bold mb-6 text-center">
             Cryptocurrency Converter Calculator
@@ -671,9 +671,9 @@ const CoinConverter = () => {
             </p>
           </div>
         </div>
-        <div className=" relative top-5">
-          <Footer />
-        </div>
+      </div>
+      <div className=" -mt-16 ml-4 xlarge:ml-[6.6vw] 2xlarge:ml-[5.7vw] bg-gradient-to-r from-[#3f4c6b] to-[#606c88]">
+        <Footer />
       </div>
     </>
   );

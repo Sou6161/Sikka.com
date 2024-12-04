@@ -8,6 +8,7 @@ import {
 } from "../ReduxSlice/CGCoinTableGraphSlice";
 import {
   addToWatchlistCoins,
+  clearWatchlist,
   removeFromWatchlistcoins,
 } from "../ReduxSlice/WatchlistCoinsSlice";
 import { Sparklines, SparklinesLine } from "react-sparklines";
@@ -49,6 +50,46 @@ const RemoveDialog = ({ isOpen, onClose, onConfirm }) => {
             className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 font-medium"
           >
             Yes
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// Auth Dialog Component
+const AuthCheckDialog = ({ isOpen, onClose, onSignUp }) => {
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-30 z-50 flex items-center justify-center">
+      <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4">
+        <div className="flex justify-between items-start mb-4">
+          <h2 className="text-xl font-semibold text-gray-900">
+            Authentication Required
+          </h2>
+          <button
+            onClick={onClose}
+            className="text-gray-400 hover:text-gray-500"
+          >
+            <X size={20} />
+          </button>
+        </div>
+        <p className="text-gray-600 mb-6">
+          Please sign in or create an account to add coins to your watchlist.
+        </p>
+        <div className="flex justify-end space-x-4">
+          <button
+            onClick={onClose}
+            className="px-4 py-2 text-gray-600 hover:text-gray-700"
+          >
+            Cancel
+          </button>
+          <button
+            onClick={onSignUp}
+            className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+          >
+            Sign In
           </button>
         </div>
       </div>
@@ -98,25 +139,42 @@ const CryptoPricesTable = () => {
   const [showRemoveDialog, setShowRemoveDialog] = useState(false);
   const [selectedCoinToRemove, setSelectedCoinToRemove] = useState(null);
   const watchlistCoinsredux = useSelector((state) => state.watchlist.coins);
-
-
+  const [showAuthDialog, setShowAuthDialog] = useState(false);
+  const [isSignUpOpen, setIsSignUpOpen] = useState(false);
+  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+  const [watchlistCoins, setWatchlistCoins] = useState([]);
   const dispatch = useDispatch();
 
   const coinsPerPage = 100;
 
+  // Add this useEffect to check login status
+  useEffect(() => {
+    const storedLoginStatus = window.localStorage.getItem("isUserLoggedIn");
+    if (storedLoginStatus === "true") {
+      setIsUserLoggedIn(true);
+    }
+  }, []);
 
   // Load watchlist from localStorage on component mount
   useEffect(() => {
-    const savedWatchlist = localStorage.getItem('watchlistState');
-    if (savedWatchlist) {
-      const parsedWatchlist = JSON.parse(savedWatchlist);
-      parsedWatchlist.coins.forEach(coinId => {
-        if (!watchlistCoinsredux.includes(coinId)) {
-          dispatch(addToWatchlistCoins(coinId));
-        }
-      });
+    const isLoggedIn = window.localStorage.getItem("isUserLoggedIn") === "true";
+    const userId = window.localStorage.getItem("userId");
+
+    if (isLoggedIn && userId) {
+      const savedWatchlist = localStorage.getItem(`watchlistState_${userId}`);
+      if (savedWatchlist) {
+        const parsedWatchlist = JSON.parse(savedWatchlist);
+        parsedWatchlist.coins.forEach((coinId) => {
+          if (!watchlistCoinsredux.includes(coinId)) {
+            dispatch(addToWatchlistCoins(coinId));
+          }
+        });
+      }
+    } else {
+      // Clear watchlist if not logged in
+      dispatch(clearWatchlist());
     }
-  }, []);
+  }, [isUserLoggedIn]); // Add isUserLoggedIn to dependencies
 
   const handleRemoveConfirm = () => {
     if (selectedCoinToRemove) {
@@ -140,6 +198,10 @@ const CryptoPricesTable = () => {
           <button
             onClick={(e) => {
               e.stopPropagation();
+              if (!isUserLoggedIn && !isWatchlisted) {
+                setShowAuthDialog(true);
+                return;
+              }
               if (isWatchlisted) {
                 setSelectedCoinToRemove(coin.id);
                 setShowRemoveDialog(true);
@@ -172,7 +234,9 @@ const CryptoPricesTable = () => {
                   <button
                     key={portfolio}
                     className="block w-full flex text-left px-4 py-1 font-semibold text-sm text-gray-700 hover:bg-gray-100"
-                    onClick={(e) => handlePortfolioSelect(coin.id, portfolio, e)}
+                    onClick={(e) =>
+                      handlePortfolioSelect(coin.id, portfolio, e)
+                    }
                   >
                     {portfolio} <Plus className="relative left-3" />
                   </button>
@@ -185,14 +249,13 @@ const CryptoPricesTable = () => {
     );
   };
 
-  
   const renderPercentageChange = (value) => {
     if (value === null || value === undefined) {
       return <span className="text-gray-500">N/A</span>;
     }
     const formattedValue = value.toFixed(2);
     const colorClass =
-      value >= 0 ? "text-green-600 blink-green" : "text-red-600 blink-red ";
+      value >= 0 ? "text-green-500 blink-green" : "text-red-500 blink-red ";
     return (
       <span className={`font-semibold ${colorClass}`}>{formattedValue}%</span>
     );
@@ -261,18 +324,31 @@ const CryptoPricesTable = () => {
     setActiveDropdown(activeDropdown === index ? null : index);
   };
 
+  // Modify handlePortfolioSelect function
   const handlePortfolioSelect = (coinId, portfolio, event) => {
     event.stopPropagation();
-    dispatch(addToWatchlistCoins(coinId));
-    setActiveDropdown(null);
+    if (!isUserLoggedIn) {
+      setShowAuthDialog(true);
+      setActiveDropdown(null);
+      return;
+    }
 
-    // Update localStorage
-    const currentWatchlist = JSON.parse(localStorage.getItem('watchlistState') || '{"coins":[]}');
+    const userId = window.localStorage.getItem("userId");
+    dispatch(addToWatchlistCoins(coinId));
+
+    // Update localStorage with user-specific key
+    const currentWatchlist = JSON.parse(
+      localStorage.getItem(`watchlistState_${userId}`) || '{"coins":[]}'
+    );
     if (!currentWatchlist.coins.includes(coinId)) {
       currentWatchlist.coins.push(coinId);
-      localStorage.setItem('watchlistState', JSON.stringify(currentWatchlist));
+      localStorage.setItem(
+        `watchlistState_${userId}`,
+        JSON.stringify(currentWatchlist)
+      );
     }
   };
+
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = () => setActiveDropdown(null);
@@ -294,47 +370,44 @@ const CryptoPricesTable = () => {
   return (
     <>
       <div className="w-full">
-        <div className="overflow-x-auto w-full border-2 border-purple-500 rounded-lg">
-          <table className="min-w-full bg-white rounded-lg">
-            <thead className="bg-gray-100">
+      <div className="overflow-x-auto w-full border-2 border-yellow-400 rounded-lg">
+          <table className="min-w-full bg-gradient-to-br from-purple-100 to-indigo-100 rounded-lg">
+            <thead className="bg-gradient-to-r from-purple-900 to-indigo-900">
               <tr>
-                <th className="sticky left-0 z-10 bg-gray-400 px-2 py-2 xsmall:px-3 xsmall:py-3 text-left text-xs font-medium text-black uppercase tracking-wider w-8">
-                  ★
-                </th>
-                <th className="sticky left-0 z-10 bg-gray-400 px-2 py-2 xsmall:px-3 xsmall:py-3 text-left text-xs font-medium text-black uppercase tracking-wider">
+                <th className="sticky left-0 z-10 bg-gradient-to-br from-purple-300 to-indigo-400 px-2 py-2 xsmall:px-3 xsmall:py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
                   #
                 </th>
-                <th className="sticky left-8 xsmall:left-10 z-10 bg-gray-400 px-3 py-2 xsmall:px-6 xsmall:py-3 text-left text-xs font-medium text-black  uppercase tracking-wider max-w-[120px] xsmall:max-w-[200px]">
+                <th className="sticky left-8 xsmall:left-9 z-10 bg-gradient-to-br from-purple-300 to-indigo-400 px-3 py-2 xsmall:px-6 xsmall:py-3 text-left text-xs font-medium text-white uppercase tracking-wider max-w-[120px] xsmall:max-w-[200px]">
                   Coin
                 </th>
-                <th className="px-3 py-2 xsmall:px-6 xsmall:py-3 max-w-[20vw] xsmall:max-w-[30vw] bg-purple-400/50 backdrop-blur-md text-left text-xs font-semibold text-black uppercase tracking-wider">
+                <th className="px-3 py-2 xsmall:px-6 xsmall:py-3 max-w-[20vw] xsmall:max-w-[30vw] bg-gradient-to-br from-purple-300/50 to-indigo-400/50 backdrop-blur-md text-left text-xs font-semibold text-white uppercase tracking-wider">
                   Price
                 </th>
-                <th className="px-3 py-2 xsmall:px-6 xsmall:py-3 max-w-[20vw] xsmall:max-w-[30vw] bg-purple-400/50 backdrop-blur-md text-left text-xs font-semibold text-black uppercase tracking-wider">
+                <th className="px-3 py-2 xsmall:px-6 xsmall:py-3 max-w-[20vw] xsmall:max-w-[30vw] bg-gradient-to-br from-purple-300/50 to-indigo-400/50 backdrop-blur-md text-left text-xs font-semibold text-white uppercase tracking-wider">
                   1h
                 </th>
-                <th className="px-3 py-2 xsmall:px-6 xsmall:py-3 max-w-[20vw] xsmall:max-w-[30vw] bg-purple-400/50 backdrop-blur-md text-left text-xs font-semibold text-black uppercase tracking-wider">
+                <th className="px-3 py-2 xsmall:px-6 xsmall:py-3 max-w-[20vw] xsmall:max-w-[30vw] bg-gradient-to-br from-purple-300/50 to-indigo-400/50 backdrop-blur-md text-left text-xs font-semibold text-white uppercase tracking-wider">
                   24h
                 </th>
-                <th className="px-3 py-2 xsmall:px-6 xsmall:py-3 max-w-[20vw] xsmall:max-w-[30vw] bg-purple-400/50 backdrop-blur-md text-left text-xs font-semibold text-black uppercase tracking-wider">
+                <th className="px-3 py-2 xsmall:px-6 xsmall:py-3 max-w-[20vw] xsmall:max-w-[30vw] bg-gradient-to-br from-purple-300/50 to-indigo-400/50 backdrop-blur-md text-left text-xs font-semibold text-white uppercase tracking-wider">
                   7d
                 </th>
-                <th className="px-3 py-2 xsmall:px-6 xsmall:py-3 max-w-[20vw] xsmall:max-w-[30vw] bg-purple-400/50 backdrop-blur-md text-left text-xs font-semibold text-black uppercase tracking-wider">
+                <th className="px-3 py-2 xsmall:px-6 xsmall:py-3 max-w-[20vw] xsmall:max-w-[30vw] bg-gradient-to-br from-purple-300/50 to-indigo-400/50 backdrop-blur-md text-left text-xs font-semibold text-white uppercase tracking-wider">
                   Total Volume
                 </th>
-                <th className="px-3 py-2 xsmall:px-6 xsmall:py-3 max-w-[20vw] xsmall:max-w-[30vw] bg-purple-400/50 backdrop-blur-md text-left text-xs font-semibold text-black uppercase tracking-wider">
+                <th className="px-3 py-2 xsmall:px-6 xsmall:py-3 max-w-[20vw] xsmall:max-w-[30vw] bg-gradient-to-br from-purple-300/50 to-indigo-400/50 backdrop-blur-md text-left text-xs font-semibold text-white uppercase tracking-wider">
                   Market Cap
                 </th>
-                <th className="px-3 py-2 xsmall:px-6 xsmall:py-3 max-w-[20vw] xsmall:max-w-[30vw] bg-purple-400/50 backdrop-blur-md text-left text-xs font-semibold text-black uppercase tracking-wider">
+                <th className="px-3 py-2 xsmall:px-6 xsmall:py-3 max-w-[20vw] xsmall:max-w-[30vw] bg-gradient-to-br from-purple-300/50 to-indigo-400/50 backdrop-blur-md text-left text-xs font-semibold text-white uppercase tracking-wider">
                   Last 7 Days
                 </th>
               </tr>
-            </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
+            </thead>    
+            <tbody className="bg-gradient-to-l from-[#2c3e50] to-[#bdc3c7] divide-y divide-gray-200">
               {allCoinsList.map((coin, index) => (
                 <tr key={coin.id} className="hover:bg-gray-50">
-                  {renderWatchlistCell(coin, index)}
-                  <td className="sticky left-0 z-10 bg-zinc-300/50 backdrop-blur-sm px-2 py-2 xsmall:py-4 whitespace-nowrap text-xs xsmall:text-sm text-gray-500">
+                  {/* {renderWatchlistCell(coin, index)} */}
+                  <td className="sticky left-0 z-10 bg-zinc-300/50 backdrop-blur-sm px-2 py-2 xsmall:py-4 whitespace-nowrap text-xs xsmall:text-sm text-black">
                     {(currentPage - 1) * coinsPerPage + index + 1}
                   </td>
                   <td className="sticky left-8 xsmall:left-9 z-10 bg-zinc-300/50 backdrop-blur-sm px-2 py-2 xsmall:px-3 xsmall:py-4 max-w-[150px] xsmall:max-w-[200px]">
@@ -347,14 +420,14 @@ const CryptoPricesTable = () => {
                       <Link to={`/en/coins/${coin.id}`}>
                         <span className="text-[4vw] xsmall:text-sm 2xlarge:text-[1vw] font-medium w-[20vw] h-[6vh]  whitespace-normal xsmall:w-[33vw] text-gray-900 truncate ">
                           {coin.name}
-                          <h1 className="flex flex-col text-gray-600 text-[3vw] xsmall:text-[2vw] xlarge:text-[1vw] 2xlarge:text-[0.8vw]">
+                          <h1 className="flex flex-col text-gray-600 text-[3vw] xsmall:text-[2vw] large:text-[1.2vw] xlarge:text-[1vw] 2xlarge:text-[0.8vw]">
                             {coin?.symbol?.toUpperCase()}
                           </h1>
                         </span>
                       </Link>
                     </div>
                   </td>
-                  <td className="px-3 py-2 xsmall:px-6 xsmall:py-4 whitespace-nowrap text-xs xsmall:text-sm text-gray-500">
+                  <td className="px-3 py-2 xsmall:px-6 xsmall:py-4 whitespace-nowrap text-xs xsmall:text-sm text-black font-semibold">
                     $
                     {coin.current_price ? coin.current_price.toFixed(2) : "N/A"}
                   </td>
@@ -363,7 +436,7 @@ const CryptoPricesTable = () => {
                       coin.price_change_percentage_1h_in_currency
                     )}
                   </td>
-                  <td className="px-3 py-2 xsmall:px-6 xsmall:py-4 whitespace-nowrap text-xs xsmall:text-sm">
+                  <td className="px-2 py-2 xsmall:px-4 xsmall:py-4 whitespace-nowrap font-semibold text-xs xsmall:text-sm ">
                     {renderPercentageChange(coin.price_change_percentage_24h)}
                   </td>
                   <td className="px-3 py-2 xsmall:px-6 xsmall:py-4 whitespace-nowrap text-xs xsmall:text-sm">
@@ -371,7 +444,7 @@ const CryptoPricesTable = () => {
                       coin.price_change_percentage_7d_in_currency
                     )}
                   </td>
-                  <td className="px-3 py-2 xsmall:px-6 xsmall:py-4 whitespace-nowrap text-xs xsmall:text-sm font-semibold text-gray-500">
+                  <td className="px-3 py-2 xsmall:px-6 xsmall:py-4 whitespace-nowrap text-xs xsmall:text-sm text-black font-semibold">
                     <h1 className="inline-block px-1 xsmall:px-2 rounded-xl font-bold">
                       $
                       {coin.total_volume
@@ -379,7 +452,7 @@ const CryptoPricesTable = () => {
                         : "N/A"}
                     </h1>
                   </td>
-                  <td className="px-3 py-2 xsmall:px-6 xsmall:py-4 whitespace-nowrap text-xs xsmall:text-sm font-bold text-gray-500">
+                  <td className="px-3 py-2 xsmall:px-6 xsmall:py-4 whitespace-nowrap text-xs xsmall:text-sm text-black font-semibold  ">
                     $
                     {coin.market_cap ? coin.market_cap.toLocaleString() : "N/A"}
                   </td>
@@ -402,17 +475,17 @@ const CryptoPricesTable = () => {
           <button
             onClick={handlePrevPage}
             disabled={currentPage === 1}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-2 xsmall:py-2 xsmall:px-4 rounded text-sm xsmall:text-sm disabled:bg-gray-300 disabled:cursor-not-allowed"
+            className="bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600 text-white font-bold py-2 px-2 xsmall:py-2 xsmall:px-4 rounded text-sm xsmall:text-sm disabled:bg-gray-300 disabled:cursor-not-allowed"
           >
             Previous
           </button>
-          <span className="text-cyan-600 ml-2 xsmall:ml-3 font-semibold text-lg xsmall:text-sm">
+          <span className="text-purple-600 ml-2 xsmall:ml-3 font-semibold text-lg xsmall:text-sm">
             Page {currentPage}
           </span>
           <button
             onClick={handleNextPage}
             disabled={!hasNextPage}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-3 xsmall:py-2 xsmall:px-4 rounded text-sm xsmall:text-sm disabled:bg-gray-300 disabled:cursor-not-allowed"
+            className="bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600 text-white font-bold py-2 px-3 xsmall:py-2 xsmall:px-4 rounded text-sm xsmall:text-sm disabled:bg-gray-300 disabled:cursor-not-allowed"
           >
             Next
           </button>
@@ -422,6 +495,14 @@ const CryptoPricesTable = () => {
         isOpen={showRemoveDialog}
         onClose={handleRemoveCancel}
         onConfirm={handleRemoveConfirm}
+      />
+      <AuthCheckDialog
+        isOpen={showAuthDialog}
+        onClose={() => setShowAuthDialog(false)}
+        onSignUp={() => {
+          setShowAuthDialog(false);
+          setIsSignUpOpen(true);
+        }}
       />
     </>
   );

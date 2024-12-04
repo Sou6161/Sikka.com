@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useCallback, useEffect } from "react";
+import { Link } from "react-router-dom";
 
-const SearchBarForMobile = () => {
+const DynamicSearchBar = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [isTrendingCoins, setIsTrendingCoins] = useState(true);
   const [isTrendingNFTs, setIsTrendingNFTs] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [searchResults, setSearchResults] = useState([]);
-  const [trendingData, setTrendingData] = useState({ coins: [], nfts: [] });
+  const [searchResults, setSearchResults] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+  const [trendingData, setTrendingData] = useState({ coins: [], nfts: [] });
   const [isTrendingLoading, setIsTrendingLoading] = useState(true);
   const [showAllCoins, setShowAllCoins] = useState(false);
 
@@ -21,7 +22,7 @@ const SearchBarForMobile = () => {
         const data = await response.json();
         setTrendingData({
           coins: data.coins || [],
-          nfts: data.nfts || []
+          nfts: data.nfts || [],
         });
       } catch (error) {
         console.error("Error fetching trending data:", error);
@@ -33,7 +34,7 @@ const SearchBarForMobile = () => {
     fetchTrendingData();
   }, []);
 
-  // Debounce function to limit API calls
+  // Debounce function
   const debounce = (func, wait) => {
     let timeout;
     return (...args) => {
@@ -44,31 +45,54 @@ const SearchBarForMobile = () => {
 
   const fetchSearchResults = async (query) => {
     if (!query) {
-      setSearchResults([]);
+      setSearchResults({});
       return;
     }
-    
+
     setIsLoading(true);
     try {
       const response = await fetch(
-        `https://api.coingecko.com/api/v3/search?query=${encodeURIComponent(query)}`
+        `https://api.coingecko.com/api/v3/search?query=${encodeURIComponent(
+          query
+        )}`
       );
       const data = await response.json();
-      setSearchResults(data.coins || []);
+
+      // Filter and limit categories to 4 exact matches
+      const filteredCategories = (data.categories || [])
+        .filter(
+          (category) =>
+            category.name.toLowerCase() === query.toLowerCase() ||
+            category.name.toLowerCase().includes(query.toLowerCase())
+        )
+        .slice(0, 4);
+
+      // Filter and limit exchanges to 3 exact matches
+      const filteredExchanges = (data.exchanges || [])
+        .filter(
+          (exchange) =>
+            exchange.name.toLowerCase() === query.toLowerCase() ||
+            exchange.name.toLowerCase().includes(query.toLowerCase())
+        )
+        .slice(0, 3);
+
+      setSearchResults({
+        ...data,
+        categories: filteredCategories,
+        exchanges: filteredExchanges,
+      });
     } catch (error) {
       console.error("Search error:", error);
-      setSearchResults([]);
+      setSearchResults({});
     }
     setIsLoading(false);
   };
 
-  // Debounced search function
-  const debouncedSearch = React.useCallback(
+  const debouncedSearch = useCallback(
     debounce((query) => fetchSearchResults(query), 300),
     []
   );
 
-  // Handle search input changes
   const handleSearchInput = (e) => {
     const query = e.target.value;
     setSearchQuery(query);
@@ -81,6 +105,90 @@ const SearchBarForMobile = () => {
   // Get displayed coins based on showAllCoins state
   const getDisplayedCoins = () => {
     return showAllCoins ? trendingData.coins : trendingData.coins.slice(0, 6);
+  };
+
+  // Render search result item based on type
+  const renderResultItem = (item, type) => {
+    const commonClasses =
+      "flex items-center p-2 hover:bg-gray-800 rounded-lg cursor-pointer";
+
+    switch (type) {
+      case "coins":
+        return (
+          <Link to={`/en/coins/${item.id}`}>
+            <div key={item.id} className={commonClasses}>
+              <img
+                src={item.thumb}
+                alt={item.name}
+                className="w-8 h-8 rounded-full mr-3"
+              />
+              <div className="flex-grow">
+                <div className="text-white">{item.name}</div>
+                <div className="text-sm text-gray-400">
+                  {item.symbol?.toUpperCase()}
+                </div>
+              </div>
+              {item.market_cap_rank && (
+                <div className="text-gray-400">#{item.market_cap_rank}</div>
+              )}
+            </div>
+          </Link>
+        );
+
+      case "exchanges":
+        return (
+          <div key={item.id} className={commonClasses}>
+            <img
+              src={item.thumb}
+              alt={item.name}
+              className="w-8 h-8 rounded-full mr-3"
+            />
+            <div className="flex-grow">
+              <div className="text-white">{item.name}</div>
+              <div className="text-sm text-gray-400">{item.market_type}</div>
+            </div>
+          </div>
+        );
+
+      case "nfts":
+        return (
+          <div key={item.id} className={commonClasses}>
+            <img
+              src={item.thumb}
+              alt={item.name}
+              className="w-8 h-8 rounded-full mr-3"
+            />
+            <div className="flex-grow">
+              <div className="text-white">{item.name}</div>
+              <div className="text-sm text-gray-400">{item.symbol}</div>
+            </div>
+          </div>
+        );
+
+      case "categories":
+        return (
+          <div key={item.id} className={commonClasses}>
+            <div className="text-white">{item.name}</div>
+          </div>
+        );
+
+      default:
+        return null;
+    }
+  };
+
+  // Render section if it has results
+  const renderSection = (title, items, type) => {
+    if (!items || items.length === 0) return null;
+
+    return (
+      <div className="mb-6">
+        <div className="text-sm text-gray-400 mb-3">{title}</div>
+        <div className="space-y-2">
+          {items.map((item) => renderResultItem(item, type))}
+        </div>
+      </div>
+    );
   };
 
   return (
@@ -99,7 +207,7 @@ const SearchBarForMobile = () => {
           <input
             className="w-full pl-10 pr-4 py-2 bg-gray-800 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             type="search"
-            placeholder="Search Coins, NFTs and more..."
+            placeholder="Search coins, NFTs, exchanges and more..."
             value={searchQuery}
             onChange={handleSearchInput}
             onClick={() => setShowPopup(true)}
@@ -109,34 +217,38 @@ const SearchBarForMobile = () => {
             <div className="absolute top-full left-0 w-full mt-1 bg-gray-900 rounded-lg shadow-xl border border-gray-700 z-50">
               {/* Header */}
               <div className="flex items-center justify-between p-4 border-b border-gray-700">
-                <div className="flex space-x-2">
-                  <button
-                    className={`${
-                      isTrendingCoins
-                        ? "bg-gray-800 text-green-400"
-                        : "text-gray-400 hover:bg-gray-800"
-                    } px-2 py-1 rounded-full text-sm font-medium`}
-                    onClick={() => {
-                      setIsTrendingCoins(true);
-                      setIsTrendingNFTs(false);
-                    }}
-                  >
-                    🔥 Trending Coins
-                  </button>
-                  <button
-                    className={`${
-                      isTrendingNFTs
-                        ? "bg-gray-800 text-green-400"
-                        : "text-gray-400 hover:bg-gray-800"
-                    } px-2 py-1 rounded-full text-sm font-medium`}
-                    onClick={() => {
-                      setIsTrendingCoins(false);
-                      setIsTrendingNFTs(true);
-                    }}
-                  >
-                    🖼 Trending NFTs
-                  </button>
-                </div>
+                {!searchQuery ? (
+                  <div className="flex space-x-2">
+                    <button
+                      className={`${
+                        isTrendingCoins
+                          ? "bg-gray-800 text-green-400"
+                          : "text-gray-400 hover:bg-gray-800"
+                      } px-2 py-1 rounded-full text-sm font-medium`}
+                      onClick={() => {
+                        setIsTrendingCoins(true);
+                        setIsTrendingNFTs(false);
+                      }}
+                    >
+                      🔥 Trending Coins
+                    </button>
+                    <button
+                      className={`${
+                        isTrendingNFTs
+                          ? "bg-gray-800 text-green-400"
+                          : "text-gray-400 hover:bg-gray-800"
+                      } px-2 py-1 rounded-full text-sm font-medium`}
+                      onClick={() => {
+                        setIsTrendingCoins(false);
+                        setIsTrendingNFTs(true);
+                      }}
+                    >
+                      🖼 Trending NFTs
+                    </button>
+                  </div>
+                ) : (
+                  <div className="text-white">Search Results</div>
+                )}
                 <button
                   onClick={() => setShowPopup(false)}
                   className="text-gray-400 hover:text-white"
@@ -150,53 +262,36 @@ const SearchBarForMobile = () => {
                 </button>
               </div>
 
-              {/* Search Results */}
+              {/* Content */}
               <div className="p-4">
-                {searchQuery && (
-                  <div>
-                    <div className="text-sm text-gray-400 mb-3">
-                      Search Results
+                {searchQuery ? (
+                  // Search Results
+                  isLoading ? (
+                    <div className="text-center text-gray-400 py-4">
+                      Searching...
                     </div>
-                    {isLoading ? (
-                      <div className="text-center text-gray-400 py-4">
-                        Searching...
-                      </div>
-                    ) : searchResults.length > 0 ? (
-                      <div className="space-y-2">
-                        {searchResults.map((coin) => (
-                          <div
-                            key={coin.id}
-                            className="flex items-center p-2 hover:bg-gray-800 rounded-lg cursor-pointer"
-                          >
-                            <img
-                              src={coin.thumb}
-                              alt={coin.name}
-                              className="w-8 h-8 rounded-full mr-3"
-                            />
-                            <div>
-                              <div className="text-white">{coin.name}</div>
-                              <div className="text-sm text-gray-400">
-                                {coin.symbol.toUpperCase()}
-                              </div>
-                            </div>
-                            {coin.market_cap_rank && (
-                              <div className="ml-auto text-gray-400">
-                                #{coin.market_cap_rank}
-                              </div>
-                            )}
-                          </div>
-                        ))}
-                      </div>
-                    ) : (
-                      <div className="text-center text-gray-400 py-4">
-                        No results found
-                      </div>
-                    )}
-                  </div>
-                )}
-
-                {/* Show trending content when no search query */}
-                {!searchQuery && (
+                  ) : Object.keys(searchResults).length === 0 ? (
+                    <div className="text-center text-gray-400 py-4">
+                      No results found
+                    </div>
+                  ) : (
+                    <div>
+                      {renderSection("Coins", searchResults.coins, "coins")}
+                      {renderSection("NFTs", searchResults.nfts, "nfts")}
+                      {renderSection(
+                        "Exchanges",
+                        searchResults.exchanges,
+                        "exchanges"
+                      )}
+                      {renderSection(
+                        "Categories",
+                        searchResults.categories,
+                        "categories"
+                      )}
+                    </div>
+                  )
+                ) : (
+                  // Trending Content
                   <>
                     {isTrendingLoading ? (
                       <div className="text-center text-gray-400 py-4">
@@ -221,7 +316,9 @@ const SearchBarForMobile = () => {
                                     className="w-8 h-8 rounded-full mr-3"
                                   />
                                   <div>
-                                    <div className="text-white">{item.name}</div>
+                                    <div className="text-white">
+                                      {item.name}
+                                    </div>
                                     <div className="text-sm text-gray-400">
                                       {item.symbol.toUpperCase()}
                                     </div>
@@ -231,15 +328,28 @@ const SearchBarForMobile = () => {
                                       #{item.market_cap_rank}
                                     </div>
                                     {item.data?.price_change_percentage_24h && (
-                                      <div className={`text-sm ${item.data.price_change_percentage_24h.usd >= 0 ? 'text-green-400' : 'text-red-400'}`}>
-                                        {item.data.price_change_percentage_24h.usd >= 0 ? '+' : ''}
-                                        {item.data.price_change_percentage_24h.usd.toFixed(2)}%
+                                      <div
+                                        className={`text-sm ${
+                                          item.data.price_change_percentage_24h
+                                            .usd >= 0
+                                            ? "text-green-400"
+                                            : "text-red-400"
+                                        }`}
+                                      >
+                                        {item.data.price_change_percentage_24h
+                                          .usd >= 0
+                                          ? "+"
+                                          : ""}
+                                        {item.data.price_change_percentage_24h.usd.toFixed(
+                                          2
+                                        )}
+                                        %
                                       </div>
                                     )}
                                   </div>
                                 </div>
                               ))}
-                              
+
                               {/* Show More button */}
                               {trendingData.coins.length > 6 && (
                                 <button
@@ -276,9 +386,22 @@ const SearchBarForMobile = () => {
                                     </div>
                                   </div>
                                   {nft.floor_price_24h_percentage_change && (
-                                    <div className={`ml-auto text-sm ${nft.floor_price_24h_percentage_change >= 0 ? 'text-green-400' : 'text-red-400'}`}>
-                                      {nft.floor_price_24h_percentage_change >= 0 ? '+' : ''}
-                                      {nft.floor_price_24h_percentage_change.toFixed(2)}%
+                                    <div
+                                      className={`ml-auto text-sm ${
+                                        nft.floor_price_24h_percentage_change >=
+                                        0
+                                          ? "text-green-400"
+                                          : "text-red-400"
+                                      }`}
+                                    >
+                                      {nft.floor_price_24h_percentage_change >=
+                                      0
+                                        ? "+"
+                                        : ""}
+                                      {nft.floor_price_24h_percentage_change.toFixed(
+                                        2
+                                      )}
+                                      %
                                     </div>
                                   )}
                                 </div>
@@ -299,4 +422,4 @@ const SearchBarForMobile = () => {
   );
 };
 
-export default SearchBarForMobile;
+export default DynamicSearchBar;

@@ -26,76 +26,90 @@ const LatestArticlesData = () => {
       link: entry.link._href,
     }));
 
-    // console.log("Updated articleData:", articleData);
-
-    // Dispatch the articleData to the Redux store
     dispatch(addArticlesData(articleData));
-
     setArticles(articleData.slice(0, 10));
-  }, []);
-
-  useEffect(() => {
-    // articles && console.log("Articles state updated:", articles);
-  }, [articles]);
+  }, [dispatch]);
 
   return (
-    <div>
-      <button
-        id="bottone1"
-        className="bg-blue-500 mt-[6vh] 2xlarge:mt-[10vh] ml-[10vw] 2xlarge:ml-[35vw] hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-      >
-        <strong className="flex items-center text-black">
-          <MdArticle className="w-5 h-5 mr-2 text-black" />
-          Latest Crypto Articles
-        </strong>
-      </button>
-      <div className="container flex overflow-x-auto mx-auto px-4 py-4 2xlarge:py-[5vh] hide-scrollbar">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 2xlarge:inline-flex">
+    <div className="py-8 px-4">
+      <div className="flex justify-center mb-8">
+        <button className="group relative inline-flex items-center justify-center px-6 py-3 overflow-hidden font-bold rounded-lg text-white bg-gradient-to-r from-blue-500 to-purple-600 shadow-lg transition-all duration-300 ease-out hover:scale-105">
+          <span className="absolute inset-0 w-full h-full bg-gradient-to-br from-blue-600 to-purple-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-out"></span>
+          <MdArticle className="w-6 h-6 mr-2 relative z-10" />
+          <span className="relative z-10">Latest Crypto Articles</span>
+        </button>
+      </div>
+
+      <div className="container mx-auto">
+        <div className="grid grid-cols-1 small:grid-cols-2 large:grid-cols-3 gap-6 auto-rows-fr">
           {articles?.map((article, index) => (
-            <div
+            <article
               key={index}
-              className="flex flex-col   2xlarge:w-[20vw] bg-gray-800 rounded-lg overflow-hidden shadow-lg transition-transform duration-300 hover:scale-105"
+              className="flex flex-col bg-gray-800 rounded-xl overflow-hidden shadow-2xl transform transition-all duration-300 hover:scale-102 hover:shadow-purple-500/20 border border-gray-700"
             >
-              <img
-                className="w-full p-2 h-48 2xlarge:w-[30vw] object-center rounded-t-lg border-b border-purple-600"
-                src={article.image}
-                alt="not available"
-              />
-              <div className="p-4 flex flex-col flex-grow">
-                <h2 className="text-[4vw] 2xlarge:text-[1vw] text-amber-400 font-semibold mb-3 line-clamp-2">
+              <div className="relative h-48 overflow-hidden">
+                <img
+                  className="w-full h-full object-cover transform transition-transform duration-300 hover:scale-110"
+                  src={article.image}
+                  alt={article.title}
+                  onError={(e) => {
+                    e.target.src =
+                      "https://st4.depositphotos.com/14953852/24787/v/450/depositphotos_247872612-stock-illustration-no-image-available-icon-vector.jpg";
+                  }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-br from-gray-900 to-gray-800 via-transparent to-transparent opacity-60"></div>
+              </div>
+
+              <div className="flex-1 p-6">
+                <h2 className="text-xl font-bold mb-3 text-white line-clamp-2 hover:text-purple-400 transition-colors">
                   {article.title}
                 </h2>
-                <p className="text-lime-400 font-light">By {article.author}</p>
-                <p className="text-lime-400 font-light mb-4">
-                  Published: {article.publishedDate}
-                </p>
-                <div className="mt-auto">
-                  <Link
-                    to={article.link}
-                    className="inline-flex items-center text-blue-400 hover:text-red-400 transition-colors duration-200"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Read More <ExternalLink className="w-4 h-4 ml-1" />
-                  </Link>
+
+                <div className="space-y-2 mt-4">
+                  <p className="text-gray-300 text-sm flex items-center">
+                    <span className="font-medium text-purple-400">By</span>
+                    <span className="ml-2">{article.author}</span>
+                  </p>
+                  <p className="text-gray-400 text-sm">
+                    {article.publishedDate}
+                  </p>
                 </div>
               </div>
-            </div>
+
+              <div className="p-6 pt-0 mt-auto">
+                <Link
+                  to={article.link}
+                  className="inline-flex items-center px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition-colors duration-200 group w-full justify-center"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <span className="text-black font-semibold">Read Article</span>
+                  <ExternalLink className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform text-white" />
+                </Link>
+              </div>
+            </article>
           ))}
         </div>
+
+        <div className="flex justify-center mt-12">
+          <Link
+            to="/learn/crypto-articles"
+            onClick={() => {
+              // This will force a full page refresh when navigating
+              window.location.href = "/learn/crypto-articles";
+            }}
+          >
+            <button className="group relative inline-flex items-center justify-center px-8 py-4 overflow-hidden font-bold rounded-lg text-white bg-gradient-to-r from-purple-600 to-blue-500 shadow-lg transition-all duration-300 ease-out hover:scale-105">
+              <span className="absolute inset-0 w-full h-full bg-gradient-to-br from-purple-700 to-blue-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-out"></span>
+              <span className="relative z-10">See More Articles</span>
+              <div className="relative z-10 w-8 h-8 ml-2 flex items-center justify-center">
+                <div className="animate-ping absolute inline-flex h-4 w-4 rounded-full bg-purple-400 opacity-75"></div>
+                <div className="relative inline-flex rounded-full h-3 w-3 bg-purple-500"></div>
+              </div>
+            </button>
+          </Link>
+        </div>
       </div>
-      <Link to="/learn/crypto-articles">
-        <button type="button" className="btn mx-[19vw] 2xlarge:mx-[35vw] mt-5">
-          <strong className="strong2">See More Articles</strong>
-          <div id="container-stars">
-            <div id="stars"></div>
-          </div>
-          <div id="glow">
-            <div className="circle"></div>
-            <div className="circle"></div>
-          </div>
-        </button>
-      </Link>
     </div>
   );
 };

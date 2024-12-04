@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import AnimatedGridBackground from "../components/AllBackgrounds/AnimatedGridPatternTestBg";
 import { useDispatch, useSelector } from "react-redux";
-import { FaCaretDown, FaCaretUp } from "react-icons/fa";
+import { FaBitcoin, FaCaretDown, FaCaretUp, FaEthereum } from "react-icons/fa";
 import { FaAngleRight } from "react-icons/fa6";
 import { CoinGeckoApi } from "../api/CoinGeckoApi/CoinGeckoApi";
 import { TokenInsightApi } from "../api/CoinGeckoApi/TokenInsightApi";
@@ -11,6 +11,7 @@ import CryptoNews from "../CoinGeckoCryptoNews/CryptoNews";
 import LatestArticlesData from "../LatestArticles/LatestArticlesData";
 import Footer from "../Footer/Footer";
 import { addHomePageMarketCapChart } from "../ReduxSlice/HomePageMCapChart";
+import { SiBinance } from "react-icons/si";
 
 const MainContainer = () => {
   const MarqueeData = useSelector((state) => state.Marquee?.MarqueeData);
@@ -23,6 +24,10 @@ const MainContainer = () => {
   const [MarketCapChart, setMarketCapChart] = useState(null);
   const [MarketCapBNB, setMarketCapBNB] = useState(null);
   const dispatch = useDispatch();
+
+  // Utility functions (assuming these are defined elsewhere)
+  const formatPrice = (price) => price.toFixed(2);
+  const formatPercentage = (percentage) => `${percentage.toFixed(2)}%`;
 
   useEffect(() => {
     const GetTrendingCoins = async () => {
@@ -77,20 +82,20 @@ const MainContainer = () => {
     // AllLosers && console.log(AllLosers, "Get All Gainers");
   }, [AllLosers]);
 
-  function formatPrice(num) {
-    return num?.toFixed(5);
-  }
+  // function formatPrice(num) {
+  //   return num?.toFixed(5);
+  // }
 
-  function formatPercentage(num) {
-    const formatted = num / 100;
-    if (Math.abs(formatted) >= 10000) {
-      return `${(formatted / 100000).toFixed(2)}%`;
-    } else if (Math.abs(formatted) >= 1000) {
-      return `${(formatted / 1000).toFixed(2)}%`;
-    } else {
-      return `${formatted.toFixed(2)}%`;
-    }
-  }
+  // function formatPercentage(num) {
+  //   const formatted = num / 100;
+  //   if (Math.abs(formatted) >= 10000) {
+  //     return `${(formatted / 100000).toFixed(2)}%`;
+  //   } else if (Math.abs(formatted) >= 1000) {
+  //     return `${(formatted / 1000).toFixed(2)}%`;
+  //   } else {
+  //     return `${formatted.toFixed(2)}%`;
+  //   }
+  // }
 
   useEffect(() => {
     const MarketCapChartData = async () => {
@@ -138,238 +143,188 @@ const MainContainer = () => {
     // MarqueeData && console.log(MarqueeData, "Marquee Data");
   }
   return (
-    <div className=" relative ">
-      <h1 className="absolute top-10 left-5 z-5  text-[#fbbf24] text-[5vw] xsmall:text-[3.5vw] small:text-[3vw] medium:text-[2.5vw] large:text-[2vw] xlarge:text-[2vw] 2xlarge:text-[1.5vw] 2xlarge:left-[5vw] font-semibold">
-        Cryptocurrency Prices by Market Cap
-        <p className=" large:relative large:z-99  text-sky-400 text-[3.5vw] xsmall:text-[2.5vw] small:text-[2.2vw] medium:text-[2vw] 2xlarge:text-[1vw] mt-2">
-          The global cryptocurrency market cap today is{" "}
-          {MarqueeData?.length > 0 && MarqueeData2?.length > 0 && (
-            <span>
-              {MarqueeData2[0].cap ? (
-                <span className="text-[#64748b]">
-                  {(MarqueeData2[0].cap / 1e12).toFixed(3)} Trillions, a{" "}
-                  <span
-                    className={`text-[3.5vw] xsmall:text-[2.5vw] small:text-[2.2vw] medium:text-[2vw] relative top-1 small:top-1 xsmall:top-2 2xlarge:text-[1vw] inline-flex items-center ${
-                      MarqueeData[0].data.market_cap_change_percentage_24h_usd <
-                      0
-                        ? "text-red-500"
-                        : "text-[#4BCC00]"
-                    }`}
-                  >
-                    {MarqueeData[0].data.market_cap_change_percentage_24h_usd >=
-                    0 ? (
-                      <FaCaretUp className="text-[4vw] small:text-[3vw] medium:text-[2.5vw] 2xlarge:text-[1vw]" />
-                    ) : (
-                      <FaCaretDown className="text-[4vw] small:text-[3vw] medium:text-[2.5vw] 2xlarge:text-[1vw]" />
-                    )}
-                    {MarqueeData[0].data.market_cap_change_percentage_24h_usd?.toFixed(
-                      1
-                    )}
-                    %
-                  </span>
-                </span>
-              ) : (
-                ""
-              )}
-            </span>
-          )}
-          change in the last 24 hours.{" "}
-          <span className="text-purple-500 hover:text-orange-400 text-[3.5vw] xsmall:text-[2.5vw] medium:text-[2vw] 2xlarge:text-[1vw] hover:cursor-pointer hover:underline">
-            Read more
-          </span>
-        </p>
-      </h1>
+    <div
+      className="container mx-auto   px-4 grid grid-cols-1 gap-6
+    xsmall:grid-cols-1 
+    small:grid-cols-1 
+    medium:grid-cols-2 
+    large:grid-cols-3 
+    xlarge:grid-cols-4 
+    2xlarge:grid-cols-4 bg-black bg-gradient-to-r from-[#3f4c6b] to-[#606c88]"
+    >
+      {/* Global Market Overview */}
       <div
-        className="absolute top-[20vh] left-5 w-[90vw] h-auto bg-zinc-100 border-[2px] border-teal-600 shadow-teal-glow rounded-lg p-4
-                    xsmall:w-[80vw] xsmall:left-[10vw]
-                    small:w-[70vw] small:left-[15vw]
-                    medium:w-[60vw] medium:left-[20vw]
-                    large:w-[80vw] large:left-[10vw] large:top-[25vh]
-                    xlarge:w-[40vw] xlarge:left-[10vw] xlarge:top-[28vh]
-                    2xlarge:w-[30vw] 2xlarge:left-[15vw]"
+        className="bg-gradien-to-r from-[#F29492] to-[#114357] 2xlarge:mt-10  borde-2 border-teal-600 shadow-lg rounded-lg p-2 
+col-span-1 
+medium:col-span-2 
+large:col-span-3 
+xlarge:col-span-4 
+2xlarge:col-span-4"
       >
+        <h1 className=" relative top-10 left-0  2xlarge:-left-0 mb-10 2xlarge:mb-[10vh] z-5 text-[#fbbf24] text-[5vw] xsmall:text-[3.5vw] small:text-[3vw] medium:text-[2.5vw] large:text-[2vw] xlarge:text-[2vw] 2xlarge:text-[1.5vw] 2xlarge:left-[5vw] font-semibold">
+          Cryptocurrency Prices by Market Cap
+          <p className="large:relative large:z-99 text-sky-400 text-[3.5vw] xsmall:text-[2.5vw] small:text-[2.2vw] medium:text-[2vw] xlarge:text-[1.5vw] 2xlarge:text-[1vw] mt-2">
+            The global cryptocurrency market cap today is{" "}
+            {MarqueeData?.length > 0 && MarqueeData2?.length > 0 && (
+              <span>
+                {MarqueeData2[0].cap ? (
+                  <span className="text-white">
+                    {(MarqueeData2[0].cap / 1e12).toFixed(3)} Trillions, a{" "}
+                    <span
+                      className={`text-[3.5vw] xsmall:text-[2.5vw] small:text-[2.2vw] medium:text-[2vw]  xlarge:text-[1.5vw] relative top-1 small:top-1 xsmall:top-2 2xlarge:text-[1vw] inline-flex items-center ${
+                        MarqueeData[0].data
+                          .market_cap_change_percentage_24h_usd < 0
+                          ? "text-red-500"
+                          : "text-[#4BCC00]"
+                      }`}
+                    >
+                      {MarqueeData[0].data
+                        .market_cap_change_percentage_24h_usd >= 0 ? (
+                        <FaCaretUp className="text-[4vw] small:text-[3vw] medium:text-[2.5vw] xlarge:text-[1.5vw] 2xlarge:text-[1vw]" />
+                      ) : (
+                        <FaCaretDown className="text-[4vw] small:text-[3vw] medium:text-[2.5vw] xlarge:text-[1.5vw] 2xlarge:text-[1vw]" />
+                      )}
+                      {MarqueeData[0].data.market_cap_change_percentage_24h_usd?.toFixed(
+                        1
+                      )}
+                      %
+                    </span>
+                  </span>
+                ) : (
+                  ""
+                )}
+              </span>
+            )}{" "}
+            change in the last 24 hours.{" "}
+            {/* <span className="text-purple-500 hover:text-orange-400 text-[3.5vw] xsmall:text-[2.5vw] medium:text-[2vw] 2xlarge:text-[1vw] hover:cursor-pointer hover:underline">
+              Read more
+            </span> */}
+            <p className="mt-5">
+              Total cryptocurrency trading volume in the last day is at{" "}
+              <span className="text-lime-400">
+                $
+                {MarqueeData[0]?.data?.total_volume?.usd >= 1e12
+                  ? (MarqueeData[0]?.data?.total_volume?.usd / 1e12).toFixed(
+                      0
+                    ) + " Trillion"
+                  : MarqueeData[0]?.data?.total_volume?.usd >= 1e9
+                  ? (MarqueeData[0]?.data?.total_volume?.usd / 1e9).toFixed(0) +
+                    " Billion"
+                  : MarqueeData[0]?.data?.total_volume?.usd >= 1e6
+                  ? (MarqueeData[0]?.data?.total_volume?.usd / 1e6).toFixed(0) +
+                    " Million"
+                  : MarqueeData[0]?.data?.total_volume?.usd >= 1e3
+                  ? (MarqueeData[0]?.data?.total_volume?.usd / 1e3).toFixed(0) +
+                    "K"
+                  : MarqueeData[0]?.data?.total_volume?.usd.toFixed(2)}{" "}
+              </span>
+              .Bitcoin dominance is at{" "}
+              <span className="text-lime-400">
+                {(MarqueeData2[0]?.btcDominance * 100).toFixed(2)}%
+              </span>
+              . CoinFam is now tracking{" "}
+              <span className="text-lime-400">
+                {MarqueeData[0]?.data?.active_cryptocurrencies.toLocaleString()}
+              </span>{" "}
+              cryptocurrencies.
+            </p>
+          </p>
+        </h1>
+      </div>
+
+      {/* Top Cryptocurrencies Summary */}
+      <div className="bg-gradient-to-r from-[#F29492] to-[#114357] border-2 border-teal-600 shadow-lg rounded-lg p-6">
         <div className="mb-4">
-          <div className="flex justify-between items-center">
-            <div className="flex items-center">
-              <img
-                className="w-6 h-6 mr-2"
-                src="https://pngfre.com/wp-content/uploads/Bitcoin-20.png"
-                alt="Bitcoin"
-              />
-              <span className="text-lg font-semibold text-black">
-                Market Cap
-              </span>
-            </div>
-
-            {MarqueeData2 && MarqueeData2.length > 0 && (
-              <span className="text-lg font-bold text-black">
-                ${MarqueeData2?.[0]?.cap?.toLocaleString("en-US")}
-              </span>
-            )}
+          <div className="flex items-center mb-2">
+            <FaBitcoin className="text-yellow-400 mr-2" size={25} />
+            <h3 className="text-gray-700 font-medium">Bitcoin Market Cap</h3>
           </div>
-          {MarqueeData &&
-            MarqueeData.length > 0 &&
-            MarqueeData[0].data.market_cap_change_percentage_24h_usd !==
-              undefined && (
-              <div className="flex justify-end mt-1">
-                <span
-                  className={`flex items-center font-semibold ${
-                    MarqueeData[0].data.market_cap_change_percentage_24h_usd >=
-                    0
-                      ? "text-green-500"
-                      : "text-red-500"
-                  }`}
-                >
-                  {MarqueeData[0].data.market_cap_change_percentage_24h_usd >=
-                  0 ? (
-                    <FaCaretUp className="mr-1" />
-                  ) : (
-                    <FaCaretDown className="mr-1" />
-                  )}
-                  {MarqueeData[0].data.market_cap_change_percentage_24h_usd.toFixed(
-                    1
-                  )}
-                  %
-                </span>
-              </div>
-            )}
-        </div>
-
-        <div>
           <div className="flex justify-between items-center">
-            <div className="flex items-center">
-              <img
-                className="w-6 h-6 mr-2 rounded-lg"
-                src="https://w7.pngwing.com/pngs/268/1013/png-transparent-ethereum-eth-hd-logo-thumbnail.png"
-                alt="Ethereum"
-              />
-              <span className="text-lg font-semibold text-black">
-                Market Cap
-              </span>
-            </div>
-            <span className="text-lg font-bold text-black">
-              $
-              {MarketCapChart &&
-                MarketCapChart[0]?.market_cap?.toLocaleString("en-US")}
+            <span className="text-xl font-bold text-black">
+              ${MarqueeData2?.[0]?.cap?.toLocaleString("en-US")}
             </span>
-          </div>
-          <div className="flex justify-end mt-1">
             <span
-              className={`flex items-center font-semibold ${
-                MarketCapChart &&
-                MarketCapChart[0]?.market_cap_change_percentage_24h >= 0
+              className={`flex items-center ${
+                MarqueeData[0]?.data?.market_cap_change_percentage_24h_usd >= 0
                   ? "text-green-500"
                   : "text-red-500"
               }`}
             >
-              {MarketCapChart &&
-              MarketCapChart[0]?.market_cap_change_percentage_24h >= 0 ? (
+              {MarqueeData[0]?.data?.market_cap_change_percentage_24h_usd >=
+              0 ? (
                 <FaCaretUp className="mr-1" />
               ) : (
                 <FaCaretDown className="mr-1" />
               )}
-              {MarketCapChart &&
-                MarketCapChart[0]?.market_cap_change_percentage_24h?.toFixed(1)}
+              {MarqueeData[0]?.data?.market_cap_change_percentage_24h_usd?.toFixed(
+                1
+              )}
               %
             </span>
           </div>
         </div>
       </div>
 
-      <div
-        className="absolute top-[45vh] left-5 w-[90vw] h-auto bg-zinc-100 border-[2px] border-teal-600 shadow-teal-glow rounded-lg p-4
-                    xsmall:w-[80vw] xsmall:left-[10vw]
-                    small:w-[70vw] small:left-[15vw]
-                    medium:w-[60vw] medium:left-[20vw] medium:top-[45vh]
-                    large:w-[80vw] large:left-[10vw] large:top-[50vh]
-                    xlarge:w-[40vw] xlarge:left-[55vw] xlarge:top-[28vh]
-                    2xlarge:w-[30vw] 2xlarge:left-[48vw]"
-      >
-        <div className="mb-5">
+      {/* Ethereum Summary */}
+      <div className="bg-gradient-to-r from-[#F29492] to-[#114357] border-2 border-teal-600 shadow-lg rounded-lg p-6">
+        <div className="mb-4">
+          <div className="flex items-center mb-2">
+            <FaEthereum className="text-blue-700 mr-2" size={25} />
+            <h3 className="text-gray-700 font-medium">Ethereum Market Cap</h3>
+          </div>
           <div className="flex justify-between items-center">
-            <div className="flex items-center">
-              <img
-                className="w-6 h-6 mr-2"
-                src="https://pngfre.com/wp-content/uploads/Bitcoin-20.png"
-                alt="Bitcoin"
-              />
-              <span className="text-sm xsmall:text-base small:text-lg font-semibold text-[#111827]">
-                24h Trading Volume
-              </span>
-            </div>
-            {MarqueeData2 &&
-              MarqueeData2.length > 0 &&
-              MarqueeData2[0].volume !== undefined && (
-                <span className="text-sm xsmall:text-base small:text-lg font-bold text-black">
-                  ${MarqueeData2[0].volume.toLocaleString("en-US")}
-                </span>
-              )}
-          </div>
-        </div>
-
-        <div>
-          <div className="flex justify-between  items-center">
-            <div className="flex items-center">
-              <img
-                className="w-6 h-6 mr-2 rounded-lg"
-                src="https://w7.pngwing.com/pngs/268/1013/png-transparent-ethereum-eth-hd-logo-thumbnail.png"
-                alt="Ethereum"
-              />
-              <span className="text-sm xsmall:text-base small:text-lg font-semibold text-[#111827]">
-                24h Trading Volume
-              </span>
-            </div>
-            <span className="text-sm xsmall:text-base small:text-lg font-bold text-black">
-              $
-              {MarketCapChart &&
-                MarketCapChart[0]?.total_volume?.toLocaleString("en-US")}
+            <span className="text-xl font-bold text-black">
+              ${MarketCapChart?.[0]?.market_cap?.toLocaleString("en-US")}
             </span>
-          </div>
-        </div>
-
-        <div>
-          <div className="flex justify-between mt-6 items-center">
-            <div className="flex items-center">
-              <img
-                className="w-6 h-6 mr-2 rounded-lg"
-                src="https://cryptologos.cc/logos/bnb-bnb-logo.png"
-                alt="Ethereum"
-              />
-              <span className="text-sm xsmall:text-base small:text-lg font-semibold text-[#111827]">
-                24h Trading Volume
-              </span>
-            </div>
-            <span className="text-sm xsmall:text-base small:text-lg font-bold text-black">
-              $
-              {MarketCapBNB &&
-                MarketCapBNB[0]?.total_volume?.toLocaleString("en-US")}
+            <span
+              className={`flex items-center ${
+                MarketCapChart?.[0]?.market_cap_change_percentage_24h >= 0
+                  ? "text-green-500"
+                  : "text-red-500"
+              }`}
+            >
+              {MarketCapChart?.[0]?.market_cap_change_percentage_24h >= 0 ? (
+                <FaCaretUp className="mr-1" />
+              ) : (
+                <FaCaretDown className="mr-1" />
+              )}
+              {MarketCapChart?.[0]?.market_cap_change_percentage_24h?.toFixed(
+                1
+              )}
+              %
             </span>
           </div>
         </div>
       </div>
-      <div
-        className="absolute top-[68vh] left-5 w-[90vw] h-auto bg-zinc-100 border-[2px] border-teal-600 shadow-teal-glow rounded-lg p-4
-                    xsmall:w-[80vw] xsmall:left-[10vw]
-                    small:w-[70vw] small:left-[15vw]
-                    medium:w-[60vw] medium:left-[20vw] medium:top-[65vh]
-                    large:w-[80vw] large:left-[10vw] large:top-[67vh]
-                    xlarge:w-[40vw] xlarge:left-[10vw] xlarge:top-[55vh]
-                    2xlarge:w-[30vw] 2xlarge:left-[15vw]"
-      >
+
+      {/* Trading Volumes */}
+      <div className="bg-gradient-to-r from-[#F29492] to-[#114357]  border-2 border-teal-600 shadow-lg rounded-lg p-6">
+        <div className="mb-4">
+          <div className="flex items-center mb-2">
+            <SiBinance className="text-yellow-400 mr-2" size={25} />
+            <h3 className="text-gray-700 font-medium">Binance 24h Volume</h3>
+          </div>
+          <div className="flex justify-between items-center">
+            <span className="text-xl font-bold text-black">
+              ${MarketCapBNB?.[0]?.total_volume?.toLocaleString("en-US")}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      {/* Trending Coins */}
+      <div className="bg-gradient-to-r from-[#F29492] to-[#114357] border-2 border-teal-600 shadow-lg rounded-lg p-6">
         <div className="flex justify-between items-center mb-4">
-          <h1 className="text-2xl xsmall:text-3xl small:text-4xl font-semibold text-blue-600">
-            🔥 Trending
-          </h1>
-          <span className="text-lg xsmall:text-xl small:text-2xl text-red-600 font-semibold hover:text-green-400 flex items-center cursor-pointer">
+          <h1 className="text-2xl font-semibold text-blue-600">🔥 Trending</h1>
+          <span className="text-red-600 font-semibold hover:text-green-400 flex items-center cursor-pointer">
             View more <FaAngleRight className="ml-1" />
           </span>
         </div>
-
         <ul className="space-y-4">
           {GetTrendingCoins?.coins.slice(0, 3).map((coin, index) => (
             <li key={index} className="flex items-center">
               <img
-                className="border border-gray-600 rounded-full w-8 h-8 xsmall:w-10 xsmall:h-10 object-cover mr-3"
+                className="rounded-full w-10 h-10 object-cover mr-3"
                 src={coin?.item?.small}
                 alt={coin?.item?.name}
               />
@@ -402,29 +357,21 @@ const MainContainer = () => {
         </ul>
       </div>
 
-      <div
-        className="absolute top-[107vh] left-5 w-[90vw] h-auto bg-zinc-100 border-[2px] border-teal-600 shadow-teal-glow rounded-lg p-4
-                    xsmall:w-[80vw] xsmall:left-[10vw]
-                    small:w-[70vw] small:left-[15vw]
-                    medium:w-[60vw] medium:left-[20vw] medium:top-[108vh]
-                    large:w-[80vw] large:left-[10vw] large:top-[108vh]
-                    xlarge:w-[40vw] xlarge:left-[55vw] xlarge:top-[55vh]
-                    2xlarge:w-[30vw] 2xlarge:left-[48vw]"
-      >
+      {/* Top Gainers */}
+      <div className="bg-gradient-to-r from-[#F29492] to-[#114357] border-2 border-teal-600 shadow-lg rounded-lg p-6">
         <div className="flex justify-between items-center mb-4">
-          <h1 className="text-2xl xsmall:text-3xl small:text-4xl font-semibold text-blue-600">
+          <h1 className="text-2xl font-semibold text-blue-600">
             🚀 Top Gainers
           </h1>
-          <span className="text-lg xsmall:text-xl small:text-2xl text-red-600 font-semibold hover:text-green-400 flex items-center cursor-pointer">
+          <span className="text-red-600 font-semibold hover:text-green-400 flex items-center cursor-pointer">
             View more <FaAngleRight className="ml-1" />
           </span>
         </div>
-
         <ul className="space-y-4">
           {AllGainers?.slice(0, 3).map((coin, index) => (
             <li key={index} className="flex items-center">
               <img
-                className="border border-gray-600 rounded-full w-8 h-8 xsmall:w-10 xsmall:h-10 object-cover mr-3"
+                className="rounded-full w-10 h-10 object-cover mr-3"
                 src={coin?.logo}
                 alt={coin?.name}
               />
@@ -454,29 +401,22 @@ const MainContainer = () => {
           ))}
         </ul>
       </div>
-      <div
-        className="absolute top-[146vh] left-5 w-[90vw] h-auto bg-zinc-100 border-[2px] border-teal-600 shadow-teal-glow rounded-lg p-4
-                    xsmall:w-[80vw] xsmall:left-[10vw]
-                    small:w-[70vw] small:left-[15vw]
-                    medium:w-[60vw] medium:left-[20vw] medium:top-[150vh]
-                    large:w-[80vw] large:left-[10vw] large:top-[149vh]
-                    xlarge:w-[40vw] xlarge:left-[33vw] xlarge:top-[97vh]
-                    2xlarge:w-[30vw] 2xlarge:left-[32vw] 2xlarge:top-[93vh] "
-      >
+
+      {/* Top Losers */}
+      <div className="bg-gradient-to-r from-[#F29492] to-[#114357] border-2 border-teal-600 shadow-lg rounded-lg p-6">
         <div className="flex justify-between items-center mb-4">
-          <h1 className="text-2xl xsmall:text-3xl small:text-4xl font-semibold text-blue-600">
+          <h1 className="text-2xl font-semibold text-blue-600">
             📉 Top Losers
           </h1>
-          <span className="text-lg xsmall:text-xl small:text-2xl text-red-600 font-semibold hover:text-green-400 flex items-center cursor-pointer">
+          <span className="text-red-600 font-semibold hover:text-green-400 flex items-center cursor-pointer">
             View more <FaAngleRight className="ml-1" />
           </span>
         </div>
-
         <ul className="space-y-4">
           {AllLosers?.slice(0, 3).map((coin, index) => (
             <li key={index} className="flex items-center">
               <img
-                className="border border-gray-600 rounded-full w-8 h-8 xsmall:w-10 xsmall:h-10 object-cover mr-3"
+                className="rounded-full w-10 h-10 object-cover mr-3"
                 src={coin?.logo}
                 alt={coin?.name}
               />
@@ -506,15 +446,20 @@ const MainContainer = () => {
           ))}
         </ul>
       </div>
-      <div className="  absolute top-[190vh] large:top-[140vh] left-[5vw] 2xlarge:left-[5vw] max-w-[90vw]  2xlarge:max-w-[90vw]  ">
+
+      {/* Additional Components Placeholder */}
+      <div
+        className="col-span-1 
+      medium:col-span-2 
+      large:col-span-3 
+      xlarge:col-span-4 
+      2xlarge:col-span-4"
+      >
         <CryptoPricesTable />
         <CryptoNews />
         <LatestArticlesData />
-        <Footer />
       </div>
-      <div className=" ">
-        <AnimatedGridBackground />
-      </div>
+      <Footer />
     </div>
   );
 };

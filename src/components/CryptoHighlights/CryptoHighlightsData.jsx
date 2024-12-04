@@ -9,7 +9,7 @@ import NewCoins from "./NewCoins";
 import HighestCoinVolume from "./HighestCoinVolume";
 import AllTimeHighPrice from "./AllTimeHIghPrice";
 import MostVotedCoins from "./MostVotedCoins";
-import Footer from "../../Footer/Footer"
+import Footer from "../../Footer/Footer";
 
 const CryptoHighlightsData = () => {
   const [TrendingCoinsHL, setTrendingCoinsHL] = useState(null);
@@ -18,7 +18,7 @@ const CryptoHighlightsData = () => {
   const [CoinsByTradingVol, setCoinsByTradingVol] = useState(null);
   const [AllTimeHighCoinPrice, setAllTimeHighCoinPrice] = useState(null);
   const [NewCryptoCoin, setNewCryptoCoin] = useState([]);
-  const [MostVoted, setMostVoted] = useState(null)
+  const [MostVoted, setMostVoted] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -146,8 +146,7 @@ const CryptoHighlightsData = () => {
   //     console.log(NewCryptoCoin, "New Crytocurrencies");
   // }, [NewCryptoCoin]);
 
-
-  useEffect(()=>{
+  useEffect(() => {
     const FetchMostVotedCoins = async () => {
       const response = await fetch(
         "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=gecko_desc&per_page=10&page=1&sparkline=false",
@@ -158,14 +157,11 @@ const CryptoHighlightsData = () => {
       setMostVoted(MostVotedData);
     };
     FetchMostVotedCoins();
-  },[])
+  }, []);
 
   useEffect(() => {
-    MostVoted?.length > 0 &&
-        console.log(MostVoted, "Most Voted Coins");
-    }, [MostVoted]);
-
-   
+    MostVoted?.length > 0 && console.log(MostVoted, "Most Voted Coins");
+  }, [MostVoted]);
 
   if (isLoading) {
     return (
@@ -194,27 +190,71 @@ const CryptoHighlightsData = () => {
         <OnlyHeaderComp />
         <MainPageMarquee />
       </div>
-      <div className="bg-black h-[490vh] text-white">
-        <h1 className=" ml-5 relative top-10 text-[4.5vw]">
+      <div className="bg-gradient-to-r from-[#3f4c6b] to-[#606c88] min-h-screen text-yellow-400 px-4">
+        <h1 className="text-[6vw] xsmall:text-[5vw] small:text-[4.5vw] medium:text-[3.7vw] large:text-[3vw] xlarge:text-[2.5vw] 2xlarge:text-[2vw] text-center pt-10 pb-2 font-semibold">
           Crypto Highlights
         </h1>
-        <p className="text-gray-500 ml-5 relative top-10 mt-2 text-[4vw]">
+        <p className="text-sky-500 text-[4vw] xsmall:text-[3.5vw] small:text-[3vw] medium:text-[2.4vw] large:text-[2vw] xlarge:text-[1.5vw] text-center large:mt-3 mb-8">
           Which cryptocurrencies are people more interested in? Track and
           discover the most interesting cryptocurrencies based on market and
           CoinFam activity.
         </p>
 
-        <div className="">
-          <TrendingCoins TrendingCoinsHL={TrendingCoinsHL} />
-          <TopGainers TopCryptoGainers={TopCryptoGainers}/>
-          <TopLosers TopCryptoLosers={TopCryptoLosers}/>
-          <NewCoins NewCryptoCoin={NewCryptoCoin}/>
-          <HighestCoinVolume CoinsByTradingVol={CoinsByTradingVol}/>
-          <AllTimeHighPrice AllTimeHighCoinPrice={AllTimeHighCoinPrice}/>
-          <MostVotedCoins MostVotedCrytoCoins={MostVoted}/>
+        {/* Grid Container */}
+        <div
+          className="grid grid-cols-1 gap-6 pb-8
+          medium:grid-cols-2 
+          xlarge:grid-cols-3 
+          2xlarge:grid-cols-4
+          -mt-10"
+        >
+          {/* Each component wrapped in a div that maintains consistent height */}
+          <div className="h-full">
+            <TrendingCoins
+              TrendingCoinsHL={TrendingCoinsHL}
+              className="h-full"
+            />
+          </div>
+
+          <div className="h-full -mt-5 2xlarge:-mt-6">
+            <TopGainers
+              TopCryptoGainers={TopCryptoGainers}
+              className="h-full"
+            />
+          </div>
+
+          <div className="h-full xlarge:-mt-12 2xlarge:-mt-14">
+            <TopLosers TopCryptoLosers={TopCryptoLosers} className="h-full" />
+          </div>
+          <div className="h-full -mt-[14vh]  medium:-mt-[17vh] xlarge:-mt-[17vh] 2xlarge:-mt-[24vh]">
+            <MostVotedCoins
+              MostVotedCrytoCoins={MostVoted}
+              className="h-full"
+            />
+          </div>
+
+          <div className="h-full mt-[14vh] medium:mt-7 xlarge:-mt-9 2xlarge:-mt-8">
+            <NewCoins NewCryptoCoin={NewCryptoCoin} className="h-full" />
+          </div>
+
+          <div className="h-full xlarge:-mt-16">
+            <HighestCoinVolume
+              CoinsByTradingVol={CoinsByTradingVol}
+              className="h-full"
+            />
+          </div>
+
+          <div className="h-full -mt-7 xlarge:mt-10 2xlarge:-mt-[12vh]">
+            <AllTimeHighPrice
+              AllTimeHighCoinPrice={AllTimeHighCoinPrice}
+              className="h-full"
+            />
+          </div>
+        </div>
+        <div className="  mt-[40vh] xlarge:ml-[5.1vw] 2xlarge:ml-[4.8vw]">
+          <Footer />
         </div>
       </div>
-      <Footer/>
     </>
   );
 };

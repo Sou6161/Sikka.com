@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 import OnlyHeaderComp from "../Header Folder/OnlyHeaderComp";
 import MainPageMarquee from "../MarqueeComponent/MainPageMarquee";
+import Footer from "../../Footer/Footer";
 
 const AllCryptoNews = () => {
   const [allCryptoNews, setAllCryptoNews] = useState(null);
@@ -127,26 +128,27 @@ const AllCryptoNews = () => {
 
                 <div className="mt-auto space-y-3">
                   <div className="flex items-center space-x-2 text-xs text-purple-400">
-                    <Globe className="w-4 h-4" />
-                    <span className="font-medium">
+                    <Globe className="w-4 h-4 text-lime-400" />
+                    <span className="font-medium text-lime-400">
                       {article?.source_info?.name}
                     </span>
                   </div>
 
                   <a
                     href={article.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
                     className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-purple-600 rounded-lg hover:bg-purple-700 transition-all duration-200 group hover:shadow-lg hover:shadow-purple-500/20"
                   >
-                    Read More
-                    <ExternalLink className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                    <span className="text-black font-semibold">Read More</span>
+                    <ExternalLink className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform text-white" />
                   </a>
                 </div>
               </div>
             </div>
           ))}
         </div>
+      </div>
+      <div className="ml-4 xlarge:ml-[6.6vw] 2xlarge:ml-[5.7vw]">
+        <Footer/>
       </div>
     </div>
   );

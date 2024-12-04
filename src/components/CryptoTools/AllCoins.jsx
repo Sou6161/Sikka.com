@@ -32,7 +32,7 @@ const AllCoins = () => {
     }
     const formattedValue = value.toFixed(2);
     const colorClass =
-      value >= 0 ? "text-green-600 blink-green" : "text-red-600 blink-red";
+      value >= 0 ? "text-green-500 blink-green" : "text-red-500 blink-red";
     return (
       <span className={`font-semibold ${colorClass}`}>
         <span style={{ color: value < 0 ? "red" : "" }}>
@@ -71,73 +71,73 @@ const AllCoins = () => {
 
   return (
     <>
-      <div className=" bg-black ">
+      <div className="  ">
         <OnlyHeaderComp />
         <MainPageMarquee />
       </div>
-      <div className=" bg-black">
-        <h1 className=" ml-5 relative top-10 text-[5vw] text-white font-semibold">
+      <div className="bg-gradient-to-r from-[#3f4c6b] to-[#606c88]">
+        <h1 className=" text-[6vw] xsmall:text-[5vw] small:text-[4.3vw] medium:text-[3.5vw] large:text-[2.8vw] xlarge:text-[2.4vw] 2xlarge:text-[2vw] text-center  ml-5 pt-10 pb-2 text-yellow-400 font-semibold">
           All Cryptocurrencies
         </h1>
-        <p className="text-gray-500 ml-5 relative top-10 mt-2 text-[4vw]">
+        <p className="text-sky-500 mt-5 text-[4vw] xsmall:text-[3.5vw] small:text-[2.8vw] medium:text-[2.2vw] large:text-[1.7vw] xlarge:text-[1.5vw] text-center  ml-5 large:mt-3 mb-8]">
           View a full list of active cryptocurrencies
         </p>
-        <div className=" bg-black mt-[14vh] px-2 ">
-          <div className="overflow-x-auto   w-full border-2 border-purple-500 rounded-lg">
-            <table className="min-w-full bg-white rounded-lg">
-              <thead className="bg-gray-100">
+        <div className=" bg-gradient-to-r from-[#3f4c6b] to-[#606c88] min-h-screen text-yellow-400 mt-[14vh] px-2 ">
+          <div className="overflow-x-auto w-full border-2 border-yellow-400 rounded-lg">
+            <table className="min-w-full bg-gradient-to-br from-purple-100 to-indigo-100 rounded-lg">
+              <thead className="bg-gradient-to-r from-purple-900 to-indigo-900">
                 <tr>
-                  <th className="sticky left-0 z-10 bg-gray-400 px-2 py-2 xsmall:px-3 xsmall:py-3 text-left text-xs font-medium text-black uppercase tracking-wider">
+                  <th className="sticky left-0 z-10 bg-gradient-to-br from-purple-300 to-indigo-400 px-2 py-2 xsmall:px-3 xsmall:py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
                     #
                   </th>
-                  <th className="sticky left-7 xsmall:left-10 z-10 bg-gray-400 px-3 py-2 xsmall:px-6 xsmall:py-3 text-left text-xs font-medium text-black  uppercase tracking-wider max-w-[120px] xsmall:max-w-[200px]">
+                  <th className="sticky left-7 xsmall:left-8 z-10 bg-gradient-to-br from-purple-300 to-indigo-400 px-3 py-2 xsmall:px-6 xsmall:py-3 text-left text-xs font-medium text-white  uppercase tracking-wider max-w-[120px] xsmall:max-w-[200px]">
                     Coin
                   </th>
-                  <th className="px-3 py-2 xsmall:px-6 xsmall:py-3 max-w-[20vw] xsmall:max-w-[30vw] bg-purple-400/50 backdrop-blur-md text-left text-xs font-semibold text-black uppercase tracking-wider">
+                  <th className="px-3 py-2 xsmall:px-6 xsmall:py-3 max-w-[20vw] xsmall:max-w-[30vw] bg-gradient-to-br from-purple-300/50 to-indigo-400/50 backdrop-blur-md text-left text-xs font-semibold text-white uppercase tracking-wider">
                     Price
                   </th>
 
-                  <th className="px-3 py-2 xsmall:px-6 xsmall:py-3 max-w-[20vw] xsmall:max-w-[30vw] bg-purple-400/50 backdrop-blur-md text-left text-xs font-semibold text-black uppercase tracking-wider">
+                  <th className="px-3 py-2 xsmall:px-6 xsmall:py-3 max-w-[20vw] xsmall:max-w-[30vw] bg-gradient-to-br from-purple-300/50 to-indigo-400/50 backdrop-blur-md text-left text-xs font-semibold text-white uppercase tracking-wider">
                     1h
                   </th>
 
-                  <th className="px-3 py-2 xsmall:px-6 xsmall:py-3 max-w-[20vw] xsmall:max-w-[30vw] bg-purple-400/50 backdrop-blur-md text-left text-xs font-semibold text-black uppercase tracking-wider">
+                  <th className="px-3 py-2 xsmall:px-6 xsmall:py-3 max-w-[20vw] xsmall:max-w-[30vw] bg-gradient-to-br from-purple-300/50 to-indigo-400/50 backdrop-blur-md text-left text-xs font-semibold text-white uppercase tracking-wider">
                     24h
                   </th>
 
-                  <th className="px-3 py-2 xsmall:px-6 xsmall:py-3 max-w-[20vw] xsmall:max-w-[30vw] bg-purple-400/50 backdrop-blur-md text-left text-xs font-semibold text-black uppercase tracking-wider">
+                  <th className="px-3 py-2 xsmall:px-6 xsmall:py-3 max-w-[20vw] xsmall:max-w-[30vw] bg-gradient-to-br from-purple-300/50 to-indigo-400/50 backdrop-blur-md text-left text-xs font-semibold text-white uppercase tracking-wider">
                     7d
                   </th>
 
-                  <th className="px-3 py-2 xsmall:px-6 xsmall:py-3 max-w-[20vw] xsmall:max-w-[30vw] bg-purple-400/50 backdrop-blur-md text-left text-xs font-semibold text-black uppercase tracking-wider">
+                  <th className="px-3 py-2 xsmall:px-6 xsmall:py-3 max-w-[20vw] xsmall:max-w-[30vw] bg-gradient-to-br from-purple-300/50 to-indigo-400/50 backdrop-blur-md text-left text-xs font-semibold text-white uppercase tracking-wider">
                     30d
                   </th>
 
-                  <th className="px-4 py-2 xsmall:px-6 xsmall:py-3 max-w-[25vw] whitespace-nowrap xsmall:max-w-[30vw] bg-purple-400/50 backdrop-blur-md text-left text-xs font-semibold text-black uppercase tracking-wider">
+                  <th className="px-4 py-2 xsmall:px-6 xsmall:py-3 max-w-[25vw] whitespace-nowrap xsmall:max-w-[30vw] bg-purple-400/50 backdrop-blur-md text-left text-xs font-semibold text-white uppercase tracking-wider">
                     Total Vol
                   </th>
 
-                  <th className="px-4 py-2 xsmall:px-6 xsmall:py-3 max-w-[25vw] whitespace-nowrap xsmall:max-w-[30vw] bg-purple-400/50 backdrop-blur-md text-left text-xs font-semibold text-black uppercase tracking-wider">
+                  <th className="px-4 py-2 xsmall:px-6 xsmall:py-3 max-w-[25vw] whitespace-nowrap xsmall:max-w-[30vw] bg-purple-400/50 backdrop-blur-md text-left text-xs font-semibold text-white uppercase tracking-wider">
                     Circulating Supply
                   </th>
 
-                  <th className="px-4 py-2 xsmall:px-6 xsmall:py-3 max-w-[25vw] whitespace-nowrap xsmall:max-w-[30vw] bg-purple-400/50 backdrop-blur-md text-left text-xs font-semibold text-black uppercase tracking-wider">
+                  <th className="px-4 py-2 xsmall:px-6 xsmall:py-3 max-w-[25vw] whitespace-nowrap xsmall:max-w-[30vw] bg-purple-400/50 backdrop-blur-md text-left text-xs font-semibold text-white uppercase tracking-wider">
                     Total Supply
                   </th>
 
-                  <th className="px-4 py-2 xsmall:px-6 xsmall:py-3 max-w-[25vw] whitespace-nowrap xsmall:max-w-[30vw] bg-purple-400/50 backdrop-blur-md text-left text-xs font-semibold text-black uppercase tracking-wider">
+                  <th className="px-4 py-2 xsmall:px-6 xsmall:py-3 max-w-[25vw] whitespace-nowrap xsmall:max-w-[30vw] bg-purple-400/50 backdrop-blur-md text-left text-xs font-semibold text-white uppercase tracking-wider">
                     Market Cap
                   </th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+              <tbody className="bg-gradient-to-l from-[#2c3e50] to-[#bdc3c7] divide-y divide-gray-200">
                 {AllCryptoCoinsList &&
                   AllCryptoCoinsList.map((coin, index) => (
                     <tr key={coin.id} className="hover:bg-gray-50">
                       <td className="sticky left-0 z-10 bg-zinc-300/50 backdrop-blur-sm px-2 py-2 xsmall:py-4 whitespace-nowrap text-xs xsmall:text-sm text-gray-500">
                         {(currentPage - 1) * coinsPerPage + index + 1}
                       </td>
-                      <td className="sticky left-7 xsmall:left-9 z-10 bg-zinc-300/50 backdrop-blur-sm px-2 py-2 xsmall:px-3 xsmall:py-4 min-w-[150px] xsmall:max-w-[200px]">
+                      <td className="sticky left-7 xsmall:left-8 z-10 bg-zinc-300/50 backdrop-blur-sm px-2 py-2 xsmall:px-3 xsmall:py-4 min-w-[150px] xsmall:max-w-[200px]">
                         <div className="flex items-center">
                           <Link to={`/en/coins/${coin.id}`}>
                             <div className="flex items-center space-x-2">
@@ -185,24 +185,24 @@ const AllCoins = () => {
                         )}
                       </td>
 
-                      <td className="px-2 py-2 xsmall:px-6 xsmall:py-4 whitespace-nowrap text-xs xsmall:text-sm font-semibold text-gray-500">
+                      <td className="px-2 py-2 xsmall:px-6 xsmall:py-4 whitespace-nowrap text-xs xsmall:text-sm font-semibold text-black">
                         <h1 className="inline-block px-1 xsmall:px-2 rounded-xl font-bold">
                           ₹ {coin?.total_volume.toLocaleString("en-IN")}
                         </h1>
                       </td>
-                      <td className="px-2 py-2 xsmall:px-6 xsmall:py-4 whitespace-nowrap text-xs xsmall:text-sm font-semibold text-gray-500">
+                      <td className="px-2 py-2 xsmall:px-6 xsmall:py-4 whitespace-nowrap text-xs xsmall:text-sm font-semibold text-black">
                         <h1 className="inline-block px-1 xsmall:px-2 rounded-xl font-bold">
                           {coin.circulating_supply
                             ? coin.circulating_supply.toLocaleString()
                             : "N/A"}
                         </h1>
                       </td>
-                      <td className="px-2 py-2 xsmall:px-6 xsmall:py-4 whitespace-nowrap text-xs xsmall:text-sm font-semibold text-gray-500">
+                      <td className="px-2 py-2 xsmall:px-6 xsmall:py-4 whitespace-nowrap text-xs xsmall:text-sm font-semibold text-black">
                         <h1 className="inline-block px-1 xsmall:px-2 rounded-xl font-bold">
                           ${formatNumber(coin?.total_supply)}
                         </h1>
                       </td>
-                      <td className="px-2 py-2 xsmall:px-6 xsmall:py-4 whitespace-nowrap text-xs xsmall:text-sm font-semibold text-gray-500">
+                      <td className="px-2 py-2 xsmall:px-6 xsmall:py-4 whitespace-nowrap text-xs xsmall:text-sm font-semibold text-black  ">
                         <h1 className="inline-block px-1 xsmall:px-2 rounded-xl font-bold">
                           ₹ {coin.market_cap.toLocaleString("en-IN")}
                         </h1>
@@ -228,7 +228,9 @@ const AllCoins = () => {
               </button>
             </div>
           )}
-          <Footer/>
+          <div className="ml-2 xlarge:ml-20 2xlarge:ml-[5.2vw]">
+            <Footer />
+          </div>
         </div>
       </div>
     </>

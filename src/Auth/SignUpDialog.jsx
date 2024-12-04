@@ -47,12 +47,12 @@ const SignUpDialog = ({ isOpen, onClose }) => {
 
   return (
     <div
-      className={`absolute top-[20vh] 2xlarge:top-16 left-[3vw] xsmall:left-[20vw] small:left-[30vw] medium:left-[40vw] large:left-[50vw] xlarge:left-[60vw] 2xlarge:left-[63vw] z-50 ${
+      className={`absolute top-[10vh] 2xlarge:top-16 left-[3vw] xsmall:left-[20vw] small:left-[30vw] medium:left-[40vw] large:left-[50vw] xlarge:left-[60vw] 2xlarge:left-[63vw] z-50 ${
         isOpen ? "block" : "hidden"
       }`}
     >
       {isOpen && (
-        <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-90 xsmall:block small:block medium:hidden large:hidden xlarge:hidden 2xlarge:hidden"></div>
+        <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 xsmall:block small:block medium:hidden large:hidden xlarge:hidden 2xlarge:hidden"></div>
       )}
       <div className="bg-white w-[90vw] xsmall:w-[90vw] small:w-[80vw] medium:w-[60vw] large:w-[40vw] xlarge:w-[30vw] 2xlarge:w-[20vw] p-4 rounded-lg shadow-lg relative">
         <button

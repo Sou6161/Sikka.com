@@ -4,7 +4,7 @@ import logo from "/Sourabh Web dev Projects/Sikka.com/src/Images Folder/HeaderLo
 
 const Footer = () => {
   return (
-    <footer className="  relative overflow-hidden  bg-gray-900 text-gray-300">
+    <footer className="  relative overflow-hidden  bg-gray-900 text-gray-300 -left-4 min-w-[100vw] xlarge:-left-[6.6vw]  2xlarge:-left-[6.3vw]  ">
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute  inset-0  bg-gradient-to-r from-blue-600 via-indigo-700 to-purple-800 animate-gradient"></div>
       </div>
@@ -38,7 +38,7 @@ const Footer = () => {
               </a>
             </div>
           </div>
-          <div className="medium:ml-[10vw]">
+          <div className="medium:ml-[10vw] medium:text-nowrap">
             <h3 className="text-lg font-semibold text-white mb-4  medium:mt-2 ">
               Quick Links
             </h3>
@@ -65,8 +65,8 @@ const Footer = () => {
               </li>
             </ul>
           </div>
-          <div className=" medium:ml-[10vw] xlarge:mt-2">
-            <h3 className="text-lg font-semibold text-white mb-4">
+          <div className=" medium:ml-[10vw] xlarge:mt-2 medium:text-nowrap">
+            <h3 className="text-lg font-semibold  text-white mb-4">
               Contact Us
             </h3>
             <ul className="space-y-2">

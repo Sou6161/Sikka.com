@@ -26,6 +26,10 @@ const AllCategoriesCoins = () => {
   const [showRemoveDialog, setShowRemoveDialog] = useState(false);
   const [selectedCoinToRemove, setSelectedCoinToRemove] = useState(null);
   const watchlistCoinsredux = useSelector((state) => state.watchlist.coins);
+  const [showAuthDialog, setShowAuthDialog] = useState(false);
+  const [isSignUpOpen, setIsSignUpOpen] = useState(false);
+  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+  const [isWatchlisted, setisWatchlisted] = useState(false)
 
   const { id } = useParams();
   const dispatch = useDispatch();
@@ -72,6 +76,48 @@ const AllCategoriesCoins = () => {
     );
   };
 
+  // Add this dialog component at the top of your file, just after the RemoveDialog component
+  const AuthCheckDialog = ({ isOpen, onClose, onSignUp }) => {
+    if (!isOpen) return null;
+
+    return (
+      <div className="fixed inset-0 bg-black bg-opacity-30 z-50 flex items-center justify-center">
+        <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4">
+          <div className="flex justify-between items-start mb-4">
+            <h2 className="text-xl font-semibold text-gray-900">
+              Sign in Required
+            </h2>
+            <button
+              onClick={onClose}
+              className="text-gray-400 hover:text-gray-500"
+            >
+              <X size={20} />
+            </button>
+          </div>
+
+          <p className="text-gray-600 mb-6">
+            Please sign in or create an account to add coins to your watchlist.
+          </p>
+
+          <div className="flex justify-end gap-3">
+            <button
+              onClick={onClose}
+              className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 font-medium"
+            >
+              Cancel
+            </button>
+            <button
+              onClick={onSignUp}
+              className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 font-medium"
+            >
+              Sign In / Sign Up
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   const handleRemoveConfirm = () => {
     if (selectedCoinToRemove) {
       dispatch(removeFromWatchlistcoins(selectedCoinToRemove));
@@ -84,6 +130,14 @@ const AllCategoriesCoins = () => {
     setShowRemoveDialog(false);
     setSelectedCoinToRemove(null);
   };
+
+  // Add this useEffect to check login status
+  useEffect(() => {
+    const storedLoginStatus = window.localStorage.getItem("isUserLoggedIn");
+    if (storedLoginStatus === "true") {
+      setIsUserLoggedIn(true);
+    }
+  }, []);
 
   // Add this useEffect hook
   useEffect(() => {
@@ -105,6 +159,10 @@ const AllCategoriesCoins = () => {
           <button
             onClick={(e) => {
               e.stopPropagation();
+              if (!isUserLoggedIn && !isWatchlisted) {
+                setShowAuthDialog(true);
+                return;
+              }
               if (watchlistCoinsredux.includes(coin.id)) {
                 setSelectedCoinToRemove(coin.id);
                 setShowRemoveDialog(true);
@@ -235,11 +293,26 @@ const AllCategoriesCoins = () => {
     setActiveDropdown(activeDropdown === index ? null : index);
   };
 
+  // Modify your handlePortfolioSelect function
   const handlePortfolioSelect = (coinId, portfolio, event) => {
     event.stopPropagation();
+    if (!isUserLoggedIn) {
+      setShowAuthDialog(true);
+      setActiveDropdown(null);
+      return;
+    }
     dispatch(addToWatchlistCoins(coinId)); // Dispatch action to add coin to watchlist
     setWatchlistCoins((prev) => new Set([...prev, coinId]));
     setActiveDropdown(null);
+
+    // Update localStorage
+    const currentWatchlist = JSON.parse(
+      localStorage.getItem("watchlistState") || '{"coins":[]}'
+    );
+    if (!currentWatchlist.coins.includes(coinId)) {
+      currentWatchlist.coins.push(coinId);
+      localStorage.setItem("watchlistState", JSON.stringify(currentWatchlist));
+    }
   };
 
   // Close dropdown when clicking outside
@@ -415,6 +488,14 @@ const AllCategoriesCoins = () => {
         isOpen={showRemoveDialog}
         onClose={handleRemoveCancel}
         onConfirm={handleRemoveConfirm}
+      />
+      <AuthCheckDialog 
+        isOpen={showAuthDialog}
+        onClose={() => setShowAuthDialog(false)}
+        onSignUp={() => {
+          setShowAuthDialog(false);
+          setIsSignUpOpen(true);
+        }}
       />
     </>
   );

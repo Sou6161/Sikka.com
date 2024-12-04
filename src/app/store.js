@@ -4,9 +4,10 @@ import CGCoinTableGraphSlice from "../ReduxSlice/CGCoinTableGraphSlice";
 import LatestAllArticlesSlice from "../ReduxSlice/LatestAllArticlesSlice";
 import HomePageMarketCapChart from "../ReduxSlice/HomePageMCapChart";
 import WatchlistCoinsSlice from "../ReduxSlice/WatchlistCoinsSlice";
-import { persistenceMiddleware } from "../ReduxSlice/persistenceMiddleware";
+import { authMiddleware, persistenceMiddleware } from "../ReduxSlice/persistenceMiddleware";
 import WatchlistNftsSlice from "../ReduxSlice/WatchlistNftsSlice";
 import { persistenceNftsMiddleware } from "../ReduxSlice/persistenceNftsMiddleware";
+
 
 const store = configureStore({
   reducer: {
@@ -21,7 +22,7 @@ const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
       .concat(persistenceMiddleware("watchlistState"))
-      .concat(persistenceNftsMiddleware),
+      .concat(authMiddleware),
 });
 
 export default store;

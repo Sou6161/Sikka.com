@@ -38,7 +38,7 @@ const RoutesConfig = () => {
       <Route
         path="/en/new-cryptocurrencies"
         element={<NewCryptocurrenciesPage />}
-      />
+      />  
       <Route
         path="/en/crypto-Top-gainers-losers"
         element={<TopGainerAndLosers />}

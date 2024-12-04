@@ -1,223 +1,162 @@
 import React, { useEffect, useState } from "react";
 import OnlyHeaderComp from "../Header Folder/OnlyHeaderComp";
 import MainPageMarquee from "../MarqueeComponent/MainPageMarquee";
-import { CoingeckoStardasApi } from "../../api/CoinGeckoApi/CoinGeckoApi";
 import { Link } from "react-router-dom";
-import { Plus, Star, Check, X } from "lucide-react";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  addToWatchlistNfts,
-  removeFromWatchlistNfts,
-} from "../../ReduxSlice/WatchlistNftsSlice";
+import { CoingeckoStardasApi } from "../../api/CoinGeckoApi/CoinGeckoApi";
+import Footer from "../../Footer/Footer";
 
 const NftFloorPriceList = () => {
   const [nfts, setNFTs] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [activeDropdown, setActiveDropdown] = useState(null);
-  const watchlistNftsRedux = useSelector(
-    (state) => state.watchlistNfts?.nfts || []
-  );
-  const dispatch = useDispatch();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalCount, setTotalCount] = useState(0);
+  const itemsPerPage = 100;
 
-  // Custom Dialog Component for Remove Confirmation
-  const RemoveDialog = ({ isOpen, onClose, onConfirm }) => {
-    if (!isOpen) return null;
-
-    return (
-      <div className="fixed inset-0 bg-black bg-opacity-30 z-50 flex items-center justify-center">
-        <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4">
-          <div className="flex justify-between items-start mb-4">
-            <h2 className="text-xl font-semibold text-gray-900">
-              Remove NFT from Portfolio
-            </h2>
-            <button
-              onClick={onClose}
-              className="text-gray-400 hover:text-gray-500"
-            >
-              <X size={20} />
-            </button>
-          </div>
-
-          <p className="text-gray-600 mb-6">
-            Do you really want to remove this NFT from your portfolio?
-          </p>
-
-          <div className="flex justify-end gap-3">
-            <button
-              onClick={onClose}
-              className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 font-medium"
-            >
-              Cancel
-            </button>
-            <button
-              onClick={onConfirm}
-              className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 font-medium"
-            >
-              Remove
-            </button>
-          </div>
-        </div>
-      </div>
-    );
-  };
-
-  // Fetch NFTs on component mount
-  useEffect(() => {
-    const fetchNFTs = async () => {
-      try {
-        const response = await fetch(
-          "https://api.coingecko.com/api/v3/nfts/list?order=market_cap_usd_desc&per_page=100&page=1",
-          CoingeckoStardasApi
-        );
-        const data = await response.json();
-        setNFTs(data);
-        setIsLoading(false);
-      } catch (error) {
-        console.error("Error fetching NFT list:", error);
-        setIsLoading(false);
-      }
-    };
-    fetchNFTs();
-  }, []);
-
-  // State for remove dialog
-  const [showRemoveDialog, setShowRemoveDialog] = useState(false);
-  const [selectedNftToRemove, setSelectedNftToRemove] = useState(null);
-
-  // Handle star/watchlist icon click
-  const handleStarClick = (index, event) => {
-    event.stopPropagation();
-    setActiveDropdown(activeDropdown === index ? null : index);
-  };
-
-  // Handle portfolio selection (add to watchlist)
-  const handlePortfolioSelect = (nftId, event) => {
-    event.stopPropagation();
-    dispatch(addToWatchlistNfts(nftId));
-    setActiveDropdown(null);
-  };
-
-  // Handle remove from watchlist
-  const handleRemoveFromWatchlist = (nftId) => {
-    setSelectedNftToRemove(nftId);
-    setShowRemoveDialog(true);
-  };
-
-  // Confirm remove from watchlist
-  const handleRemoveConfirm = () => {
-    if (selectedNftToRemove) {
-      dispatch(removeFromWatchlistNfts(selectedNftToRemove));
+  const fetchNFTs = async (page) => {
+    setIsLoading(true);
+    try {
+      const response = await fetch(
+        `https://api.coingecko.com/api/v3/nfts/list?order=market_cap_usd_desc&per_page=${itemsPerPage}&page=${page}`,
+        CoingeckoStardasApi
+      );
+      const data = await response.json();
+      setNFTs(data);
+      setTotalCount(data.length + (page - 1) * itemsPerPage);
+      setIsLoading(false);
+    } catch (error) {
+      console.error("Error fetching NFT list:", error);
+      setIsLoading(false);
     }
-    setShowRemoveDialog(false);
-    setSelectedNftToRemove(null);
   };
 
-  // Close dropdown when clicking outside
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      // Only close if the click is not on a star/dropdown element
-      if (!event.target.closest(".dropdown-trigger")) {
-        setActiveDropdown(null);
-      }
-    };
-    document.addEventListener("click", handleClickOutside);
-    return () => document.removeEventListener("click", handleClickOutside);
-  }, []);
+    fetchNFTs(currentPage);
+  }, [currentPage]);
+
+  const handleNextPage = () => {
+    setCurrentPage((prev) => prev + 1);
+  };
+
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage((prev) => prev - 1);
+    }
+  };
+
+  // Function to truncate address
+  const truncateAddress = (address) => {
+    if (!address) return "";
+    return `${address.substring(0, 32)}...${address.substring(
+      address.length - 4
+    )}`;
+  };
 
   return (
-    <>
-      <div className="bg-black">
+    <div className="flex flex-col min-h-screen bg-gradient-to-r from-[#3f4c6b] to-[#606c88]">
+      {/* Header Section */}
+      <div className="bg-black w-full">
         <OnlyHeaderComp />
         <MainPageMarquee />
       </div>
-      <div className="bg-black min-h-screen">
-        <h1 className="ml-5 relative top-10 text-[5vw] text-white font-semibold">
-          Top NFT Collection Ranked by Market Cap
-        </h1>
-        <p className="text-gray-500 ml-5 relative top-10 mt-2 text-[4vw]">
-          The global NFT market cap today is $5.17 Billion, a 10.6% change in
-          the last 24 hours. Read more
-        </p>
 
-        {isLoading ? (
-          <div className="text-white text-center mt-10">Loading...</div>
-        ) : (
-          <div className="flex flex-wrap justify-center">
-            {nfts.map((nft, index) => (
-              <div
-                key={nft.id}
-                className="w-[90vw] mt-[7vh] p-3 bg-gray-800 rounded-lg relative"
-              >
-                <div className="absolute top-2 right-2 dropdown-trigger">
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      // If already in watchlist, show remove dialog
-                      if (watchlistNftsRedux.includes(nft.id)) {
-                        handleRemoveFromWatchlist(nft.id);
-                      } else {
-                        // Otherwise, toggle dropdown
-                        handleStarClick(index, e);
-                      }
-                    }}
-                    className="hover:text-yellow-500 focus:outline-none dropdown-trigger"
+      {/* Main Content */}
+      <main className="flex-grow px-4 small:px-6 large:px-8 py-8">
+        <div className="max-w-7xl mx-auto">
+          {/* Title Section */}
+          <div className="mb-8">
+            <h1 className="text-[7vw] xsmall:text-[6vw] small:text-[5vw] medium:text-[4vw] large:text-[3.4vw] xlarge:text-[2.8vw] 2xlarge:text-[2.5vw] large:text-6xl font-bold text-white mb-4">
+              Top NFT Collections
+            </h1>
+            <div className="flex flex-col small:flex-row justify-between items-start sm:items-center gap-4">
+              <p className="text-gray-400 text-lg">
+                Showing {(currentPage - 1) * itemsPerPage + 1} -{" "}
+                {Math.min(currentPage * itemsPerPage, totalCount)} of{" "}
+                {totalCount} collections
+              </p>
+              <div className="flex items-center bg-gray-800 rounded-lg px-4 py-2">
+                <span className="text-gray-400 mr-2">24h Change:</span>
+                <span className="text-green-400 font-medium">+10.6%</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Loading State */}
+          {isLoading ? (
+            <div className="flex justify-center items-center h-64">
+              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-white"></div>
+            </div>
+          ) : (
+            <>
+              {/* NFT Grid */}
+              <div className="grid grid-cols-1 medium:grid-cols-2 large:grid-cols-3 gap-6">
+                {nfts.map((nft) => (
+                  <Link
+                    key={nft.id}
+                    to={`/en/nft/${nft.id}`}
+                    className="group block"
                   >
-                    {watchlistNftsRedux.includes(nft.id) ? (
-                      <Check size={24} className="text-green-500" />
-                    ) : (
-                      <Star
-                        size={24}
-                        className={`transition-colors dropdown-trigger ${
-                          activeDropdown === index
-                            ? "text-yellow-500 fill-yellow-500"
-                            : "text-gray-400"
-                        }`}
-                      />
-                    )}
-                  </button>
-
-                  {/* Dropdown for adding to watchlist */}
-                  {activeDropdown === index &&
-                    !watchlistNftsRedux.includes(nft.id) && (
-                      <div className="absolute right-0 mt-2 w-44 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-30">
-                        <div className="py-1">
-                          <button
-                            className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center"
-                            onClick={(e) => handlePortfolioSelect(nft.id, e)}
+                    <div className="bg-gradient-to-br from-gray-900 to-gray-800 w-full backdrop-blur-sm rounded-xl p-6 transition-all duration-300 hover:bg-gray-700/50 hover:transform hover:-translate-y-1 hover:shadow-xl border border-gray-700/50">
+                      <div className="flex items-start justify-between mb-4">
+                        <h2 className="text-xl text-wrap font-semibold text-white group-hover:text-blue-400 transition-colors duration-300 truncate max-w-[80%]">
+                          {nft.name}
+                        </h2>
+                        <span className="inline-flex  truncate items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-900/50 text-blue-400">
+                          {nft.symbol}
+                        </span>
+                      </div>
+                      <div className="space-y-3">
+                        <div className="flex items-center text-gray-400">
+                          <span className="text-gray-500">Platform:</span>
+                          <span className="ml-2 capitalize">
+                            {nft.asset_platform_id}
+                          </span>
+                        </div>
+                        <div className="flex flex-col text-gray-400">
+                          <span className="text-gray-500">Contract:</span>
+                          <span
+                            className="text-sm mt-1 font-mono"
+                            title={nft.contract_address}
                           >
-                            Add to My NFT Portfolio{" "}
-                            <Plus className="ml-2" size={16} />
-                          </button>
+                            {truncateAddress(nft.contract_address)}
+                          </span>
                         </div>
                       </div>
-                    )}
-                </div>
-
-                <Link to={`/en/nft/${nft.id}`}>
-                  <h2 className="text-white text-2xl hover:underline capitalize">
-                    {nft.name}
-                  </h2>
-                </Link>
-                <p className="text-gray-500 mt-2 capitalize">
-                  NFT Platform: {nft.asset_platform_id}
-                </p>
-                <p className="text-gray-500">Symbol: {nft.symbol}</p>
-                <p className="text-gray-500 truncate">
-                  Contract Address: {nft.contract_address}
-                </p>
+                    </div>
+                  </Link>
+                ))}
               </div>
-            ))}
-          </div>
-        )}
-      </div>
 
-      {/* Remove Confirmation Dialog */}
-      <RemoveDialog
-        isOpen={showRemoveDialog}
-        onClose={() => setShowRemoveDialog(false)}
-        onConfirm={handleRemoveConfirm}
-      />
-    </>
+              {/* Pagination */}
+              <div className="flex justify-center items-center space-x-4 mt-12">
+                <button
+                  onClick={handlePreviousPage}
+                  disabled={currentPage === 1}
+                  className={`px-6 py-3 rounded-lg font-medium transition-all duration-300 ${
+                    currentPage === 1
+                      ? "bg-gray-700 text-gray-400 cursor-not-allowed"
+                      : "bg-blue-600 text-white hover:bg-blue-700 hover:shadow-lg"
+                  }`}
+                >
+                  Previous
+                </button>
+                <div className="px-4 py-2 rounded-lg bg-gray-800 text-white font-medium">
+                  Page {currentPage}
+                </div>
+                <button
+                  onClick={handleNextPage}
+                  className="px-6 py-3 rounded-lg bg-blue-600 text-white font-medium hover:bg-blue-700 transition-all duration-300 hover:shadow-lg"
+                >
+                  Next
+                </button>
+              </div>
+            </>
+          )}
+        </div>
+      </main>
+      <div className=" ml-4  xlarge:ml-[6.5vw] 2xlarge:ml-[5.7vw]">
+        <Footer />
+      </div>
+    </div>
   );
 };
 

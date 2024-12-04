@@ -64,48 +64,48 @@ const ExchangeDerivatives = () => {
         <OnlyHeaderComp />
         <MainPageMarquee />
       </div>
-      <div className="bg-black min-h-screen">
-        <h1 className="ml-5 relative top-10 text-[5vw] text-white font-semibold">
+      <div className="bg-gradient-to-r from-[#3f4c6b] to-[#606c88] min-h-screen">
+        <h1 className="ml-3 relative top-10 text-[6vw] xsmall:text-[4.5vw] small:text-[4vw] medium:text-[3vw] large:text-[2.5vw] xlarge:text-[2vw] text-yellow-400 font-semibold">
           Top Derivative Exchanges Ranked by Open Interest & Trade Volume
         </h1>
-        <p className="text-gray-500 ml-3 relative top-10 mt-2 text-[4vw]">
+        <p className="text-sky-500 ml-3 relative top-10 mt-2 text-[4vw] xsmall:text-[3vw] small:text-[2.5vw] medium:text-[2vw] large:text-[1.5vw] xlarge:text-[1.2vw]">
           The total derivatives volume is $1.57 Trillion, a 32.65% change in the
           last 24 hours. We track 107 crypto derivative exchanges with Binance
           (Futures), OrangeX Futures, and Bybit (Futures) in the top 3 rankings.
         </p>
 
-        <div className="bg-black mt-[14vh] px-2">
-          <div className="overflow-x-auto w-full border-2 border-purple-500 rounded-lg">
-            <table className="min-w-full bg-white rounded-lg">
-              <thead className="bg-gray-100">
+        <div className="bg-gradient-to-r from-[#3f4c6b] to-[#606c88] mt-[14vh] px-2">
+          <div className="overflow-x-auto w-full 2xlarge:w-[90vw]  2xlarge:mx-auto border-2 border-yellow-400 rounded-lg">
+            <table className="min-w-full bg-gradient-to-br from-purple-100 to-indigo-100 rounded-lg">
+              <thead className="bg-gradient-to-r from-purple-900 to-indigo-900">
                 <tr>
-                  <th className="sticky left-0 z-10 bg-gray-400 px-2 py-2 text-left text-xs font-medium text-black uppercase tracking-wider">
+                  <th className="sticky left-0 z-10 bg-gradient-to-br from-purple-300 to-indigo-400 px-2 py-2 text-left text-xs font-medium text-white uppercase tracking-wider">
                     #
                   </th>
-                  <th className="sticky left-7 z-10 bg-gray-400 px-3 py-2 text-left text-xs font-medium text-black uppercase tracking-wider max-w-[120px]">
+                  <th className="sticky left-7 z-10 bg-gradient-to-br from-purple-300 to-indigo-400 px-3 py-2 text-left text-xs font-medium text-white uppercase tracking-wider max-w-[120px]">
                     Exchange
                   </th>
-                  <th className="px-3 py-2 min-w-[25vw] bg-purple-400/50 backdrop-blur-md text-left text-xs font-semibold text-black uppercase tracking-wider">
+                  <th className="px-3 py-2 max-w-[50vw] bg-gradient-to-br from-purple-300/50 to-indigo-400/50 backdrop-blur-md text-left text-xs font-semibold text-white uppercase tracking-wider">
                     24h Open Interest
                   </th>
-                  <th className="px-4 py-2 max-w-[25vw] whitespace-nowrap bg-purple-400/50 backdrop-blur-md text-left text-xs font-semibold text-black uppercase tracking-wider">
+                  <th className="px-4 py-2 max-w-[25vw] whitespace-nowrap bg-gradient-to-br from-purple-300/50 to-indigo-400/50 backdrop-blur-md text-left text-xs font-semibold text-white uppercase tracking-wider">
                     24h Volume
                   </th>
-                  <th className="px-4 py-2 max-w-[25vw] whitespace-nowrap bg-purple-400/50 backdrop-blur-md text-left text-xs font-semibold text-black uppercase tracking-wider">
+                  <th className="px-4 py-2 max-w-[25vw] whitespace-nowrap bg-gradient-to-br from-purple-300/50 to-indigo-400/50 backdrop-blur-md text-left text-xs font-semibold text-white uppercase tracking-wider">
                     Futures
                   </th>
-                  <th className="px-4 py-2 max-w-[25vw] whitespace-nowrap bg-purple-400/50 backdrop-blur-md text-left text-xs font-semibold text-black uppercase tracking-wider">
+                  <th className="px-4 py-2 max-w-[25vw] whitespace-nowrap bg-gradient-to-br from-purple-300/50 to-indigo-400/50 backdrop-blur-md text-left text-xs font-semibold text-white uppercase tracking-wider">
                     Open Interest (7d)
                   </th>
-                  <th className="px-4 py-2 max-w-[25vw] whitespace-nowrap bg-purple-400/50 backdrop-blur-md text-left text-xs font-semibold text-black uppercase tracking-wider">
+                  <th className="px-4 py-2 max-w-[25vw] whitespace-nowrap bg-gradient-to-br from-purple-300/50 to-indigo-400/50 backdrop-blur-md text-left text-xs font-semibold text-white uppercase tracking-wider">
                     Volume (7d)
                   </th>
-                  <th className="px-4 py-2 max-w-[25vw] whitespace-nowrap bg-purple-400/50 backdrop-blur-md text-left text-xs font-semibold text-black uppercase tracking-wider">
+                  <th className="px-4 py-2 max-w-[25vw] whitespace-nowrap bg-gradient-to-br from-purple-300/50 to-indigo-400/50 backdrop-blur-md text-left text-xs font-semibold text-white uppercase tracking-wider">
                     Launched
                   </th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+              <tbody className="bg-gradient-to-l from-[#2c3e50] to-[#bdc3c7] divide-y divide-gray-200">
                 {DerivativesList &&
                   DerivativesList.map((coin, index) => {
                     const openInterestData = generateTimeSeriesData(
@@ -149,7 +149,7 @@ const ExchangeDerivatives = () => {
                             })}
                           </span>
                         </td>
-                        <td className="px-2 py-2 whitespace-nowrap text-xs font-semibold text-gray-500">
+                        <td className="px-2 py-2 whitespace-nowrap text-xs font-bold text-black">
                           ₹{" "}
                           {parseFloat(
                             coin?.trade_volume_24h_btc * btcPrice
@@ -158,7 +158,7 @@ const ExchangeDerivatives = () => {
                             maximumFractionDigits: 0,
                           })}
                         </td>
-                        <td className="px-5 py-2 whitespace-nowrap text-xs font-semibold text-gray-500">
+                        <td className="px-5 py-2 whitespace-nowrap text-xs font-bold text-black">
                           <h1 className="inline-block px-1 rounded-xl font-bold">
                             {coin?.number_of_futures_pairs}
                           </h1>
@@ -213,7 +213,7 @@ const ExchangeDerivatives = () => {
             </table>
           </div>
         </div>
-        <div className="mt-[20vh]">
+        <div className="mt-[10vh] ml-4 xlarge:ml-[6.7vw] 2xlarge:ml-[5.7vw]">
           <Footer />
         </div>
       </div>
