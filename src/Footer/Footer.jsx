@@ -22,19 +22,19 @@ const Footer = () => {
                 className="text-gray-400 hover:text-white transition-colors"
               >
               
-                <Twitter size={20} />
+                <Twitter className="text-black" size={20} />
               </a>
               <a
                 href="#"
                 className="text-gray-400 hover:text-white transition-colors"
               >
-                <Github size={20} />
+                <Github className="text-black" size={20} />
               </a>
               <a
                 href="#"
                 className="text-gray-400 hover:text-white transition-colors"
               >
-                <Linkedin size={20} />
+                <Linkedin className="text-black" size={20} />
               </a>
             </div>
           </div>
@@ -44,23 +44,23 @@ const Footer = () => {
             </h3>
             <ul className="space-y-2 xlarge:text-[1.3vw] ">
               <li>
-                <a href="#" className="hover:text-white  transition-colors">
-                  Home
+                <a href="#" className="hover:text-white   transition-colors">
+                 <span className="text-white">Home</span> 
                 </a>
               </li>
               <li>
                 <a href="#" className="hover:text-white transition-colors">
-                  About Us
+                  <span className="text-white">About Us</span>
                 </a>
               </li>
               <li>
                 <a href="#" className="hover:text-white transition-colors">
-                  Services
+                  <span className="text-white">Services</span>
                 </a>
               </li>
               <li>
                 <a href="#" className="hover:text-white transition-colors">
-                  Blog
+                  <span className="text-white">Blog</span>
                 </a>
               </li>
             </ul>
@@ -77,7 +77,7 @@ const Footer = () => {
                   onClick={() => window.location = "mailto:info@coinfam.com"}
                   className="hover:text-white transition-colors xlarge:text-[1.vw]"
                 >
-                  info@coinfam.com
+                  <span className=" text-black font-semibold">info@coinfam.com</span>
                 </a>
               </li>
               <li className=" medium:whitespace-nowrap">123 Crypto Street</li>
@@ -87,7 +87,7 @@ const Footer = () => {
             </ul>
           </div>
         </div>
-        <div className="mt-8 pt-8 border-t border-gray-700 text-sm medium:text-[1.8vw] xlarge:text-[1.5vw] text-center">
+        <div className="mt-8 pt-8 border-t border-gray-700 text-sm medium:text-[1.8vw] xlarge:text-[1.5vw] 2xlarge:text-[1vw] text-center">
           <p>&copy; 2024 CoinFam. All rights reserved.</p>
         </div>
       </div>

@@ -37,6 +37,7 @@ import { FaExchangeAlt } from "react-icons/fa";
 import { formatDistanceToNow } from "date-fns";
 import CoinNewsInDetails from "../../CoinGeckoCryptoNews/CoinNewsInDetails";
 import Footer from "../../Footer/Footer";
+import { FiChevronDown, FiChevronUp, FiStar } from "react-icons/fi";
 
 const formatXAxis = (unixTimestamp) => {
   const date = new Date(unixTimestamp);
@@ -620,7 +621,7 @@ const CoinFullDetails = ({ contractAddress, marketsData }) => {
         <OnlyHeaderComp />
         <MainPageMarquee />
       </div>
-      <div className="w-full overflow-x-hidden  xsmall:overflow-x-hidden min-h-screen bg-gradient-to-b from-gray-900 to-black text-white">
+      <div className="w-full overflow-x-hidden  xsmall:overflow-x-hidden min-h-screen bg-gradient-to-r from-gray-900 to-black text-white">
         {/* Glass-morphism card container */}
         <div
           className="mx-2 mt-0  relative top-2 p-3 rounded-2xl backdrop-blur-lg bg-white/5 border border-white/10 shadow-2xl
@@ -1083,7 +1084,7 @@ const CoinFullDetails = ({ contractAddress, marketsData }) => {
                     <div className="relative">
                       <button
                         onClick={() => setIsOpen(!isOpen)}
-                        className="flex items-center gap-2 px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg hover:bg-gray-100 transition-colors"
+                        className="flex items-center gap-2 px-4 py-2 bg-purple-500 border border-gray-200 rounded-lg hover:bg-black transition-colors"
                       >
                         <span className="font-medium">
                           {selectedCurrency.toUpperCase()}
@@ -1110,12 +1111,15 @@ const CoinFullDetails = ({ contractAddress, marketsData }) => {
                     inputMode="decimal"
                     value={amount}
                     onChange={handleAmountChange}
-                    className="w-full px-4 py-3 text-lg border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent mb-4"
+                    className="w-full px-4 py-3 text-black font-semibold text-lg border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent mb-4"
                     placeholder="Enter amount"
                   />
-                  <div className="text-2xl font-bold text-blue-600">
+                  <div className="text-2xl font-bold text-red-500">
                     {!isNaN(convertedAmount)
-                      ? convertedAmount.toFixed(2)
+                      ? convertedAmount.toLocaleString(undefined, {
+                          minimumFractionDigits: 2,
+                          maximumFractionDigits: 2,
+                        })
                       : "0.00"}{" "}
                     {selectedCurrency.toUpperCase()}
                   </div>
@@ -1683,7 +1687,7 @@ const CoinFullDetails = ({ contractAddress, marketsData }) => {
               </table>
             </div>
           </div>
-          <div className="mt-5 flex justify-between items-center 2xlarge:relative 2xlarge:bottom-[30vh] 2xlarge:left-[7vw]">
+          <div className="mt-5 ml-5 flex justify-between items-center xsmall:ml-20 small:ml-[20vw] medium:ml-[25vw] xlarge:relative xlarge:right-[15vw] 2xlarge:relative 2xlarge:right-[15vw] xlarge:w-full  2xlarge:bottom-[30vh] ">
             <button
               className="Paginationbutton xlarge:left-[25vw]"
               onClick={handlePreviousPage}
@@ -1707,71 +1711,114 @@ const CoinFullDetails = ({ contractAddress, marketsData }) => {
             </button>
           </div>
         </div>
-        <div className=" relative w-[90vw] xlarge:top-[150vh] 2xlarge:top-[160vh] left-5">
+        <div className=" relative w-[90vw] xlarge:left-20  2xlarge:-mt-[30vh]  left-5">
           <div className="mt-10">
             <CoinNewsInDetails />
           </div>
         </div>
-        <div className="p-4 relative xsmall:-left-5  top-[5vh] w-full xsmall:max-w-[90%] small:max-w-[80%] medium:max-w-2xl medium:-left-2 large:max-w-3xl xlarge:max-w-[40vw] xlarge:top-[70vh] xlarge:-left-[25vw] 2xlarge:max-w-[40vw] 2xlarge:top-[70vh] mx-auto">
-          <h1 className="text-xl xsmall:text-[4vw] small:text-[4vw] medium:text-[2.5vw] xlarge:text-[1.7vw] font-semibold mb-4">
+        <div className="p-4 relative left-5 xlarge:left-[6vw]  top-[3vh] w-full xsmall:max-w-[90%] small:max-w-[80%] medium:max-w-2xl  large:max-w-[70vw] xlarge:max-w-[100vw] xlarge:top-[5vh]  2xlarge:max-w-[80vw] 2xlarge:left-[12vw] 2xlarge:top-[5vh]">
+          {/* Header */}
+          <h1 className="text-[6vw] xsmall:text-[4vw] small:text-[4vw] medium:text-[3vw] large:text-[2.6vw] xlarge:text-[1.7vw] font-semibold mb-4">
             Trending Coins
           </h1>
-          <div className="space-y-2 xlarge:space-y-0 xlarge:grid xlarge:grid-cols-2 xlarge:w-[60vw] xlarge:gap-8 ">
-            {TrendingCoins &&
-              TrendingCoins.map((coin, index) => (
+
+          {/* Main Container */}
+          <div className="container -ml-5  px-4 py-6">
+            {/* Grid Layout */}
+            <div className="grid grid-cols-1 small:grid-cols-2 large:grid-cols-2 xlarge:grid-cols-4 gap-4">
+              {/* Coin Cards */}
+              {TrendingCoins?.map((coin, index) => (
                 <div
                   key={index}
-                  className="bg-zinc-800 border-b-2 border-yellow-400 hover:border-blue-600 hover:border-t-2 rounded-lg px-2 xsmall:px-4 py-4 xsmall:py-6 flex items-center justify-between shadow-sm"
+                  className="bg-gradient-to-br from-zinc-900 to-zinc-800 rounded-xl p-4 
+                border border-zinc-700 hover:border-purple-500 
+                transform transition-all duration-300 hover:scale-[1.02]
+                shadow-lg hover:shadow-purple-500/20"
                 >
-                  <div className="flex items-center space-x-2 xsmall:space-x-3 flex-1 min-w-0">
-                    <img
-                      src={coin.item.thumb}
-                      alt={coin.item.name}
-                      className="w-6 h-6 xsmall:w-8 xsmall:h-8 rounded-full flex-shrink-0"
-                    />
-                    <div className="flex flex-col min-w-0">
-                      <span className="font-semibold truncate text-sm xsmall:text-base">
-                        {coin.item.symbol}
+                  {/* Main Content */}
+                  <div className="flex items-center justify-between">
+                    {/* Left: Coin Info */}
+                    <div className="flex items-center space-x-3 flex-1 min-w-0">
+                      {/* Coin Image */}
+                      <div className="relative">
+                        <img
+                          src={coin.item.thumb}
+                          alt={coin.item.name}
+                          className="w-10 h-10 rounded-full ring-2 ring-purple-500/30"
+                        />
+                      </div>
+
+                      {/* Coin Details */}
+                      <div className="flex flex-col min-w-0 flex-1">
+                        <div className="flex items-center space-x-2">
+                          <span className="font-semibold text-white truncate">
+                            {coin.item.symbol}
+                          </span>
+                          <span className="text-xs text-zinc-400 truncate">
+                            {coin.item.name}
+                          </span>
+                        </div>
+                        <span className="text-sm text-zinc-300">
+                          ₹
+                          {Number(coin.item.data.price).toLocaleString(
+                            "en-IN",
+                            {
+                              minimumFractionDigits: 2,
+                              maximumFractionDigits: 6,
+                            }
+                          )}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Right: Price Changes */}
+                    <div className="flex flex-col items-end justify-center">
+                      <div
+                        className={`flex items-center px-2 py-1 rounded-lg ${
+                          coin.item.data.price_change_percentage_24h.usd > 0
+                            ? "bg-green-500/10 text-green-500"
+                            : "bg-red-500/10 text-red-500"
+                        }`}
+                      >
+                        {coin.item.data.price_change_percentage_24h.usd > 0 ? (
+                          <FiChevronUp className="w-4 h-4" />
+                        ) : (
+                          <FiChevronDown className="w-4 h-4" />
+                        )}
+                        <span className="ml-1 text-sm font-medium">
+                          {Math.abs(
+                            coin.item.data.price_change_percentage_24h.usd
+                          ).toFixed(1)}
+                          %
+                        </span>
+                      </div>
+                      <span className="text-xs text-zinc-500 mt-1">24h</span>
+                    </div>
+                  </div>
+
+                  {/* Stats Section */}
+                  <div className="mt-4 pt-3 border-t border-zinc-700/50 grid grid-cols-2 gap-2">
+                    <div className="flex flex-col">
+                      <span className="text-xs text-zinc-400">
+                        Market Cap Rank
                       </span>
-                      <span className="text-xs xsmall:text-sm text-gray-500 truncate">
-                        ₹{coin.item.data.price.toFixed(6)}
+                      <span className="text-sm text-white">
+                        #{coin.item.market_cap_rank}
+                      </span>
+                    </div>
+                    <div className="flex flex-col text-right">
+                      <span className="text-xs text-zinc-400">Score</span>
+                      <span className="text-sm text-white">
+                        {coin.item.score}
                       </span>
                     </div>
                   </div>
-                  <div className="flex items-center">
-                    <span
-                      className={`flex items-center text-xs xsmall:text-sm ${
-                        coin.item.data.price_change_percentage_24h.usd > 0
-                          ? "text-green-500"
-                          : "text-red-500"
-                      }`}
-                    >
-                      {coin.item.data.price_change_percentage_24h.usd > 0 ? (
-                        <ChevronUp
-                          size={14}
-                          className="xsmall:w-4 xsmall:h-4"
-                        />
-                      ) : (
-                        <ChevronDown
-                          size={14}
-                          className="xsmall:w-4 xsmall:h-4"
-                        />
-                      )}
-                      {Math.abs(
-                        coin.item.data.price_change_percentage_24h.usd
-                      ).toFixed(1)}
-                      %
-                    </span>
-                    <Star
-                      size={14}
-                      className="ml-2 text-gray-400 xsmall:w-4 xsmall:h-4"
-                    />
-                  </div>
                 </div>
               ))}
+            </div>
           </div>
         </div>
-        <div className="relative top-[10vh] left-5 xsmall:top-[53vh] small:top-[53vh] small:left-[9vw] medium:top-[53vh] medium:left-[14vw] large:left-[16vw] xlarge:left-[6vw] xlarge:top-[75vh] 2xlarge:top-[75vh]">
+        <div className="relative mb-32 top-[5vh] left-5 xsmall:top-[10vh] small:top-[10vh] small:left-[5vw] medium:top-[10vh] medium:left-[5vw] large:left-[4vw] xlarge:left-[7vw] xlarge:top-[8vh] 2xlarge:top-[5vh] 2xlarge:left-[13vw]">
           <h1 className="text-[4.5vw] xsmall:text-[3.5vw] small:text-[3vw] medium:text-[2.5vw] large:text-[2vw] xlarge:text-[1.5vw] 2xlarge:text-[1.2vw] text-blue-700 font-semibold">
             {CoinDetails?.name} ({CoinDetails?.symbol.toUpperCase()}) price has
             increased today.
@@ -1841,7 +1888,7 @@ const CoinFullDetails = ({ contractAddress, marketsData }) => {
             .
           </p>
         </div>
-        <div className=" relative  top-[20vh] xlarge:top-[80vh] 2xlarge:top-[90vh] xlarge:ml-0  xlarge:mb-0 xlarge:mr-0 small:w-[100vw]  ">
+        <div className=" ml-4 xlarge:mt-[15vh] xlarge:ml-[6.6vw]    xlarge:relative bg-gradient-to-r from-gray-900 to-black">
           <Footer />
         </div>
       </div>

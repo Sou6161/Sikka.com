@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Newspaper, ExternalLink } from "lucide-react";
+import { FaRegNewspaper } from "react-icons/fa6";
+import {  FiExternalLink, FiClock, FiUser } from "react-icons/fi";
 
 const CoinNewsInDetails = () => {
   const [cryptoNews, setCryptoNews] = useState([]);
@@ -28,81 +29,95 @@ const CoinNewsInDetails = () => {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-64">
-        <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-purple-500"></div>
+      <div className="flex justify-center items-center min-h-[50vh]">
+        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-purple-600"></div>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div
-        className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
-        role="alert"
-      >
-        <strong className="font-bold">Error!</strong>
-        <span className="block sm:inline"> {error}</span>
+      <div className="mx-4 my-8 p-4 bg-red-50 border border-red-200 rounded-lg">
+        <div className="flex items-center space-x-2 text-red-700">
+          <strong className="font-medium">Error:</strong>
+          <span>{error}</span>
+        </div>
       </div>
     );
   }
 
   return (
-    <>
-      <div className="mt-10 border-b-[1px] medium:w-[70vw] xlarge:w-[90vw] xlarge:relative xlarge:left-[3vw] xlarge:-top-[190vh] medium:mx-auto border-red-600 bg-red-200"></div>
-      <div className="flex justify-center mt-10 xlarge:relative xlarge:-top-[190vh] xlarge:left-[2vw]">
-        <button
-          id="bottone1"
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-        >
-          <strong className="flex items-center text-black">
-            <Newspaper className="w-5 h-5 mr-2 text-black" />
-            Latest Crypto News
-          </strong>
-        </button>
-      </div>
-      <div className="mt-10 p-2  xsmall:p-3  rounded-lg backdrop-blur-md backdrop-filter  outline-offset-2 overflow-x-auto hide-scrollbar xlarge:ml-[5vw] xlarge:w-[90vw]  xlarge:border-l-2 xlarge:border-r-2 xlarge:relative xlarge:-top-[190vh]  ">
-        <ul className="pb-4 mt-2 flex-nowrap space-x-1  xsmall:space-x-1 medium:ml-[6vw] xlarge:flex ">
+    <div className="container mx-auto px-4 py-8 max-w-7xl">
+      <div className="space-y-8">
+        {/* Header Section */}
+        <div className="flex flex-col items-center space-y-4">
+          <button className="group bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-medium py-3 px-6 rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105">
+            <span className="flex items-center space-x-2">
+              <FaRegNewspaper className="w-5 h-5" />
+              <span className="text-lg">Latest Crypto News</span>
+            </span>
+          </button>
+          <div className="w-full max-w-3xl h-px bg-gradient-to-r from-transparent via-purple-500 to-transparent"></div>
+        </div>
+
+        {/* News Grid */}
+        <div className="grid grid-cols-1 small:grid-cols-2 medium:grid-cols-2 large:grid-cols-3 gap-6 auto-rows-fr">
           {cryptoNews.map((article, index) => (
-            <li
+            <div
               key={index}
-              className="flex-shrink-0 small:mt-5 w-[80vw] xsmall:w-[80vw] small:w-[80vw] medium:w-[70vw] large:w-[75vw] xlarge:w-[40vw] 2xlarge:w-[30vw]  xlarge:-ml-[10vw] rounded-lg overflow-hidden transition-transform duration-300"
+              className="rounded-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 bg-white/5 backdrop-blur-lg border border-purple-500/20"
             >
-              <img
-                className="w-full h-[28vh]  small:w-[75vw]   small:h-[35vh] small:ml-[5vw] medium:w-[65vw] medium:h-[40vh] large:w-[70vw] large:h-[50vh] xlarge:w-[30vw] xlarge:h-[30vh] 2xlarge:w-[25vw] border-2 border-purple-600 rounded-t-lg object-cover"
-                src={article.imageurl}
-                alt="https://salonlfc.com/wp-content/uploads/2018/01/image-not-found-1-scaled.png"
-              />
-              <div className="py-4 px-2 flex flex-col flex-grow small:ml-[4vw]">
-                <h2 className="text-white font-semibold mb-2 line-clamp-2 text-sm xsmall:text-base small:text-lg">
-                  {article.title}
-                </h2>
-                <p className="text-amber-400 font-semibold mb-4 line-clamp-3 text-xs xsmall:text-sm small:text-base">
-                  {article.body.split(" ").slice(0, 20).join(" ")}...
-                </p>
-                <div className="mt-auto">
-                  <h3 className="text-green-400 font-semibold text-xs xsmall:text-sm">
-                    {article?.source_info?.name}
-                  </h3>
-                  <h3 className="text-green-400 font-semibold mb-2 text-xs xsmall:text-sm">
-                    Published: {formatPublishDate(article?.published_on)}
-                  </h3>
+              <div className="aspect-video overflow-hidden">
+                <img
+                  className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-500"
+                  src={article.imageurl}
+                  alt={article.title}
+                  onError={(e) => {
+                    e.target.src = "https://salonlfc.com/wp-content/uploads/2018/01/image-not-found-1-scaled.png";
+                  }}
+                />
+              </div>
+              <div className="p-6 space-y-4">
+                <div className="space-y-2">
+                  <h2 className="text-xl font-semibold line-clamp-2 text-white">
+                    {article.title}
+                  </h2>
+                  <p className="text-amber-400/90 line-clamp-3 text-sm">
+                    {article.body}
+                  </p>
+                </div>
+                
+                <div className="pt-4 border-t border-purple-500/20 space-y-2">
+                  <div className="flex flex-col space-y-2 text-sm">
+                    <div className="flex items-center space-x-2">
+                      <FiUser className="text-green-400" />
+                      <span className="text-green-400 font-medium">
+                        {article?.source_info?.name}
+                      </span>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <FiClock className="text-green-400/80" />
+                      <span className="text-green-400/80">
+                        {formatPublishDate(article?.published_on)}
+                      </span>
+                    </div>
+                  </div>
                   <a
                     href={article.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center text-blue-400 hover:text-blue-300 transition-colors duration-200 text-xs xsmall:text-sm"
+                    className="inline-flex items-center space-x-1 text-blue-400 hover:text-blue-300 transition-colors duration-200 mt-2"
                   >
-                    Read More <ExternalLink className="w-4 h-4 ml-1" />
+                    <span>Read More</span>
+                    <FiExternalLink className="w-4 h-4" />
                   </a>
-                  <div className=" w-[80vw] xlarge:border-0 border-[1px] mt-5" ></div>
                 </div>
               </div>
-            </li>
+            </div>
           ))}
-        </ul>
+        </div>
       </div>
-      <div className="mt-10 border-t-[1px] xlarge:-mt-[182vh] xlarge:ml-[2vw] xlarge:w-[95vw]  border-red-400"></div>
-    </>
+    </div>
   );
 };
 
