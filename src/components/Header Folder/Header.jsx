@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import MainPageMarquee from "../MarqueeComponent/MainPageMarquee";
-import logo from "/Sourabh Web dev Projects/Sikka.com/src/Images Folder/HeaderLogo.png";
+import logo from "../../Images Folder/HeaderLogo.png";
 import { Search } from "lucide-react";
 import { PiRankingFill } from "react-icons/pi";
 import { BiSolidCategory } from "react-icons/bi";
@@ -24,6 +24,7 @@ import { MdAccountBalance } from "react-icons/md";
 import SearchBarForLargeScreen from "../SearchBarFeature/SearchBarForLargeScreen";
 import CosmicSearchInput from "../SearchBarFeature/CosmicSearchInput";
 import { TrendingUp, Shield } from "lucide-react";
+import MainContainer from "../../HomePage/HomePageData"
 
 const Header = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
