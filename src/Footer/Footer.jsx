@@ -13,7 +13,7 @@ const Footer = () => {
           <div className="md:col-span-2">
             <img className=" mb-4  h-[5vh] object-cover" src={logo} alt="" />
             <p className="mb-4 xlarge:text-[1.2vw]">
-              Empowering your crypto journey with cutting-edge solutions and
+              Empowering your crypto journey with Detailed stats and
               expert insights.
             </p>
             <div className="flex space-x-4">
