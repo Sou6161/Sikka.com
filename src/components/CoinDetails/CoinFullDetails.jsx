@@ -1463,7 +1463,7 @@ const CoinFullDetails = ({ contractAddress, marketsData }) => {
           </div>
         </div>
 
-        <div className="min-h-screen bg-gray-00 text-white p-4 xsmall:p-5 small:p-6 medium:p-7 large:p-8">
+        <div className="min-h-screen 2xlarge:mt-32 bg-gray-00 text-white p-4 xsmall:p-5 small:p-6 medium:p-7 large:p-8">
           {/* Sentiment Section */}
           <div className="bg-gray-00 rounded-xl p-4 xsmall:p-5 small:p-6 mb-8  2xlarge:relative 2xlarge:bottom-[130vh] 2xlarge:left-[32vw]">
             <div className="max-w-4xl mx-auto">
